@@ -22,7 +22,7 @@ namespace Assets.Scripts
         // Start is called before the first frame update
         void Start()
         {
-            State = ActionState.Disabled;
+            
         }
 
         // Update is called once per frame

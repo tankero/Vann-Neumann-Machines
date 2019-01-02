@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace Assets.Scripts
 {
 
-    public class StoreBase : MonoBehaviour
+    public class StoreBase : ModuleBase
     {
 
 
@@ -18,18 +18,40 @@ namespace Assets.Scripts
 
         public struct StorageStruct
         {
-            string ItemName;
-            Image ItemIcon;
-            GameObject ItemObject;
-            
+            public string ItemName;
+            public Image ItemIcon;
+            public ModuleBase ItemObject;
+
         }
 
 
-        public void StoreItem(GameObject item)
+        public void StoreItem(ModuleBase item)
         {
-            item.SetActive(false);
+            item.gameObject.SetActive(false);
+            storageList.Add(new StorageStruct()
+            {
+                ItemName = item.GetComponent<ModuleBase>().Name,
+                ItemIcon = item.GetComponent<ModuleBase>().Icon,
+                ItemObject = item
+
+            });
+
         }
 
+        public virtual void PickUp(GameObject item)
+        {
+
+        }
+
+        public virtual void Drop(StorageStruct item)
+        {
+
+        }
+
+        public virtual void Give(GameObject target, StorageStruct item)
+        {
+
+        }
 
         // Start is called before the first frame update
         void Start()

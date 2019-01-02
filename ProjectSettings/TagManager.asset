@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Brain
+  - Tool
+  - Mover
+  - Core
+  - Ammunition
+  - Storage
   layers:
   - Default
   - TransparentFX
@@ -14,7 +20,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Active Entities
   - 
   - 
   - 

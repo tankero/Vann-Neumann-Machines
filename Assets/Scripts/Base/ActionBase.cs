@@ -15,31 +15,16 @@ namespace Assets.Scripts
             Move,
             Heal,
             Damage,
-            Hack,
+            Scan,
             Work
-        }
-        public enum ActionState
-        {
-            Ready,
-            Recharging,
-            Disabled
 
         }
-        public enum MaintenanceTypeEnum
-        {
-            OnUse,
-            OnRecharge,
-            Constant
-        }
 
-        
+       
         public ActionType Effect;
-        public float EnergyCost;
         public float EffectAmount;
-        public float RechargeTime;
 
 
-        public ActionState State { get; set; }
         private GameObject target;
 
         public GameObject GetTarget()
@@ -47,34 +32,18 @@ namespace Assets.Scripts
 
         public void SetTarget(GameObject value)
         {
-            if (ValidateTarget(value))
+          
                 target = value;
         }
 
-        public abstract bool ValidateTarget(GameObject target);
-        public abstract bool ValidateState();
-        public abstract void Use();
 
-
-        public virtual void Charge()
+        public virtual void Use()
         {
-            if(State == ActionState.Recharging)
-            {
-                State = ActionState.Ready;
-            }
+
         }
+
+
         
-        public virtual void Enable()
-        {
-            if(State == ActionState.Disabled)
-            {
-                State = ActionState.Recharging;
-            }
-        }
-        public virtual void Disable()
-        {
-            State = ActionState.Disabled;
-        }
 
     }
 }

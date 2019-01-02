@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TargetObjectList : CollectionBase
@@ -35,6 +36,11 @@ public class TargetObjectList : CollectionBase
         {
             targets.Remove(target);
         }
+    }
+
+    public List<GameObject> GetMissingTargets(List<GameObject> updatedList)
+    {
+        return targets.Except(updatedList).ToList();
     }
 
     public void ClearTargetObjects()

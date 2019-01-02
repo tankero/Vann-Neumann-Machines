@@ -38,5 +38,7 @@ namespace Assets.Scripts
         {
 
         }
+
+        // This needs to broadcast messages about the actions that occur in order to have an AI/Aggro system that reacts the player's actions.
     }
 }
