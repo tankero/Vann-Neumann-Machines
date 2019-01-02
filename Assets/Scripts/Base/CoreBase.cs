@@ -15,12 +15,14 @@ namespace Assets.Scripts
 
         public List<ModuleBase> Modules;
 
+        public StoreBase Storage;
+
         public int ModuleCapacity;
 
         // Start is called before the first frame update
         void Start()
         {
-            foreach(var module in gameObject.GetComponents<ModuleBase>())
+            foreach (var module in gameObject.GetComponents<ModuleBase>())
             {
                 ConnectModule(module);
             }
@@ -73,14 +75,14 @@ namespace Assets.Scripts
             {
                 module.Disable();
                 Modules.Remove(module);
-                StoreBase storageModule = (StoreBase)Modules.Find(m => m.CompareTag("Storage"));
-                if (storageModule && storageModule.State == ModuleBase.ModuleStateEnum.Ready && storageModule.storageList.Count < storageModule.StorageSize)
+
+                if (Storage.storageList.Count < Storage.StorageSize)
                 {
-                    storageModule.StoreItem(module);
+                    Storage.StoreItem(module);
                 }
                 else
                 {
-
+                    GameManager.instance.DropItem(transform.position, module);
                 }
             }
         }
@@ -94,16 +96,6 @@ namespace Assets.Scripts
         {
             return false;
         }
-        IEnumerator FindModuleType(string type)
-        {
-            foreach (var gObject in Modules)
-            {
-                if (gObject.CompareTag(type))
-                {
-                    yield break;
-                }
-                yield return null;
-            }
-        }
+
     }
 }

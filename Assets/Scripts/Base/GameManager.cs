@@ -1,55 +1,71 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class GameManager : MonoBehaviour
+
+namespace Assets.Scripts
 {
-    // Start is called before the first frame update
-
-    public static GameManager instance;
-    private Assets.Scripts.AllegianceManager allegiance;
-    public Transform cratePrefab;
-
-
-    void Awake()
+    
+    public class GameManager : MonoBehaviour
     {
-        //Check if instance already exists
-        if (instance == null)
+        // Start is called before the first frame update
 
-            //if not, set instance to this
-            instance = this;
+        public static GameManager instance;
+        private AllegianceManager allegiance;
+        public Transform cratePrefab;
 
-        //If instance already exists and it's not this:
-        else if (instance != this)
 
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
-            Destroy(gameObject);
+        void Awake()
+        {
+            //Check if instance already exists
+            if (instance == null)
 
-        //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
+                //if not, set instance to this
+                instance = this;
 
-        //Get a component reference to the attached BoardManager script
-        allegiance = GetComponent<Assets.Scripts.AllegianceManager>();
+            //If instance already exists and it's not this:
+            else if (instance != this)
 
-        //Call the InitGame function to initialize the first level 
-        InitGame();
+                //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+                Destroy(gameObject);
+
+            //Sets this to not be destroyed when reloading scene
+            DontDestroyOnLoad(gameObject);
+
+            //Get a component reference to the attached BoardManager script
+            allegiance = GetComponent<AllegianceManager>();
+
+            //Call the InitGame function to initialize the first level 
+            InitGame();
+        }
+
+        void InitGame()
+        {
+
+
+        }
+
+
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+
+
+        public void DropItem(Vector3 position, ModuleBase item)
+        {
+            var crate = Instantiate(cratePrefab, position, Quaternion.identity);
+            var storage = crate.GetComponent<StoreBase>();
+            storage.StoreItem(item);
+            
+        }
     }
 
-    void InitGame()
-    {
 
-
-    }
-
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
-

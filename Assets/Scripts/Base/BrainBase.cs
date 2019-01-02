@@ -24,7 +24,16 @@ public abstract class BrainBase : MonoBehaviour
         Protective,
         Fearful,
         Neutral
-    }   
+    }
+
+    public enum TargetStateEnum
+    {
+        Ok,
+        OutOfRange,
+        OutOfEnergy,
+        Invalid
+
+    }
 
 
     public int Allegiance;

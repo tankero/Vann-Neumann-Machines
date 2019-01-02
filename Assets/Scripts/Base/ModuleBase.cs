@@ -11,7 +11,6 @@ namespace Assets.Scripts
         public string Name;
         public Image Icon;
         public ModuleStateEnum State;
-        public ActionBase Action;
         public float EnergyTotal;
         [HideInInspector]
         public float EnergyCurrent;

@@ -22,6 +22,7 @@ namespace Assets.Scripts
 
        
         public ActionType Effect;
+        public ActionType Type;
         public float EffectAmount;
 
 

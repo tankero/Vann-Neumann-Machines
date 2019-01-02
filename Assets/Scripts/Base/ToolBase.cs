@@ -14,6 +14,10 @@ namespace Assets.Scripts
             Beam,
             Meele
         }
+
+
+
+        public ActionBase Action;
         public ToolTypeEnum ToolType;
         public GameObject AmmunitionTemplate;
         public int AmmunitionCapacity;
@@ -22,8 +26,8 @@ namespace Assets.Scripts
         public float Accuracy;
         [Range(0f, 20f)]
         public float Range;
-        
 
+        
         // Start is called before the first frame update
         void Start()
         {
