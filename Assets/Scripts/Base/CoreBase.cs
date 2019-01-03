@@ -54,6 +54,7 @@ namespace Assets.Scripts
                 {
                     DisconnectModule(previousMover);
                     Modules.Add(module);
+                    SendMessageUpwards("onMoverConnection", module);
                 }
             }
             if (module.CompareTag("Sensor"))
@@ -63,9 +64,16 @@ namespace Assets.Scripts
                 {
                     DisconnectModule(previousSensor);
                     Modules.Add(module);
+                    SendMessageUpwards("onSensorConnection", module);
                 }
             }
+            if (module.CompareTag("Tool"))
+            {
 
+                Modules.Add(module);
+                SendMessageUpwards("onToolConnection", module);
+
+            }
         }
 
         public virtual void DisconnectModule(ModuleBase module)
@@ -82,7 +90,7 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    GameManager.instance.DropItem(transform.position, module);
+                    GameManager.DropItem(transform.position, module);
                 }
             }
         }

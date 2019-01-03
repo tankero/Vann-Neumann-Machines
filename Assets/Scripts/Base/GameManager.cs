@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    
+
     public class GameManager : MonoBehaviour
     {
         // Start is called before the first frame update
@@ -58,12 +58,16 @@ namespace Assets.Scripts
 
 
 
-        public void DropItem(Vector3 position, ModuleBase item)
+        public static void DropItem(Vector3 position, ModuleBase item)
         {
-            var crate = Instantiate(cratePrefab, position, Quaternion.identity);
+            var crate = Instantiate(instance.cratePrefab, position, Quaternion.identity);
             var storage = crate.GetComponent<StoreBase>();
             storage.StoreItem(item);
-            
+        }
+
+        public static AllegianceManager.AllegianceEnum CheckAlleigance(BrainBase sourceBrain, BrainBase targetBrain)
+        {
+            return instance.allegiance.CheckAllegiance(sourceBrain, targetBrain);
         }
     }
 
