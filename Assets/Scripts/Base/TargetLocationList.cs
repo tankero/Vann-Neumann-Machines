@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
 public class TargetLocationList : CollectionBase
 {
-    private List<Vector3> targets = new List<Vector3>();
+    public List<Vector3> targets = new List<Vector3>();
 
     public Vector3 GetCurrentTargetLocation()
     {

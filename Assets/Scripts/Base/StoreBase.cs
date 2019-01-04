@@ -46,7 +46,8 @@ namespace Assets.Scripts
 
         public virtual void Drop(StorageStruct item)
         {
-
+            StorageList.Remove(item);
+            GameManager.DropItem(transform.position, item.ItemObject);
         }
 
         public virtual void Give(GameObject target, StorageStruct item)

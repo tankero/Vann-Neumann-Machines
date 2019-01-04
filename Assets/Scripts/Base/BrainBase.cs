@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-
+    [RequireComponent(typeof(CharacterController))]
     public abstract class BrainBase : ModuleBase
     {
 
-        public string Name;
+
         /*States are managed by the "brain" component, but each module is supposed to react to the state of the entity on their own. 
         The brain basically broadcasts the state to the modules.*/
         public enum StateEnum
@@ -35,7 +35,6 @@ namespace Assets.Scripts
             OutOfEnergy,
             OutOfAmmo,
             Invalid
-
         }
 
 
@@ -43,40 +42,41 @@ namespace Assets.Scripts
         private int selectedToolIndex;
         private ModuleBase sensor;
         private ModuleBase mover;
-        
+
 
 
         public int Allegiance;
 
         public List<string> Memory;
 
+        private CharacterController controller;
+
         public TargetObjectList Targets;
         public TargetLocationList Locations;
 
-        private StateEnum currentState;
-        public StateEnum CurrentState
-        {
-            get { return currentState; }
+        public StateEnum CurrentState;
 
-            //Validate and set received state if appropriate.
-            set { currentState = value; }
+        void Start()
+        {
+            controller = GetComponent<CharacterController>();
         }
+
 
         public virtual void Think()
         {
 
         }
 
-        public abstract void Assist();
-        public abstract void Attack();
+        public virtual void Assist() { }
+        public virtual void Attack() { }
 
-        public abstract void Move();
-        public abstract void Work();
+        public virtual void RequestMove() { }
+        public virtual void Work() { }
 
         public TargetStateEnum ValidateTarget(GameObject target)
         {
-            
-            if (toolList[selectedToolIndex].State == ModuleBase.ModuleStateEnum.Recharging)
+
+            if (toolList[selectedToolIndex].State == ModuleStateEnum.Recharging)
             {
                 return TargetStateEnum.OutOfEnergy;
             }
@@ -87,7 +87,7 @@ namespace Assets.Scripts
             {
                 return TargetStateEnum.OutOfRange;
             }
-            if(toolAction.AmmunitionCapacity > 0 && toolAction.AmmunitionCount <=0)
+            if (toolAction.AmmunitionCapacity > 0 && toolAction.AmmunitionCount <= 0)
             {
                 return TargetStateEnum.OutOfAmmo;
             }
