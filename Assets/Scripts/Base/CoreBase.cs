@@ -40,13 +40,20 @@ namespace Assets.Scripts
         {
             if (module.CompareTag("Brain"))
             {
-                var previousBrain = Modules.Find(g => g.CompareTag("Brain"));
-                if (previousBrain)
                 {
-                    DisconnectModule(previousBrain);
-                    Modules.Add(module);
+                    if (!transform.IsChildOf(module.transform))
+                    {
+                        transform.parent = module.transform;
+                    }
+                    return;
                 }
             }
+
+            if (!module.transform.IsChildOf(transform))
+            {
+                module.transform.parent = transform;
+            }
+
             if (module.CompareTag("Mover"))
             {
                 var previousMover = Modules.Find(g => g.CompareTag("Mover"));
@@ -54,7 +61,8 @@ namespace Assets.Scripts
                 {
                     DisconnectModule(previousMover);
                     Modules.Add(module);
-                    SendMessageUpwards("onMoverConnection", module);
+                    SendMessageUpwards("OnMoverConnection", module);
+                    return;
                 }
             }
             if (module.CompareTag("Sensor"))
@@ -64,15 +72,16 @@ namespace Assets.Scripts
                 {
                     DisconnectModule(previousSensor);
                     Modules.Add(module);
-                    SendMessageUpwards("onSensorConnection", module);
+                    SendMessageUpwards("OnSensorConnection", module);
+                    return;
                 }
             }
             if (module.CompareTag("Tool"))
             {
 
                 Modules.Add(module);
-                SendMessageUpwards("onToolConnection", module);
-
+                SendMessageUpwards("OnToolConnection", module);
+                return;
             }
         }
 
@@ -84,7 +93,7 @@ namespace Assets.Scripts
                 module.Disable();
                 Modules.Remove(module);
 
-                if (Storage.storageList.Count < Storage.StorageSize)
+                if (Storage.StorageList.Count < Storage.StorageSize)
                 {
                     Storage.StoreItem(module);
                 }

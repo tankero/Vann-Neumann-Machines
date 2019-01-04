@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Scripts
 {
 
-    public abstract class BrainBase : MonoBehaviour
+    public abstract class BrainBase : ModuleBase
     {
 
         public string Name;
@@ -39,11 +39,11 @@ namespace Assets.Scripts
         }
 
 
-        private List<ToolBase> toolList;
+        private List<ModuleBase> toolList;
         private int selectedToolIndex;
         private ModuleBase sensor;
         private ModuleBase mover;
-        private CoreBase core;
+        
 
 
         public int Allegiance;
@@ -73,17 +73,21 @@ namespace Assets.Scripts
         public abstract void Move();
         public abstract void Work();
 
-        public TargetStateEnum ValidateTarget(ToolBase tool, GameObject target)
+        public TargetStateEnum ValidateTarget(GameObject target)
         {
-            if (tool.State == ModuleBase.ModuleStateEnum.Recharging)
+            
+            if (toolList[selectedToolIndex].State == ModuleBase.ModuleStateEnum.Recharging)
             {
                 return TargetStateEnum.OutOfEnergy;
             }
-            if (Vector3.Distance(transform.position, target.transform.position) > tool.Range)
+
+            var toolAction = (ToolBase)toolList[selectedToolIndex].Action;
+
+            if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
             {
                 return TargetStateEnum.OutOfRange;
             }
-            if(tool.AmmunitionCapacity > 0 && tool.AmmunitionCount <=0)
+            if(toolAction.AmmunitionCapacity > 0 && toolAction.AmmunitionCount <=0)
             {
                 return TargetStateEnum.OutOfAmmo;
             }
@@ -91,7 +95,7 @@ namespace Assets.Scripts
             if (targetBrain)
             {
                 var allegiance = GameManager.CheckAlleigance(this, targetBrain);
-                if (allegiance == AllegianceManager.AllegianceEnum.Ally && tool.Action.Effect == ActionBase.ActionType.Damage)
+                if (allegiance == AllegianceManager.AllegianceEnum.Ally && toolAction.Effect == ActionBase.ActionType.Damage)
                 {
                     return TargetStateEnum.Invalid;
                 }
@@ -99,6 +103,34 @@ namespace Assets.Scripts
             return TargetStateEnum.Ok;
         }
 
+        void OnToolConnection(ModuleBase connectingTool)
+        {
+            if (!toolList.Contains(connectingTool))
+            {
+                toolList.Add(connectingTool);
+            }
+        }
+
+        void OnMoverConnection(ModuleBase connectingMover)
+        {
+            if (connectingMover.CompareTag("Mover"))
+            {
+                mover = connectingMover;
+            }
+        }
+
+        void OnSensorConnection(ModuleBase connectingSensor)
+        {
+            if (connectingSensor.CompareTag("Sensor"))
+            {
+                sensor = connectingSensor;
+            }
+        }
+
+        void ConnectToCore(CoreBase coreParam)
+        {
+            coreParam.ConnectModule(this);
+        }
     }
 
 }

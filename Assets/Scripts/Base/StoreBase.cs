@@ -14,7 +14,7 @@ namespace Assets.Scripts
         [Range(1, 20)]
         public int StorageSize;
 
-        public List<StorageStruct> storageList;
+        public List<StorageStruct> StorageList;
 
         public struct StorageStruct
         {
@@ -27,8 +27,9 @@ namespace Assets.Scripts
 
         public void StoreItem(ModuleBase item)
         {
+            item.transform.parent = transform;
             item.gameObject.SetActive(false);
-            storageList.Add(new StorageStruct()
+            StorageList.Add(new StorageStruct()
             {
                 ItemName = item.GetComponent<ModuleBase>().Name,
                 ItemIcon = item.GetComponent<ModuleBase>().Icon,

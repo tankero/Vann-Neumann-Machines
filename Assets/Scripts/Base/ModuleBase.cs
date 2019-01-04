@@ -15,6 +15,7 @@ namespace Assets.Scripts
         [HideInInspector]
         public float EnergyCurrent;
         public float Health;
+        public ActionBase Action;
         public enum MaintenanceTypeEnum
         {
             OnUse,

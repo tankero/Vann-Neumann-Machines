@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class ToolBase : ModuleBase
+    public abstract class ToolBase : ActionBase
     {
 
 
