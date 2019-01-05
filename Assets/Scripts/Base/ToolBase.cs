@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class ToolBase : ActionBase
+    public class ToolBase : ActionBase
     {
 
 
@@ -17,7 +17,7 @@ namespace Assets.Scripts
 
 
 
-        public ActionBase Action;
+        
         public ToolTypeEnum ToolType;
         public GameObject AmmunitionTemplate;
         public int AmmunitionCapacity;

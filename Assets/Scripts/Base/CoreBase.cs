@@ -104,6 +104,11 @@ namespace Assets.Scripts
             }
         }
 
+        void OnEnergyRequest(ModuleBase module, float energyRequested)
+        {
+
+        }
+
         public virtual void DestroyModule(ModuleBase module)
         {
 

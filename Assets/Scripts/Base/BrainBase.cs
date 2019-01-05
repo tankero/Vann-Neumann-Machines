@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(CharacterController))]
-    public abstract class BrainBase : ModuleBase
+    public class BrainBase : ModuleBase
     {
 
 
@@ -59,6 +59,7 @@ namespace Assets.Scripts
         void Start()
         {
             controller = GetComponent<CharacterController>();
+            toolList = new List<ModuleBase>();
         }
 
 
@@ -67,11 +68,11 @@ namespace Assets.Scripts
 
         }
 
-        public virtual void Assist() { }
-        public virtual void Attack() { }
+        public void Assist() { }
+        public void Attack() { }
 
-        public virtual void RequestMove() { }
-        public virtual void Work() { }
+        public void RequestMove() { }
+        public void Work() { }
 
         public TargetStateEnum ValidateTarget(GameObject target)
         {
@@ -108,6 +109,7 @@ namespace Assets.Scripts
             if (!toolList.Contains(connectingTool))
             {
                 toolList.Add(connectingTool);
+                connectingTool.Enable();
             }
         }
 
@@ -116,6 +118,7 @@ namespace Assets.Scripts
             if (connectingMover.CompareTag("Mover"))
             {
                 mover = connectingMover;
+                mover.Enable();
             }
         }
 
@@ -124,6 +127,7 @@ namespace Assets.Scripts
             if (connectingSensor.CompareTag("Sensor"))
             {
                 sensor = connectingSensor;
+                sensor.Enable();
             }
         }
 

@@ -7,22 +7,20 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class ActionBase : MonoBehaviour
+    public class ActionBase : MonoBehaviour
     {
-        public string Name;
+
         public enum ActionType
         {
-            Move,
             Heal,
             Damage,
             Scan,
-            Work
-
+            Work,
+            Communicate
         }
 
-       
+
         public ActionType Effect;
-        public ActionType Type;
         public float EffectAmount;
 
 
@@ -33,18 +31,18 @@ namespace Assets.Scripts
 
         public void SetTarget(GameObject value)
         {
-          
-                target = value;
+
+            target = value;
         }
 
 
-        public virtual void Use()
+        public void Use()
         {
 
         }
 
 
-        
+
 
     }
 }

@@ -99,10 +99,8 @@ namespace Assets.Scripts
                     };
                     StartCoroutine("Pulse");
                     break;
-                default:
-                    break;
             }
-
+           
 
         }
 

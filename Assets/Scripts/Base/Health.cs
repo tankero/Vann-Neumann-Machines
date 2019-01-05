@@ -8,8 +8,9 @@ namespace Assets.Scripts
     public class Health : MonoBehaviour
     {
         [Range(1f, 200f)]
-        public float TotalHealth;
-        public float CurrentHealth;
+        public float TotalHealth = 100;
+        [Range(1f, 200f)]
+        public float CurrentHealth = 100;
 
 
         // Start is called before the first frame update

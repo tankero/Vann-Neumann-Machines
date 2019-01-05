@@ -5,16 +5,20 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public abstract class ModuleBase : MonoBehaviour
+
+    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(ActionBase))]
+    public class ModuleBase : MonoBehaviour
     {
 
         public string Name;
         public Image Icon;
         public ModuleStateEnum State;
         public float EnergyTotal;
-        [HideInInspector]
         public float EnergyCurrent;
-        public float Health;
+        [HideInInspector]
+        public Health ModuleHealth;
+        [HideInInspector]
         public ActionBase Action;
         public enum MaintenanceTypeEnum
         {
@@ -29,7 +33,9 @@ namespace Assets.Scripts
         // Start is called before the first frame update
         void Start()
         {
-
+            Action = GetComponent<ActionBase>();
+            ModuleHealth = GetComponent<Health>();
+            Name = name;
         }
 
         // Update is called once per frame
@@ -58,7 +64,13 @@ namespace Assets.Scripts
             return EnergyNeeded;
         }
 
-        public virtual void Charge()
+        public float RequestEnergy()
+        {
+            return RechargeTime * Time.deltaTime;
+
+        }
+
+        public void Charge(float energyCount)
         {
             if (State == ModuleStateEnum.Recharging)
             {
@@ -68,11 +80,11 @@ namespace Assets.Scripts
                     EnergyCurrent = EnergyTotal;
                     return;
                 }
-                EnergyCurrent += RechargeTime * Time.deltaTime;
+
             }
         }
 
-        public virtual void Enable()
+        public void Enable()
         {
             if (State == ModuleStateEnum.Disabled)
             {
@@ -82,7 +94,7 @@ namespace Assets.Scripts
         }
 
 
-        public virtual void Disable()
+        public void Disable()
         {
             State = ModuleStateEnum.Disabled;
             EnergyCurrent = 0f;
