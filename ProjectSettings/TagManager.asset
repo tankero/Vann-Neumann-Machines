@@ -10,6 +10,7 @@ TagManager:
   - Core
   - Ammunition
   - Storage
+  - Sensor
   layers:
   - Default
   - TransparentFX

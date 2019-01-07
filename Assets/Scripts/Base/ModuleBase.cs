@@ -7,13 +7,13 @@ namespace Assets.Scripts
 {
 
     [RequireComponent(typeof(Health))]
-    [RequireComponent(typeof(ActionBase))]
     public class ModuleBase : MonoBehaviour
     {
 
         public string Name;
         public Image Icon;
         public ModuleStateEnum State;
+        [Range(0f, 100f)]
         public float EnergyTotal;
         public float EnergyCurrent;
         [HideInInspector]
@@ -36,6 +36,7 @@ namespace Assets.Scripts
             Action = GetComponent<ActionBase>();
             ModuleHealth = GetComponent<Health>();
             Name = name;
+            ModuleEnable();
         }
 
         // Update is called once per frame
@@ -43,6 +44,14 @@ namespace Assets.Scripts
         {
 
         }
+
+        private void OnEnable()
+        {
+            ModuleEnable();
+        }
+
+
+
         public enum ModuleStateEnum
         {
             Ready,
@@ -53,25 +62,24 @@ namespace Assets.Scripts
 
         public float EnergyNeeded()
         {
+            
             float EnergyNeeded = 0f;
             if (EnergyCurrent < EnergyTotal)
             {
-                EnergyNeeded += EnergyTotal / RechargeTime;
+                EnergyNeeded += RechargeTime * GameManager.TimeConstant;
             }
 
             if (MaintanceType == MaintenanceTypeEnum.Constant)
                 EnergyNeeded += EnergyTotal;
+            Debug.Log("Energy deficit requested from: " + gameObject.name + " -- Requested: " + EnergyNeeded);
             return EnergyNeeded;
         }
 
-        public float RequestEnergy()
-        {
-            return RechargeTime * Time.deltaTime;
-
-        }
 
         public void Charge(float energyCount)
         {
+            Debug.Log("Energy charge received by: " + gameObject.name + " -- Received: " + energyCount);
+            EnergyCurrent += energyCount;
             if (State == ModuleStateEnum.Recharging)
             {
                 if (EnergyCurrent >= EnergyTotal)
@@ -84,7 +92,9 @@ namespace Assets.Scripts
             }
         }
 
-        public void Enable()
+
+
+        public void ModuleEnable()
         {
             if (State == ModuleStateEnum.Disabled)
             {

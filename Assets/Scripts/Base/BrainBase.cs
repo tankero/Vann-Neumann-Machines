@@ -38,7 +38,10 @@ namespace Assets.Scripts
         }
 
 
-        private List<ModuleBase> toolList;
+        private bool IAmPlayer;
+
+        [SerializeField]
+        public List<ModuleBase> ToolList;
         private int selectedToolIndex;
         private ModuleBase sensor;
         private ModuleBase mover;
@@ -59,11 +62,21 @@ namespace Assets.Scripts
         void Start()
         {
             controller = GetComponent<CharacterController>();
-            toolList = new List<ModuleBase>();
+            ToolList = new List<ModuleBase>();
+            IAmPlayer = CompareTag("Player");
+        }
+
+        private void Update()
+        {
+            if (IAmPlayer)
+            {
+                controller.Move(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
+                return;
+            }
         }
 
 
-        public virtual void Think()
+        public void Think()
         {
 
         }
@@ -77,12 +90,12 @@ namespace Assets.Scripts
         public TargetStateEnum ValidateTarget(GameObject target)
         {
 
-            if (toolList[selectedToolIndex].State == ModuleStateEnum.Recharging)
+            if (ToolList[selectedToolIndex].State == ModuleStateEnum.Recharging)
             {
                 return TargetStateEnum.OutOfEnergy;
             }
 
-            var toolAction = (ToolBase)toolList[selectedToolIndex].Action;
+            var toolAction = (ToolBase)ToolList[selectedToolIndex].Action;
 
             if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
             {
@@ -104,12 +117,17 @@ namespace Assets.Scripts
             return TargetStateEnum.Ok;
         }
 
+        public void Use(GameObject target)
+        {
+            ToolList[selectedToolIndex].SendMessage("Use", target);
+        }
+
         void OnToolConnection(ModuleBase connectingTool)
         {
-            if (!toolList.Contains(connectingTool))
+            if (!ToolList.Contains(connectingTool))
             {
-                toolList.Add(connectingTool);
-                connectingTool.Enable();
+                ToolList.Add(connectingTool);
+                connectingTool.ModuleEnable();
             }
         }
 
@@ -118,8 +136,18 @@ namespace Assets.Scripts
             if (connectingMover.CompareTag("Mover"))
             {
                 mover = connectingMover;
-                mover.Enable();
+                mover.ModuleEnable();
             }
+        }
+
+        public ModuleBase GetSelectedTool()
+        {
+            return ToolList[selectedToolIndex];
+        }
+
+        public void SetSelectedTool(ModuleBase tool)
+        {
+            selectedToolIndex = ToolList.IndexOf(tool);
         }
 
         void OnSensorConnection(ModuleBase connectingSensor)
@@ -127,7 +155,7 @@ namespace Assets.Scripts
             if (connectingSensor.CompareTag("Sensor"))
             {
                 sensor = connectingSensor;
-                sensor.Enable();
+                sensor.ModuleEnable();
             }
         }
 
@@ -135,6 +163,7 @@ namespace Assets.Scripts
         {
             coreParam.ConnectModule(this);
         }
+
     }
 
 }

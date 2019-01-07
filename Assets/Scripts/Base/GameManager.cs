@@ -12,7 +12,9 @@ namespace Assets.Scripts
         public static GameManager instance;
         private AllegianceManager allegiance;
         public Transform cratePrefab;
+        public static float TimeConstant = 0.004f;
 
+        public GameObject CurrentSpawner;
 
         void Awake()
         {
