@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class ToolBase : ActionBase
+    public class ToolBase : ModuleBase
     {
 
 
@@ -15,11 +15,8 @@ namespace Assets.Scripts
             Meele
         }
 
-
-
-        
         public ToolTypeEnum ToolType;
-        public GameObject AmmunitionTemplate;
+        public AmmunitionBase AmmunitionTemplate;
         public int AmmunitionCapacity;
         public int AmmunitionCount;
         public Vector3 MuzzleOffset;
@@ -28,18 +25,22 @@ namespace Assets.Scripts
         [Range(0f, 20f)]
         public float Range;
 
-        
+
         // Start is called before the first frame update
         void Start()
         {
-            
+
         }
-        
+
         // Update is called once per frame
         void Update()
         {
 
         }
 
+        public override void Use(GameObject targetObject)
+        {
+
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class MoverBase : ActionBase
+    public abstract class MoverBase : ModuleBase
     {
 
         public enum MovementTypeEnum
@@ -19,10 +19,16 @@ namespace Assets.Scripts
         public float Speed;
         public float Range;
 
+
+        void Awake()
+        {
+            gameObject.tag = "Mover";
+        }
+
         // Start is called before the first frame update
         void Start()
         {
-
+            
         }
 
         // Update is called once per frame

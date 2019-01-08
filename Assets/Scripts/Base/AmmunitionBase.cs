@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class AmmunitionBase : ActionBase
+    public abstract class AmmunitionBase : MonoBehaviour
     {
         
         public enum TriggerEnum

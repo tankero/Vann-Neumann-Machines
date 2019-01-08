@@ -18,8 +18,7 @@ namespace Assets.Scripts
         public float EnergyCurrent;
         [HideInInspector]
         public Health ModuleHealth;
-        [HideInInspector]
-        public ActionBase Action;
+        
         public enum MaintenanceTypeEnum
         {
             OnUse,
@@ -27,13 +26,25 @@ namespace Assets.Scripts
             Constant
         }
 
+        public enum ActionType
+        {
+            Heal,
+            Damage,
+            Scan,
+            Work,
+            Communicate
+        }
+
+        public ActionType Effect;
+        public float EffectAmount;
+        
         //Recharge time in milliseconds.
-        public float RechargeTime;
+        public float EnergyRate;
         public MaintenanceTypeEnum MaintanceType;
         // Start is called before the first frame update
         void Start()
         {
-            Action = GetComponent<ActionBase>();
+            
             ModuleHealth = GetComponent<Health>();
             Name = name;
             ModuleEnable();
@@ -66,11 +77,11 @@ namespace Assets.Scripts
             float EnergyNeeded = 0f;
             if (EnergyCurrent < EnergyTotal)
             {
-                EnergyNeeded += RechargeTime * GameManager.TimeConstant;
+                EnergyNeeded += EnergyRate * GameManager.TimeConstant;
             }
 
             if (MaintanceType == MaintenanceTypeEnum.Constant)
-                EnergyNeeded += EnergyTotal;
+                EnergyNeeded += EnergyRate;
             Debug.Log("Energy deficit requested from: " + gameObject.name + " -- Requested: " + EnergyNeeded);
             return EnergyNeeded;
         }
@@ -92,7 +103,20 @@ namespace Assets.Scripts
             }
         }
 
+        public virtual void Use()
+        {
 
+        }
+
+        public virtual void Use(GameObject targetObject)
+        {
+
+        }
+
+        public virtual void Use(Vector3 targetLocation)
+        {
+
+        }
 
         public void ModuleEnable()
         {

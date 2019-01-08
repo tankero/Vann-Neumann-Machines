@@ -73,6 +73,7 @@ namespace Assets.Scripts
                 controller.Move(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
                 return;
             }
+
         }
 
 
@@ -95,7 +96,7 @@ namespace Assets.Scripts
                 return TargetStateEnum.OutOfEnergy;
             }
 
-            var toolAction = (ToolBase)ToolList[selectedToolIndex].Action;
+            var toolAction = (ToolBase)ToolList[selectedToolIndex];
 
             if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
             {
@@ -109,7 +110,7 @@ namespace Assets.Scripts
             if (targetBrain)
             {
                 var allegiance = GameManager.CheckAlleigance(this, targetBrain);
-                if (allegiance == AllegianceManager.AllegianceEnum.Ally && toolAction.Effect == ActionBase.ActionType.Damage)
+                if (allegiance == AllegianceManager.AllegianceEnum.Ally && toolAction.Effect == ActionType.Damage)
                 {
                     return TargetStateEnum.Invalid;
                 }

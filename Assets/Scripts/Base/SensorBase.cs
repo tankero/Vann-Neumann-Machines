@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(Rigidbody))]
-    public abstract class SensorBase : ActionBase
+    public class SensorBase : ModuleBase
     {
         // Start is called before the first frame update
 

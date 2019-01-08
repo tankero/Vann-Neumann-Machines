@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public class CommunicatorBase : ActionBase
+    public class CommunicatorBase : ModuleBase
     {
 
         public Text TextMessage;
