@@ -24,18 +24,18 @@ namespace Assets.Scripts
         public List<GameObject> DetectedObjects;
 
 
-        private void OnTriggerEnter(Collision collision)
+        private void OnTriggerEnter(Collider collision)
         {
-            var intruderObject = collision.collider.gameObject;
+            var intruderObject = collision.gameObject;
             if (intruderObject.CompareTag("Enitity"))
             {
                 DetectedObjects.Add(intruderObject);
             }
         }
 
-        private void OnTriggerExit(Collision collision)
+        private void OnTriggerExit(Collider collision)
         {
-            var intruderObject = collision.collider.gameObject;
+            var intruderObject = collision.gameObject;
             if (intruderObject.CompareTag("Enitity"))
             {
                 DetectedObjects.Remove(intruderObject);

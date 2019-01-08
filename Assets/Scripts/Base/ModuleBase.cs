@@ -15,7 +15,10 @@ namespace Assets.Scripts
         public ModuleStateEnum State;
         [Range(0f, 100f)]
         public float EnergyTotal;
+        [Range(0f, 100f)]
         public float EnergyCurrent;
+        [Range(0f, 50f)]
+        public float EnergyCost;
         [HideInInspector]
         public Health ModuleHealth;
         
@@ -93,9 +96,12 @@ namespace Assets.Scripts
             EnergyCurrent += energyCount;
             if (State == ModuleStateEnum.Recharging)
             {
-                if (EnergyCurrent >= EnergyTotal)
+                if(EnergyCost <= EnergyCurrent)
                 {
                     State = ModuleStateEnum.Ready;
+                }
+                if (EnergyCurrent >= EnergyTotal)
+                {
                     EnergyCurrent = EnergyTotal;
                     return;
                 }
