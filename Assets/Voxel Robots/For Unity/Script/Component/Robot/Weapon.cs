@@ -168,7 +168,8 @@
 
 
 		void Update () {
-            KeyUpdate();
+            //Commenting this line "unplugs" the firing mechanism built into the model.
+            //KeyUpdate();
             ModelUpdate();
 			SpawnPivotUpdate();
 		}
@@ -260,7 +261,7 @@
 
 		private void ShootBullet ()
 		{
-
+            //This should pull pre-baked instances from a pool of game objects rather than instantiate new ones.
 		    Bullet b = Instantiate(TheBullet);
 			Transform tf = b.transform;
 			Vector3 pos = bulletSpawnPivot.position;
