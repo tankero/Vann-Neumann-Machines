@@ -16,11 +16,6 @@ namespace Assets.Scripts
         }
 
         public ToolTypeEnum ToolType;
-        public AmmunitionBase AmmunitionTemplate;
-        [Range(0, 30)]
-        public int AmmunitionCapacity;
-        public AmmunitionBase[] AmmoPool;
-        public int AmmunitionCount;
         public Vector3 MuzzleOffset;
         [Range(0f, 1f)]
         public float Accuracy;
@@ -29,7 +24,7 @@ namespace Assets.Scripts
 
 
         // Start is called before the first frame update
-        void Start()
+        public virtual void Start()
         {
             
             if(AmmunitionCapacity > 0)
@@ -44,33 +39,18 @@ namespace Assets.Scripts
         }
 
         // Update is called once per frame
-        void Update()
+        public virtual void Update()
         {
 
         }
 
-        public void Reload()
+        public virtual void Reload()
         {
 
         }
 
-        public override void Use()
+        public void Use()
         {
-
-            if (MaintanceType == MaintenanceTypeEnum.OnUse)
-            {
-                EnergyCurrent -= EnergyCost;
-            }
-            if (AmmunitionTemplate != null)
-            {
-                
-                
-            }
-        }
-
-        public override void Use(GameObject targetObject)
-        {
-
             if (MaintanceType == MaintenanceTypeEnum.OnUse)
             {
                 EnergyCurrent -= EnergyCost;

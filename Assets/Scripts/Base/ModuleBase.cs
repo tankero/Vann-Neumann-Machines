@@ -109,21 +109,6 @@ namespace Assets.Scripts
             }
         }
 
-        public virtual void Use()
-        {
-
-        }
-
-        public virtual void Use(GameObject targetObject)
-        {
-
-        }
-
-        public virtual void Use(Vector3 targetLocation)
-        {
-
-        }
-
         public void ModuleEnable()
         {
             if (State == ModuleStateEnum.Disabled)
