@@ -102,7 +102,7 @@ namespace Assets.Scripts
             {
                 return TargetStateEnum.OutOfRange;
             }
-            if (toolAction.AmmunitionCapacity > 0 && toolAction.AmmunitionCount <= 0)
+            if (toolAction.UsesAmmunition && toolAction.AmmunitionCount <= 0)
             {
                 return TargetStateEnum.OutOfAmmo;
             }

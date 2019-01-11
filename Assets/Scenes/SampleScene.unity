@@ -514,6 +514,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmbleGuy
       objectReference: {fileID: 0}
+    - target: {fileID: 114044512387436198, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionTemplate
+      value: 
+      objectReference: {fileID: 114000011379593360, guid: 091931d8777d4cb45b81f56821d489bf,
+        type: 3}
+    - target: {fileID: 114044512387436198, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionCapacity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114586245008439590, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionCapacity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114586245008439590, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionTemplate
+      value: 
+      objectReference: {fileID: 114000011379593360, guid: 091931d8777d4cb45b81f56821d489bf,
+        type: 3}
+    - target: {fileID: 114611644573222918, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionTemplate
+      value: 
+      objectReference: {fileID: 114000011379593360, guid: 9839b7794f97d244fb4ff4606806a8c5,
+        type: 3}
+    - target: {fileID: 114611644573222918, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionCapacity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114236568275560468, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionTemplate
+      value: 
+      objectReference: {fileID: 114000011379593360, guid: 9839b7794f97d244fb4ff4606806a8c5,
+        type: 3}
+    - target: {fileID: 114236568275560468, guid: afe7ce3185b4d7f489eaf5d4f2429f73,
+        type: 3}
+      propertyPath: AmmunitionCapacity
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afe7ce3185b4d7f489eaf5d4f2429f73, type: 3}
 --- !u!1 &1613766259

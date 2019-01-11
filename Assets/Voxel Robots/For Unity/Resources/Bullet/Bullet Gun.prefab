@@ -4639,13 +4639,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512b8673106f2a14491c9e7ae622ed7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damegeType: 0
-  LifeTime: 1
-  DontDestroyOnHit: 0
-  StopOnHit: 1
   Particle: {fileID: 198000012753252288}
   Model: {fileID: 4000011720959208}
   Alive: 1
+  Trigger: 0
+  Radius: 0
+  Duration: 1
+  DamegeType: 0
+  LifeTime: 1
+  DontDestroyOnHit: 0
+  StopOnHit: 1
 --- !u!54 &54000011215077958
 Rigidbody:
   m_ObjectHideFlags: 0

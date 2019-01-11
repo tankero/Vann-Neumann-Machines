@@ -16,26 +16,20 @@ namespace Assets.Scripts
         }
 
         public ToolTypeEnum ToolType;
-        public Vector3 MuzzleOffset;
         [Range(0f, 1f)]
         public float Accuracy;
         [Range(0f, 20f)]
         public float Range;
-
+        [Range(0, 30)]
+        public int AmmunitionCapacity;
+        public bool UsesAmmunition;
+        public int AmmunitionCount;
 
         // Start is called before the first frame update
         public virtual void Start()
         {
-            
-            if(AmmunitionCapacity > 0)
-            {
-                AmmoPool = new AmmunitionBase[AmmunitionCapacity];
-                for (int i = 0; i < AmmunitionCapacity; i++)
-                {
-                    AmmoPool[i] = Instantiate(AmmunitionTemplate, transform);
-                    AmmoPool[i].gameObject.SetActive(false);
-                }
-            }
+            gameObject.tag = "Tool";
+
         }
 
         // Update is called once per frame
@@ -49,7 +43,7 @@ namespace Assets.Scripts
 
         }
 
-        public void Use()
+        public virtual void Use()
         {
             if (MaintanceType == MaintenanceTypeEnum.OnUse)
             {

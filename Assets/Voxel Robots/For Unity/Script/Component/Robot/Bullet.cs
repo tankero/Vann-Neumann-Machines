@@ -35,11 +35,7 @@ namespace MoenenGames.VoxelRobot
 
         public override void Start()
         {
-            // Self Kill
-            Invoke("DisableCollider", LifeTime);
-            Invoke("DestoryBullet", LifeTime + 1f);
-            // Size
-            SetSize(transform.localScale.x);
+
 
         }
 
@@ -157,7 +153,18 @@ namespace MoenenGames.VoxelRobot
             }
 
             // Destroy
-            Destroy(gameObject, Particle ? Particle.main.duration + Particle.main.startLifetimeMultiplier : 0.1f);
+            gameObject.SetActive(false);
+            Debug.Log("Destroying bullet");
+            //Destroy(gameObject, Particle ? Particle.main.duration + Particle.main.startLifetimeMultiplier : 0.1f);
+        }
+
+        private void OnEnable()
+        {
+            // Self Kill
+            Invoke("DisableCollider", LifeTime);
+            Invoke("DestoryBullet", LifeTime + 1f);
+            // Size
+            SetSize(transform.localScale.x);
         }
 
 
