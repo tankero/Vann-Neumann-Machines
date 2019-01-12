@@ -14,23 +14,6 @@ namespace MoenenGames.VoxelRobot
 
 
 
-        #region --- VAR ---
-
-
-        // Shot Cut
-
-
-
-
-
-        #endregion
-
-
-
-
-        #region --- MSG ---
-
-
 
 
         public override void Start()
@@ -64,9 +47,6 @@ namespace MoenenGames.VoxelRobot
         }
 
 
-
-
-        #endregion
 
 
 
@@ -119,7 +99,7 @@ namespace MoenenGames.VoxelRobot
 
                 // System
                 CancelInvoke();
-                DestoryBullet();
+                DisableBullet();
 
             }
 
@@ -139,7 +119,7 @@ namespace MoenenGames.VoxelRobot
 
 
 
-        private void DestoryBullet()
+        private void DisableBullet()
         {
             Alive = false;
             TrailRenderer t = GetComponent<TrailRenderer>();
@@ -152,17 +132,17 @@ namespace MoenenGames.VoxelRobot
                 Model.gameObject.SetActive(false);
             }
 
-            // Destroy
+            // Disable
             gameObject.SetActive(false);
-            Debug.Log("Destroying bullet");
-            //Destroy(gameObject, Particle ? Particle.main.duration + Particle.main.startLifetimeMultiplier : 0.1f);
+            
+            
         }
 
         private void OnEnable()
         {
             // Self Kill
             Invoke("DisableCollider", LifeTime);
-            Invoke("DestoryBullet", LifeTime + 1f);
+            Invoke("DisableBullet", LifeTime + 1f);
             // Size
             SetSize(transform.localScale.x);
         }

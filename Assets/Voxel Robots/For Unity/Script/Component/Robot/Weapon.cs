@@ -7,7 +7,7 @@ namespace MoenenGames.VoxelRobot
     using System.Collections;
     using System.Collections.Generic;
 
-    public class Weapon : ToolBase, Controllable
+    public class Weapon : MonoBehaviour, Controllable
     {
 
 
@@ -46,22 +46,7 @@ namespace MoenenGames.VoxelRobot
         {
             get
             {
-                int len = ConflictWeapons.Length;
-                if (PrevAttackTime + AttackFrequency * (len + 1) > Time.time)
-                {
-                    return false;
-                }
-                for (int i = 0; i < len; i++)
-                {
-                    if (ConflictWeapons[i] == this)
-                    {
-                        continue;
-                    }
-                    if (ConflictWeapons[i].PrevAttackTime + AttackFrequency > Time.time)
-                    {
-                        return false;
-                    }
-                }
+
                 return true;
             }
         }
@@ -72,22 +57,12 @@ namespace MoenenGames.VoxelRobot
 
 
 
-        public Bullet[] AmmoPool;
 
-        [Header("Setting")]
-        [SerializeField]
-        private float AttackFrequency = 0.4f;
-        [SerializeField]
-        private float BulletSpeed = 60f;
-        [SerializeField]
-        private float BulletSize = 0.3f;
-        [SerializeField]
-        private float RandomTimeGap = 0.05f;
+
         [SerializeField]
         private bool RotatableY = false;
         [SerializeField]
-        private bool LockBulletY = true;
-
+        private float RandomTimeGap = 0.05f;
         [Header("System")]
         [SerializeField]
         private AnimationCurve LerpCurveF = AnimationCurve.EaseInOut(0f, -0.4f, 0.4f, 0f);
@@ -100,10 +75,8 @@ namespace MoenenGames.VoxelRobot
         [Header("Component")]
         [SerializeField]
         private ParticleSystem[] Particles = new ParticleSystem[0];
-        [SerializeField]
-        private Weapon[] ConflictWeapons;
-        [SerializeField]
-        private Bullet AmmunitionTemplate;
+        
+        
         [SerializeField]
         private Transform Shooter;
         [SerializeField]
@@ -130,13 +103,7 @@ namespace MoenenGames.VoxelRobot
         void Reset()
         {
 
-            // Init conflict weapon
-            List<Weapon> rws = new List<Weapon>(transform.parent.GetComponentsInChildren<Weapon>(true));
-            if (rws.Contains(this))
-            {
-                rws.Remove(this);
-            }
-            ConflictWeapons = rws.ToArray();
+
 
             // Init _m
             Transform _m = transform.Find("_m");
@@ -175,83 +142,42 @@ namespace MoenenGames.VoxelRobot
 
 #endif
 
-        #endregion
-
-
-
-        #region --- MSG ---
-
-
-
         void Awake()
         {
             InitLocalPos = Model.localPosition;
             StopAllParticles();
         }
 
-        public override void Start()
+        void Start()
         {
-            base.Start();
-            if (AmmunitionCapacity > 0)
-            {
-                AmmoPool = new Bullet[AmmunitionCapacity];
-                for (int i = 0; i < 6; i++)
-                {
-                    AmmoPool[i] = Instantiate(AmmunitionTemplate, transform);
-                    AmmoPool[i].gameObject.SetActive(false);
-                }
-            }
+
+
         }
 
-        public override void Update()
+        public void Update()
         {
-            base.Update();
+
             ModelUpdate();
             SpawnPivotUpdate();
+
         }
 
 
 
-        #endregion
-
-
-
-
-        #region --- API ---
-
-
-
-        public void Attack()
+        public void Fire(AmmunitionBase bullet)
         {
-            ShootBullet();
+
+            ShootBullet(bullet);
             TriggerLoghtOn();
-        }
+            PlayAllParticles();
+            CurrentCurveRandom = new Vector3(
+                Random.Range(-CurveRandom.x, CurveRandom.x),
+                Random.Range(-CurveRandom.y, CurveRandom.y),
+                Random.Range(-CurveRandom.z, CurveRandom.z)
+            );
+            Debug.Log("Current Random Curve: " + CurrentCurveRandom);
+            PrevAttackTime = Time.time + Random.Range(0f, RandomTimeGap);
 
-
-
-        #endregion
-
-
-
-
-        #region --- LGC ---
-
-
-
-        void Use()
-        {
-            if (ReadyToShoot)
-            {
-                base.Use();
-                Attack();
-                PlayAllParticles();
-                CurrentCurveRandom = new Vector3(
-                    Random.Range(-CurveRandom.x, CurveRandom.x),
-                    Random.Range(-CurveRandom.y, CurveRandom.y),
-                    Random.Range(-CurveRandom.z, CurveRandom.z)
-                );
-                PrevAttackTime = Time.time + Random.Range(0f, RandomTimeGap);
-            }
 
         }
 
@@ -302,33 +228,15 @@ namespace MoenenGames.VoxelRobot
             }
         }
 
-        private Bullet GetNextBullet()
+
+
+        private void ShootBullet(AmmunitionBase bullet)
         {
-            var first = AmmoPool.FirstOrDefault(b => !b.gameObject.activeInHierarchy);
-            if (first == null)
-            {
-                var newAmmoPull = new Bullet[AmmoPool.Length + 1];
-                newAmmoPull[0] = Instantiate(AmmunitionTemplate);
-                newAmmoPull[0].gameObject.SetActive(false);
 
-                for (int i = 1; i < newAmmoPull.Length; i++)
-                {
-                    newAmmoPull[i] = AmmoPool[i - 1];
-                }
-                AmmoPool = newAmmoPull;
-                return AmmoPool[0];
-            }
-
-            return first;
-        }
-
-        private void ShootBullet()
-        {
-            //This should pull pre-baked instances from a pool of game objects rather than instantiate new ones.
-            Bullet b = GetNextBullet();
+            AmmunitionBase b = bullet;
             Transform tf = b.transform;
             Vector3 pos = bulletSpawnPivot.position;
-            if (LockBulletY)
+            if (bullet.LockBulletY)
             {
                 pos.y = Shooter.transform.position.y + 1f;
             }
@@ -338,7 +246,7 @@ namespace MoenenGames.VoxelRobot
             tf.position = pos;
             tf.rotation = bulletSpawnPivot.rotation;
             tf.gameObject.SetActive(true);
-            tf.localScale = Vector3.one * BulletSize;
+            tf.localScale = Vector3.one * bullet.BulletSize;
 
 #if UNITY_2017_3
 			var trail = tf.GetComponent<TrailRenderer>();
@@ -348,8 +256,7 @@ namespace MoenenGames.VoxelRobot
 #endif
 
             b.Shooter = Shooter;
-            b.Damage = EffectAmount;
-            b.Rig.velocity = Vector3.ClampMagnitude(bulletSpawnPivot.forward, 1f) * BulletSpeed;
+            b.Rig.velocity = Vector3.ClampMagnitude(bulletSpawnPivot.forward, 1f) * b.BulletSpeed;
             b.Alive = true;
 
 

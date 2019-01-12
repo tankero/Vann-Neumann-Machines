@@ -10,7 +10,7 @@ namespace Assets.Scripts
     public class ModuleBase : MonoBehaviour
     {
 
-        public string Name;
+        
         public Image Icon;
         public ModuleStateEnum State;
         [Range(0f, 100f)]
@@ -49,7 +49,6 @@ namespace Assets.Scripts
         {
             
             ModuleHealth = GetComponent<Health>();
-            Name = name;
             ModuleEnable();
         }
 

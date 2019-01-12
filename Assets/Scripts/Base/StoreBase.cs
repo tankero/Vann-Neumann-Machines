@@ -31,7 +31,7 @@ namespace Assets.Scripts
             item.gameObject.SetActive(false);
             StorageList.Add(new StorageStruct()
             {
-                ItemName = item.GetComponent<ModuleBase>().Name,
+                ItemName = item.GetComponent<ModuleBase>().gameObject.name,
                 ItemIcon = item.GetComponent<ModuleBase>().Icon,
                 ItemObject = item
 

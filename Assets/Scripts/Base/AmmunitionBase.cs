@@ -21,10 +21,11 @@ namespace Assets.Scripts
 
 
 
-        [Header("Component")]
-        
+
+        public float BulletSize = 0.3f;
+        public float BulletSpeed = 60f;
+        public bool LockBulletY = true;
         public ParticleSystem Particle;
-        [SerializeField]
         public Transform Model;
 
 
@@ -49,7 +50,7 @@ namespace Assets.Scripts
         // Serialize
         [Header("Setting")]
         public DamageType DamegeType;
-        
+
         public float LifeTime = 1f;
 
         public Rigidbody Rig
@@ -85,7 +86,7 @@ namespace Assets.Scripts
         // Start is called before the first frame update
         public virtual void Start()
         {
-            
+
         }
 
         // Update is called once per frame
@@ -93,7 +94,7 @@ namespace Assets.Scripts
         {
 
         }
- 
-        
+
+
     }
 }
