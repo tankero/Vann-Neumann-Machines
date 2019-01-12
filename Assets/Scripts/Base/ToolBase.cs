@@ -30,8 +30,8 @@ namespace Assets.Scripts
         [Header("Setting")]
         [SerializeField]
         private float AttackFrequency = 0.4f;
-        
-        
+
+
 
 
         [SerializeField]
@@ -43,7 +43,7 @@ namespace Assets.Scripts
         public virtual void Start()
         {
             gameObject.tag = "Tool";
-            
+
             BarrelSpawnPoints = transform.GetComponentsInChildren<Weapon>().ToArray();
             if (AmmunitionCapacity > 0)
             {
@@ -76,24 +76,17 @@ namespace Assets.Scripts
             int len = BarrelSpawnPoints.Length;
             foreach (var barrelSpawnPoint in BarrelSpawnPoints)
             {
-                
+
                 if (barrelSpawnPoint.PrevAttackTime + AttackFrequency * (len + 1) > Time.time)
                 {
                     continue;
                 }
-                for (int i = 0; i < len; i++)
+                if (barrelSpawnPoint.PrevAttackTime + AttackFrequency > Time.time)
                 {
-                    if (barrelSpawnPoint == this)
-                    {
-                        continue;
-                    }
-                    if (barrelSpawnPoint.PrevAttackTime + AttackFrequency > Time.time)
-                    {
-                        continue;
-                    }
+                    continue;
                 }
-
                 barrelSpawnPoint.Fire(GetNextBullet());
+
             }
 
         }
