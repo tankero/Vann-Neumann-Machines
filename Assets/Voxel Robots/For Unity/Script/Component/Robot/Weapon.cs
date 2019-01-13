@@ -42,18 +42,6 @@ namespace MoenenGames.VoxelRobot
         public float PrevAttackTime = float.MinValue;
 
 
-        public bool ReadyToShoot
-        {
-            get
-            {
-
-                return true;
-            }
-        }
-
-
-        // Serialize
-
 
 
 
@@ -75,8 +63,8 @@ namespace MoenenGames.VoxelRobot
         [Header("Component")]
         [SerializeField]
         private ParticleSystem[] Particles = new ParticleSystem[0];
-        
-        
+
+
         [SerializeField]
         private Transform Shooter;
         [SerializeField]
@@ -243,10 +231,14 @@ namespace MoenenGames.VoxelRobot
 
 
             //tf.gameObject.SetActive(false);
+            b.Shooter = Shooter;
+            b.Rig.velocity = Vector3.ClampMagnitude(bulletSpawnPivot.forward, 1f) * b.BulletSpeed;
+            
             tf.position = pos;
             tf.rotation = bulletSpawnPivot.rotation;
-            tf.gameObject.SetActive(true);
+            tf.parent = null;
             tf.localScale = Vector3.one * bullet.BulletSize;
+            
 
 #if UNITY_2017_3
 			var trail = tf.GetComponent<TrailRenderer>();
@@ -254,10 +246,8 @@ namespace MoenenGames.VoxelRobot
 				trail.Clear();
 			}
 #endif
-
-            b.Shooter = Shooter;
-            b.Rig.velocity = Vector3.ClampMagnitude(bulletSpawnPivot.forward, 1f) * b.BulletSpeed;
             b.Alive = true;
+            tf.gameObject.SetActive(true);
 
 
         }

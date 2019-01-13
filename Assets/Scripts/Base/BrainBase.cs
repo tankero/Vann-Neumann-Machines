@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -41,7 +42,7 @@ namespace Assets.Scripts
         private bool IAmPlayer;
 
         [SerializeField]
-        public List<ModuleBase> ToolList;
+        public List<ToolBase> ToolList;
         private int selectedToolIndex;
         private ModuleBase sensor;
         private ModuleBase mover;
@@ -62,15 +63,36 @@ namespace Assets.Scripts
         void Start()
         {
             controller = GetComponent<CharacterController>();
-            ToolList = new List<ModuleBase>();
+            //ToolList = new List<ToolBase>();
             IAmPlayer = CompareTag("Player");
+            selectedToolIndex = 0;
+
         }
 
         private void Update()
         {
             if (IAmPlayer)
             {
-                controller.Move(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
+                Debug.Log("Currently selected tool: " + ToolList[selectedToolIndex].name);
+                //controller.Move(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
+                if (Input.GetMouseButtonDown(1))
+                    if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
+                    {
+                        Debug.Log("Activating: " + ToolList[selectedToolIndex].name);
+                        ToolList[selectedToolIndex].Activate();
+                    }
+                    else
+                    {
+                        ToolList[selectedToolIndex].Use();
+                    }
+
+                if (Input.GetMouseButtonUp(1))
+                {
+                    if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
+                    {
+                        ToolList[selectedToolIndex].Deactivate();
+                    }
+                }
                 return;
             }
 
@@ -123,12 +145,17 @@ namespace Assets.Scripts
             ToolList[selectedToolIndex].SendMessage("Use", target);
         }
 
-        void OnToolConnection(ModuleBase connectingTool)
+        void OnToolConnection(ToolBase connectingTool)
         {
+            Debug.Log("Brain has received Tool connection: " + connectingTool.gameObject.name);
             if (!ToolList.Contains(connectingTool))
             {
                 ToolList.Add(connectingTool);
                 connectingTool.ModuleEnable();
+            }
+            if (ToolList.Contains(connectingTool))
+            {
+                Debug.Log("Tool connection successful");
             }
         }
 
@@ -146,7 +173,7 @@ namespace Assets.Scripts
             return ToolList[selectedToolIndex];
         }
 
-        public void SetSelectedTool(ModuleBase tool)
+        public void SetSelectedTool(ToolBase tool)
         {
             selectedToolIndex = ToolList.IndexOf(tool);
         }
@@ -163,6 +190,7 @@ namespace Assets.Scripts
         void ConnectToCore(CoreBase coreParam)
         {
             coreParam.ConnectModule(this);
+            ToolList = coreParam.Modules.OfType<ToolBase>().ToList();
         }
 
     }

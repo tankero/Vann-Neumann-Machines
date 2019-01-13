@@ -4618,8 +4618,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010732017690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.55, y: 1, z: -9.12}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011720959208}
   - {fileID: 4000010234580126}
@@ -4639,6 +4639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512b8673106f2a14491c9e7ae622ed7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BulletSize: 0.3
+  BulletSpeed: 60
+  LockBulletY: 1
   Particle: {fileID: 198000012753252288}
   Model: {fileID: 4000011720959208}
   Alive: 1
@@ -4646,7 +4649,7 @@ MonoBehaviour:
   Radius: 0
   Duration: 1
   DamegeType: 0
-  LifeTime: 1
+  LifeTime: 0.75
   DontDestroyOnHit: 0
   StopOnHit: 1
 --- !u!54 &54000011215077958
@@ -4839,7 +4842,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4ce2761f2109a524786c734b2696b650, type: 2}
+  - {fileID: 2100000, guid: ff9ecdb6e7690684aa95329da0dece08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

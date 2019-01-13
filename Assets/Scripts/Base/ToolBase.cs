@@ -10,14 +10,22 @@ namespace Assets.Scripts
     {
 
 
-        public enum ToolTypeEnum
+        public enum ProjectileType
         {
             Projectile,
             Beam,
             Meele
         }
 
-        public ToolTypeEnum ToolType;
+        public enum ToolTriggerType
+        {
+            Activate,
+            Use
+        }
+
+
+        public ToolTriggerType TriggerType;
+        public ProjectileType ToolType;
         [Range(0f, 1f)]
         public float Accuracy;
         [Range(0f, 20f)]
@@ -27,12 +35,14 @@ namespace Assets.Scripts
         public bool UsesAmmunition;
         public int AmmunitionCount;
 
-        [Header("Setting")]
+        
         [SerializeField]
-        private float AttackFrequency = 0.4f;
-        
-        
+        private float ActivationSpeed = 0.4f;
 
+        [SerializeField]
+        private bool SingleBarrel;
+
+        private bool _triggerHeld = false;
 
         [SerializeField]
         private AmmunitionBase AmmunitionTemplate;
@@ -43,23 +53,25 @@ namespace Assets.Scripts
         public virtual void Start()
         {
             gameObject.tag = "Tool";
-            
+
             BarrelSpawnPoints = transform.GetComponentsInChildren<Weapon>().ToArray();
             if (AmmunitionCapacity > 0)
             {
-                AmmoPool = new Bullet[AmmunitionCapacity];
-                for (int i = 0; i < 6; i++)
+                AmmoPool = new Bullet[10];
+                for (int i = 0; i < AmmoPool.Length; i++)
                 {
                     AmmoPool[i] = Instantiate(AmmunitionTemplate, transform);
                     AmmoPool[i].gameObject.SetActive(false);
+                    AmmoPool[i].CancelInvoke();
                 }
             }
+            StartCoroutine("TriggerTool");
         }
 
         // Update is called once per frame
         public virtual void Update()
         {
-
+            
         }
 
         public virtual void Reload()
@@ -67,35 +79,54 @@ namespace Assets.Scripts
 
         }
 
-        public virtual void Use()
+        IEnumerator TriggerTool()
         {
-            if (MaintanceType == MaintenanceTypeEnum.OnUse)
-            {
-                EnergyCurrent -= EnergyCost;
-            }
-            int len = BarrelSpawnPoints.Length;
-            foreach (var barrelSpawnPoint in BarrelSpawnPoints)
+            for (; ; )
             {
                 
-                if (barrelSpawnPoint.PrevAttackTime + AttackFrequency * (len + 1) > Time.time)
+                if (_triggerHeld)
                 {
-                    continue;
-                }
-                for (int i = 0; i < len; i++)
-                {
-                    if (barrelSpawnPoint == this)
+                    if (MaintanceType == MaintenanceTypeEnum.OnUse)
                     {
-                        continue;
+                        EnergyCurrent -= EnergyCost;
                     }
-                    if (barrelSpawnPoint.PrevAttackTime + AttackFrequency > Time.time)
+                    if (SingleBarrel)
                     {
-                        continue;
+                        foreach (var barrel in BarrelSpawnPoints)
+                        {
+                            barrel.Fire(GetNextBullet());
+                            yield return new WaitForSeconds(ActivationSpeed);
+                        }
                     }
-                }
+                    else
+                    {
+                        foreach (var barrel in BarrelSpawnPoints)
+                        {
+                            barrel.Fire(GetNextBullet());
 
-                barrelSpawnPoint.Fire(GetNextBullet());
+                        }
+                        yield return new WaitForSeconds(ActivationSpeed);
+                    }
+                }
+                yield return null;
             }
+        }
 
+        public virtual void Activate()
+        {
+            _triggerHeld = true;
+        }
+
+        public virtual void Use()
+        {
+
+
+
+        }
+
+        public virtual void Deactivate()
+        {
+            _triggerHeld = false;
         }
 
         public AmmunitionBase GetNextBullet()

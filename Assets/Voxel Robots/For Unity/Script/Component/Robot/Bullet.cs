@@ -125,6 +125,7 @@ namespace MoenenGames.VoxelRobot
             TrailRenderer t = GetComponent<TrailRenderer>();
             if (t)
             {
+                t.Clear();
                 t.enabled = false;
             }
             if (Model)
@@ -134,8 +135,12 @@ namespace MoenenGames.VoxelRobot
 
             // Disable
             gameObject.SetActive(false);
-            
-            
+            CancelInvoke();
+            if (IsInvoking())
+            {
+                Debug.Log("Still invoking");
+            }
+            Debug.Log("Disable is being called");
         }
 
         private void OnEnable()
@@ -143,6 +148,16 @@ namespace MoenenGames.VoxelRobot
             // Self Kill
             Invoke("DisableCollider", LifeTime);
             Invoke("DisableBullet", LifeTime + 1f);
+            if (Model)
+            {
+                Model.gameObject.SetActive(true);
+            }
+            TrailRenderer t = GetComponent<TrailRenderer>();
+            if (t)
+            {
+                t.enabled = true;
+            }
+
             // Size
             SetSize(transform.localScale.x);
         }
