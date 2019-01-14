@@ -25,15 +25,13 @@
 			// base
 			base.Update();
 
-			// Input
-			bool? moveLR;
-			bool? moveFB;
+            // Input
 
-			GetPlayerInput(out moveLR, out moveFB);
+            GetPlayerInput(out bool? moveLR, out bool? moveFB);
 
 
-			// Rot
-			if (Input.GetKey(KeyCode.LeftShift) || MouseFacing) {
+            // Rot
+            if (Input.GetKey(KeyCode.LeftShift) || MouseFacing) {
 				RotateToMouse();
 			} else if (moveFB != null || moveLR != null) {
 				RotateToMovingDirction(moveFB, moveLR);

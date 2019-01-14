@@ -4,8 +4,7 @@ using System.Linq;
 using MoenenGames.VoxelRobot;
 using UnityEngine;
 
-namespace Assets.Scripts
-{
+
     public class ToolBase : ModuleBase
     {
 
@@ -149,4 +148,4 @@ namespace Assets.Scripts
             return first;
         }
     }
-}
+

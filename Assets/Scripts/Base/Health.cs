@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Assets.Scripts
-{
     public class Health : MonoBehaviour
     {
         [Range(1f, 200f)]
@@ -42,4 +40,4 @@ namespace Assets.Scripts
 
         // This needs to broadcast messages about the actions that occur in order to have an AI/Aggro system that reacts the player's actions.
     }
-}
+

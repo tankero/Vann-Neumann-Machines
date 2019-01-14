@@ -1,154 +1,152 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Assets.Scripts
+
+public class CoreBase : ModuleBase
 {
-    public class CoreBase : ModuleBase
+
+    [Range(-1f, 10f)]
+    public float EnergyGenerationRate;
+
+    [SerializeField]
+    public List<ModuleBase> Modules;
+
+    public StoreBase Storage;
+
+    public int ModuleCapacity;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        foreach (var module in transform.parent.GetComponentsInChildren<ModuleBase>())
+        {
+            ConnectModule(module);
+        }
+        StartCoroutine("CoreGenerator");
+    }
+
+    // Update is called once per frame
+    void Update()
     {
 
-        [Range(-1f, 10f)]
-        public float EnergyGenerationRate;
-                       
-        [SerializeField]
-        public List<ModuleBase> Modules;
+    }
 
-        public StoreBase Storage;
 
-        public int ModuleCapacity;
 
-        // Start is called before the first frame update
-        void Start()
+    public void ConnectModule(ModuleBase module)
+    {
+        Debug.Log("Connection Requested for: " + module.name);
+        if (module.CompareTag("Brain") || module.CompareTag("Player"))
         {
-            foreach (var module in transform.parent.GetComponentsInChildren<ModuleBase>())
+            Debug.Log("Connecting Brain");
             {
-                ConnectModule(module);
-            }
-            StartCoroutine("CoreGenerator");
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-
-
-        public void ConnectModule(ModuleBase module)
-        {
-            Debug.Log("Connection Requested for: " + module.name);
-            if (module.CompareTag("Brain") || module.CompareTag("Player"))
-            {
-                Debug.Log("Connecting Brain");
+                if (!transform.IsChildOf(module.transform))
                 {
-                    if (!transform.IsChildOf(module.transform))
-                    {
-                        transform.parent = module.transform;
-                    }
-                    return;
+                    transform.parent = module.transform;
                 }
-            }
-
-            if (!module.transform.IsChildOf(transform))
-            {
-                module.transform.parent = transform;
-            }
-
-            if (module.CompareTag("Mover"))
-            {
-                var previousMover = Modules.Find(g => g.CompareTag("Mover"));
-                if (previousMover)
-                {
-                    DisconnectModule(previousMover);
-                    Modules.Add(module);
-                    SendMessageUpwards("OnMoverConnection", module);
-                    return;
-                }
-            }
-            if (module.CompareTag("Sensor"))
-            {
-                var previousSensor = Modules.Find(g => g.CompareTag("Sensor"));
-                if (previousSensor)
-                {
-                    DisconnectModule(previousSensor);
-                    Modules.Add(module);
-                    SendMessageUpwards("OnSensorConnection", module);
-                    return;
-                }
-            }
-            if (module.CompareTag("Tool"))
-            {
-                Debug.Log("Connecting Tool");
-                Modules.Add(module);
-                SendMessageUpwards("OnToolConnection", module);
                 return;
             }
         }
 
-        public void DisconnectModule(ModuleBase module)
+        if (!module.transform.IsChildOf(transform))
         {
+            module.transform.parent = transform;
+        }
 
-            if (Modules.Contains(module))
+        if (module.CompareTag("Mover"))
+        {
+            var previousMover = Modules.Find(g => g.CompareTag("Mover"));
+            if (previousMover)
             {
-                module.Disable();
-                Modules.Remove(module);
+                DisconnectModule(previousMover);
+                Modules.Add(module);
+                SendMessageUpwards("OnMoverConnection", module);
+                return;
+            }
+        }
+        if (module.CompareTag("Sensor"))
+        {
+            var previousSensor = Modules.Find(g => g.CompareTag("Sensor"));
+            if (previousSensor)
+            {
+                DisconnectModule(previousSensor);
+                Modules.Add(module);
+                SendMessageUpwards("OnSensorConnection", module);
+                return;
+            }
+        }
+        if (module.CompareTag("Tool"))
+        {
+            Debug.Log("Connecting Tool");
+            Modules.Add(module);
+            SendMessageUpwards("OnToolConnection", module);
+            return;
+        }
+    }
 
-                if (Storage.StorageList.Count < Storage.StorageSize)
+    public void DisconnectModule(ModuleBase module)
+    {
+
+        if (Modules.Contains(module))
+        {
+            module.Disable();
+            Modules.Remove(module);
+
+            if (Storage.StorageList.Count < Storage.StorageSize)
+            {
+                Storage.StoreItem(module);
+            }
+            else
+            {
+                GameManager.DropItem(transform.position, module);
+            }
+        }
+    }
+
+
+
+    IEnumerator CoreGenerator()
+    {
+        for (; ; )
+        {
+            if (EnergyCurrent < EnergyTotal)
+            {
+                EnergyCurrent += (EnergyGenerationRate * GameManager.TimeConstant) * 10;
+                Debug.Log("Energy Generated: " + (EnergyGenerationRate * GameManager.TimeConstant) * 10);
+            }
+            if (EnergyCurrent > EnergyTotal || EnergyTotal - EnergyCurrent < 0.1f)
+            {
+                EnergyCurrent = EnergyTotal;
+            }
+            foreach (var module in Modules)
+            {
+                var energyRequested = module.EnergyNeeded();
+                if (energyRequested <= 0)
                 {
-                    Storage.StoreItem(module);
+                    continue;
+                }
+                if (EnergyCurrent >= energyRequested)
+                {
+                    EnergyCurrent -= energyRequested;
+                    module.Charge(energyRequested);
                 }
                 else
                 {
-                    GameManager.DropItem(transform.position, module);
+                    module.Charge(EnergyCurrent);
+                    EnergyCurrent = 0;
+                    Debug.Log("Core was tapped out");
                 }
+
             }
+            yield return new WaitForSeconds(GameManager.TimeConstant);
         }
+    }
 
-
-
-        IEnumerator CoreGenerator()
-        {
-            for (; ; )
-            {
-                if (EnergyCurrent < EnergyTotal)
-                {
-                    EnergyCurrent += (EnergyGenerationRate * GameManager.TimeConstant) * 10;
-                    Debug.Log("Energy Generated: " + (EnergyGenerationRate * GameManager.TimeConstant) * 10);
-                }
-                if (EnergyCurrent > EnergyTotal || EnergyTotal - EnergyCurrent < 0.1f)
-                {
-                    EnergyCurrent = EnergyTotal;
-                }
-                foreach (var module in Modules)
-                {
-                    var energyRequested = module.EnergyNeeded();
-                    if(energyRequested <= 0)
-                    {
-                        continue;
-                    }
-                    if (EnergyCurrent >= energyRequested)
-                    {
-                        EnergyCurrent -= energyRequested;
-                        module.Charge(energyRequested);
-                    }
-                    else
-                    {
-                        module.Charge(EnergyCurrent);
-                        EnergyCurrent = 0;
-                        Debug.Log("Core was tapped out");
-                    }
-                    
-                }
-                yield return new WaitForSeconds(GameManager.TimeConstant);
-            }
-        }
-
-        public void DestroyModule(ModuleBase module)
-        {
-
-        }
-
-
+    public void DestroyModule(ModuleBase module)
+    {
 
     }
+
+
+
 }

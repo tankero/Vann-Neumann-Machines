@@ -2,113 +2,112 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts
+
+[RequireComponent(typeof(Rigidbody))]
+public class SensorBase : ModuleBase
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public class SensorBase : ModuleBase
+    // Start is called before the first frame update
+
+    public enum SensorTypeEnum
     {
-        // Start is called before the first frame update
+        Optic,
+        Radar,
+    }
 
-        public enum SensorTypeEnum
+    public SensorTypeEnum SensorType;
+    public Collider SensorCollider;
+    public float Range;
+
+
+
+    public List<GameObject> DetectedObjects;
+
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        var intruderObject = collision.gameObject;
+        if (intruderObject.CompareTag("Enitity"))
         {
-            Optic,
-            Radar,
+            DetectedObjects.Add(intruderObject);
         }
+    }
 
-        public SensorTypeEnum SensorType;
-        public Collider SensorCollider;
-        public float Range;
-
-
-
-        public List<GameObject> DetectedObjects;
-
-
-        private void OnTriggerEnter(Collider collision)
+    private void OnTriggerExit(Collider collision)
+    {
+        var intruderObject = collision.gameObject;
+        if (intruderObject.CompareTag("Enitity"))
         {
-            var intruderObject = collision.gameObject;
-            if (intruderObject.CompareTag("Enitity"))
+            DetectedObjects.Remove(intruderObject);
+        }
+    }
+
+    public bool CheckLoS(GameObject target)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, (target.transform.position - transform.position), out hit, Range))
+        {
+            if (hit.collider.gameObject == target)
             {
-                DetectedObjects.Add(intruderObject);
+                return true;
             }
         }
+        return false;
+    }
 
-        private void OnTriggerExit(Collider collision)
+    IEnumerator Pulse()
+    {
+        if (DetectedObjects.Count > 0)
         {
-            var intruderObject = collision.gameObject;
-            if (intruderObject.CompareTag("Enitity"))
+            var keepList = new List<GameObject>();
+            foreach (var target in DetectedObjects)
             {
-                DetectedObjects.Remove(intruderObject);
-            }
-        }
-
-        public bool CheckLoS(GameObject target)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, (target.transform.position - transform.position), out hit,  Range))
-            {
-                if(hit.collider.gameObject == target)
+                if (CheckLoS(target))
                 {
-                    return true;
+                    keepList.Add(target);
                 }
-            }
-            return false;
-        }
+                yield return new WaitForSeconds(0.1f);
 
-        IEnumerator Pulse()
+            }
+            DetectedObjects = keepList;
+        }
+    }
+
+    void Start()
+    {
+
+        switch (SensorType)
         {
-            if (DetectedObjects.Count > 0)
-            {
-                var keepList = new List<GameObject>();
-                foreach (var target in DetectedObjects)
+            case SensorTypeEnum.Optic:
+                SensorCollider = new CapsuleCollider
                 {
-                    if (CheckLoS(target))
-                    {
-                        keepList.Add(target);
-                    }
-                    yield return new WaitForSeconds(0.1f);
-
-                }
-                DetectedObjects = keepList;
-            }
+                    center = transform.position,
+                    direction = 1,
+                    radius = 10f,
+                    height = Range,
+                    isTrigger = true
+                };
+                break;
+            case SensorTypeEnum.Radar:
+                SensorCollider = new CapsuleCollider
+                {
+                    center = transform.forward * Range / 2,
+                    direction = 2,
+                    radius = Range,
+                    height = 10f,
+                    isTrigger = true
+                };
+                StartCoroutine("Pulse");
+                break;
         }
 
-        void Start()
-        {
-
-            switch (SensorType)
-            {
-                case SensorTypeEnum.Optic:
-                    SensorCollider = new CapsuleCollider
-                    {
-                        center = transform.position,
-                        direction = 1,
-                        radius = 10f,
-                        height = Range,
-                        isTrigger = true
-                    };
-                    break;
-                case SensorTypeEnum.Radar:
-                    SensorCollider = new CapsuleCollider
-                    {
-                        center = transform.forward * Range/2,
-                        direction = 2,
-                        radius = Range,
-                        height = 10f,
-                        isTrigger = true
-                    };
-                    StartCoroutine("Pulse");
-                    break;
-            }
-           
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
 }
+

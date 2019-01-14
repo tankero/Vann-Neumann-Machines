@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts
-{
+
 
     [RequireComponent(typeof(Health))]
     public class ModuleBase : MonoBehaviour
@@ -125,4 +124,3 @@ namespace Assets.Scripts
         }
     }
 
-}
