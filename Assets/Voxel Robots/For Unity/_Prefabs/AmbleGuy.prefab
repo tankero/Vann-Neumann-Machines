@@ -163,6 +163,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4806664817267308}
+  - component: {fileID: 7592638755130055290}
+  - component: {fileID: 2673775806592415047}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -186,6 +188,46 @@ Transform:
   m_Father: {fileID: 4577064532857016}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7592638755130055290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102540622256256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc4bcd2666379f48bc2c9c176fc9cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalHealth: 100
+  CurrentHealth: 100
+--- !u!114 &2673775806592415047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102540622256256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06dfd050b36aec943823c18cb2f39508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 0}
+  State: 0
+  EnergyTotal: 0
+  EnergyCurrent: 0
+  EnergyCost: 0
+  ModuleHealth: {fileID: 0}
+  Effect: 0
+  EffectAmount: 0
+  EnergyRate: 0
+  MaintanceType: 0
+  EnergyGenerationRate: 0
+  Modules: []
+  Storage: {fileID: 0}
+  ModuleCapacity: 0
 --- !u!1 &1113939639065426
 GameObject:
   m_ObjectHideFlags: 0
@@ -9921,7 +9963,7 @@ ParticleSystem:
         m_RotationOrder: 0
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -9974,7 +10016,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -28463,6 +28505,8 @@ GameObject:
   - component: {fileID: 114432064157629968}
   - component: {fileID: 143168757786466798}
   - component: {fileID: 136528001201446656}
+  - component: {fileID: 4551567145284502446}
+  - component: {fileID: 8022384621054648527}
   m_Layer: 0
   m_Name: AmbleGuy
   m_TagString: Player
@@ -28537,6 +28581,48 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4551567145284502446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437961215119004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc4bcd2666379f48bc2c9c176fc9cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalHealth: 100
+  CurrentHealth: 100
+--- !u!114 &8022384621054648527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437961215119004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7cf9e440c210945891ffb88e789527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 0}
+  State: 0
+  EnergyTotal: 0
+  EnergyCurrent: 0
+  EnergyCost: 0
+  ModuleHealth: {fileID: 0}
+  Effect: 0
+  EffectAmount: 0
+  EnergyRate: 0
+  MaintanceType: 0
+  ToolList: []
+  Allegiance: 0
+  Memory: []
+  Locations:
+    targets: []
+  CurrentState: 0
 --- !u!1 &1476158541390538
 GameObject:
   m_ObjectHideFlags: 0
@@ -28674,7 +28760,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4946541868035418}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114854731410165152
 MonoBehaviour:
@@ -28929,31 +29015,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9689d568f013cc3479c618299709c3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
-  State: 0
-  EnergyTotal: 0
-  EnergyCurrent: 0
-  EnergyCost: 0
-  ModuleHealth: {fileID: 0}
-  Effect: 0
-  EffectAmount: 0
-  EnergyRate: 0
-  MaintanceType: 0
-  ToolType: 0
-  Accuracy: 0
-  Range: 0
-  AmmunitionCapacity: 0
-  UsesAmmunition: 0
-  AmmunitionCount: 0
   PrevAttackTime: -3.4028235e+38
-  AmmoPool: []
-  AttackFrequency: 0.12
-  BulletSpeed: 40
-  BulletSize: 0.1
-  RandomTimeGap: 0.2
   RotatableY: 0
-  LockBulletY: 1
+  RandomTimeGap: 0.2
   LerpCurveF:
     serializedVersion: 2
     m_Curve:
@@ -29005,9 +29069,6 @@ MonoBehaviour:
   CurveRandom: {x: 0, y: 0, z: 0}
   Particles:
   - {fileID: 198574984476739794}
-  ConflictWeapons:
-  - {fileID: 114586245008439590}
-  AmmunitionTemplate: {fileID: 0}
   Shooter: {fileID: 4577064532857016}
   TheLight: {fileID: 0}
   model: {fileID: 4645690180743232}
@@ -29182,6 +29243,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4946541868035418}
   - component: {fileID: 114247631319953620}
+  - component: {fileID: 6361035737005023684}
+  - component: {fileID: 5927819513842326709}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -29201,11 +29264,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4647015782244242}
-  - {fileID: 4783771406197584}
-  - {fileID: 4956239179296478}
   - {fileID: 4868464757132372}
   - {fileID: 4295397205210450}
   - {fileID: 9185678424214201171}
+  - {fileID: 1006679746550761136}
   m_Father: {fileID: 4806664817267308}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29223,6 +29285,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Limit: 180
   RotateSpeed: 720
+--- !u!143 &6361035737005023684
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696404355362914}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5927819513842326709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696404355362914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc4bcd2666379f48bc2c9c176fc9cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalHealth: 100
+  CurrentHealth: 100
 --- !u!1 &1698974987443754
 GameObject:
   m_ObjectHideFlags: 0
@@ -29269,31 +29363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9689d568f013cc3479c618299709c3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
-  State: 0
-  EnergyTotal: 0
-  EnergyCurrent: 0
-  EnergyCost: 0
-  ModuleHealth: {fileID: 0}
-  Effect: 0
-  EffectAmount: 0
-  EnergyRate: 0
-  MaintanceType: 0
-  ToolType: 0
-  Accuracy: 0
-  Range: 0
-  AmmunitionCapacity: 0
-  UsesAmmunition: 0
-  AmmunitionCount: 0
   PrevAttackTime: -3.4028235e+38
-  AmmoPool: []
-  AttackFrequency: 0.12
-  BulletSpeed: 40
-  BulletSize: 0.1
-  RandomTimeGap: 0.2
   RotatableY: 0
-  LockBulletY: 1
+  RandomTimeGap: 0.2
   LerpCurveF:
     serializedVersion: 2
     m_Curve:
@@ -29345,9 +29417,6 @@ MonoBehaviour:
   CurveRandom: {x: 0, y: 0, z: 0}
   Particles:
   - {fileID: 198874760041161004}
-  ConflictWeapons:
-  - {fileID: 114044512387436198}
-  AmmunitionTemplate: {fileID: 0}
   Shooter: {fileID: 4577064532857016}
   TheLight: {fileID: 0}
   model: {fileID: 4115629602169892}
@@ -29376,16 +29445,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1713773472757902}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.7, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.3000002, y: 0.29999998, z: -0.5000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4968696571406646}
   - {fileID: 4088564336944756}
   - {fileID: 4239596745745546}
   - {fileID: 4753661454507176}
-  m_Father: {fileID: 4946541868035418}
-  m_RootOrder: 2
+  m_Father: {fileID: 1006679746550761136}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114611644573222918
 MonoBehaviour:
@@ -29399,31 +29468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9689d568f013cc3479c618299709c3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
-  State: 0
-  EnergyTotal: 0
-  EnergyCurrent: 0
-  EnergyCost: 0
-  ModuleHealth: {fileID: 0}
-  Effect: 0
-  EffectAmount: 0
-  EnergyRate: 0
-  MaintanceType: 0
-  ToolType: 0
-  Accuracy: 0
-  Range: 0
-  AmmunitionCapacity: 0
-  UsesAmmunition: 0
-  AmmunitionCount: 0
   PrevAttackTime: -3.4028235e+38
-  AmmoPool: []
-  AttackFrequency: 0.4
-  BulletSpeed: 30
-  BulletSize: 0.2
-  RandomTimeGap: 0.2
   RotatableY: 0
-  LockBulletY: 1
+  RandomTimeGap: 0.2
   LerpCurveF:
     serializedVersion: 2
     m_Curve:
@@ -29476,9 +29523,6 @@ MonoBehaviour:
   Particles:
   - {fileID: 198264552506673098}
   - {fileID: 198985822414374534}
-  ConflictWeapons:
-  - {fileID: 114236568275560468}
-  AmmunitionTemplate: {fileID: 0}
   Shooter: {fileID: 4577064532857016}
   TheLight: {fileID: 114854731410165152}
   model: {fileID: 4968696571406646}
@@ -29662,15 +29706,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905318850467602}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.70000005, z: 0}
+  m_LocalPosition: {x: -0.30000025, y: 0.29999998, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4509590329098556}
   - {fileID: 4844274054613890}
   - {fileID: 4898832534629884}
   - {fileID: 4220673127409752}
-  m_Father: {fileID: 4946541868035418}
-  m_RootOrder: 1
+  m_Father: {fileID: 1006679746550761136}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114236568275560468
 MonoBehaviour:
@@ -29684,31 +29728,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9689d568f013cc3479c618299709c3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
-  State: 0
-  EnergyTotal: 0
-  EnergyCurrent: 0
-  EnergyCost: 0
-  ModuleHealth: {fileID: 0}
-  Effect: 0
-  EffectAmount: 0
-  EnergyRate: 0
-  MaintanceType: 0
-  ToolType: 0
-  Accuracy: 0
-  Range: 0
-  AmmunitionCapacity: 0
-  UsesAmmunition: 0
-  AmmunitionCount: 0
   PrevAttackTime: -3.4028235e+38
-  AmmoPool: []
-  AttackFrequency: 0.4
-  BulletSpeed: 30
-  BulletSize: 0.2
-  RandomTimeGap: 0.2
   RotatableY: 0
-  LockBulletY: 1
+  RandomTimeGap: 0.2
   LerpCurveF:
     serializedVersion: 2
     m_Curve:
@@ -29761,9 +29783,6 @@ MonoBehaviour:
   Particles:
   - {fileID: 198873353520580396}
   - {fileID: 198501725586174314}
-  ConflictWeapons:
-  - {fileID: 114611644573222918}
-  AmmunitionTemplate: {fileID: 0}
   Shooter: {fileID: 4577064532857016}
   TheLight: {fileID: 114854731410165152}
   model: {fileID: 4509590329098556}
@@ -29798,7 +29817,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4946541868035418}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33207839853968220
 MeshFilter:
@@ -29999,6 +30018,88 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1562210807727464720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1006679746550761136}
+  - component: {fileID: 6448026702701864646}
+  - component: {fileID: 706715585906152587}
+  m_Layer: 0
+  m_Name: Double Cannon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1006679746550761136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562210807727464720}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.40000007, z: 0.49999967}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4783771406197584}
+  - {fileID: 4956239179296478}
+  m_Father: {fileID: 4946541868035418}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6448026702701864646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562210807727464720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dc4bcd2666379f48bc2c9c176fc9cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalHealth: 100
+  CurrentHealth: 100
+--- !u!114 &706715585906152587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562210807727464720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc7e4cca35aa4488c63d4ddc417cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 0}
+  State: 0
+  EnergyTotal: 0
+  EnergyCurrent: 0
+  EnergyCost: 0
+  ModuleHealth: {fileID: 0}
+  Effect: 0
+  EffectAmount: 0
+  EnergyRate: 0
+  MaintanceType: 0
+  TriggerType: 0
+  ToolType: 0
+  Accuracy: 0
+  Range: 0
+  AmmunitionCapacity: 0
+  UsesAmmunition: 0
+  AmmunitionCount: 0
+  ActivationSpeed: 0.4
+  SingleBarrel: 1
+  AmmunitionTemplate: {fileID: 0}
+  AmmoPool: []
+  BarrelSpawnPoints: []
 --- !u!1 &8593675442561343696
 GameObject:
   m_ObjectHideFlags: 0
@@ -30024,14 +30125,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8593675442561343696}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4950868846847164}
   - {fileID: 4168122309219468}
   m_Father: {fileID: 4946541868035418}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2848498532292995969
 MonoBehaviour:
@@ -30059,7 +30160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50fc7e4cca35aa4488c63d4ddc417cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
   Icon: {fileID: 0}
   State: 0
   EnergyTotal: 0
@@ -30070,9 +30170,16 @@ MonoBehaviour:
   EffectAmount: 0
   EnergyRate: 0
   MaintanceType: 0
+  TriggerType: 0
   ToolType: 0
   Accuracy: 0
   Range: 0
   AmmunitionCapacity: 0
   UsesAmmunition: 0
   AmmunitionCount: 0
+  ActivationSpeed: 0.4
+  SingleBarrel: 1
+  AmmunitionTemplate: {fileID: 114000011379593360, guid: 091931d8777d4cb45b81f56821d489bf,
+    type: 3}
+  AmmoPool: []
+  BarrelSpawnPoints: []
