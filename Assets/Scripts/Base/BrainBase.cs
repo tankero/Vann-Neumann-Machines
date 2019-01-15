@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MoenenGames.VoxelRobot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class BrainBase : ModuleBase
 
     /*States are managed by the "brain" component, but each module is supposed to react to the state of the entity on their own. 
     The brain basically broadcasts the state to the modules.*/
-    public enum StateEnum
+    public enum BrainStateEnum
     {
         // Idle is intended to be the "off" state. Unresponsive, unpowered, etc..
         Idle,
@@ -55,19 +56,30 @@ public class BrainBase : ModuleBase
     public TargetObjectList Targets;
     public TargetLocationList Locations;
 
-    public StateEnum CurrentState;
+    public BrainStateEnum BrainState;
+    
+
 
     void Awake()
     {
         IAmPlayer = CompareTag("Player");
         selectedToolIndex = 0;
+        if (!IAmPlayer)
+        {
+            StartCoroutine("ThinkPulse");
+            sensor = GetComponent<SensorBase>();
+            if (!sensor)
+            {
+                sensor = new SensorBase();
+            }
+        }
 
     }
 
     void Start()
     {
 
-        
+
 
     }
 
@@ -97,12 +109,19 @@ public class BrainBase : ModuleBase
             return;
         }
 
+
     }
 
 
     public void Think()
     {
+        // Check State
 
+        // Set Attitude
+
+        // Check Targets & Priority
+
+        // Set Action
     }
 
     public void Assist() { }
@@ -114,12 +133,12 @@ public class BrainBase : ModuleBase
     public TargetStateEnum ValidateTarget(GameObject target)
     {
 
-        if (ToolList[selectedToolIndex].State == ModuleStateEnum.Recharging)
+        if (ToolList[selectedToolIndex].ModuleState == ModuleStateEnum.Recharging)
         {
             return TargetStateEnum.OutOfEnergy;
         }
 
-        var toolAction = (ToolBase)ToolList[selectedToolIndex];
+        var toolAction = ToolList[selectedToolIndex];
 
         if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
         {
@@ -144,6 +163,18 @@ public class BrainBase : ModuleBase
     public void Use(GameObject target)
     {
         ToolList[selectedToolIndex].SendMessage("Use", target);
+    }
+
+    IEnumerator ThinkPulse()
+    {
+
+        while (BrainState == BrainStateEnum.Active)
+        {
+            Think();
+            yield return new WaitForSeconds(GameManager.TimeConstant);
+        }
+
+        yield return null;
     }
 
     void OnToolConnection(ToolBase connectingTool)
@@ -194,7 +225,7 @@ public class BrainBase : ModuleBase
         ToolList = coreParam.Modules.OfType<ToolBase>().ToList();
     }
 
-    
+
 
 
 

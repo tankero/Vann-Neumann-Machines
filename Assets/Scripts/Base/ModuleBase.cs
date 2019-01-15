@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
         
         public Image Icon;
-        public ModuleStateEnum State;
+        public ModuleStateEnum ModuleState;
         [Range(0f, 100f)]
         public float EnergyTotal;
         [Range(0f, 100f)]
@@ -92,11 +92,11 @@ using UnityEngine.UI;
         {
             Debug.Log("Energy charge received by: " + gameObject.name + " -- Received: " + energyCount);
             EnergyCurrent += energyCount;
-            if (State == ModuleStateEnum.Recharging)
+            if (ModuleState == ModuleStateEnum.Recharging)
             {
                 if(EnergyCost <= EnergyCurrent)
                 {
-                    State = ModuleStateEnum.Ready;
+                    ModuleState = ModuleStateEnum.Ready;
                 }
                 if (EnergyCurrent >= EnergyTotal)
                 {
@@ -109,9 +109,9 @@ using UnityEngine.UI;
 
         public void ModuleEnable()
         {
-            if (State == ModuleStateEnum.Disabled)
+            if (ModuleState == ModuleStateEnum.Disabled)
             {
-                State = ModuleStateEnum.Recharging;
+                ModuleState = ModuleStateEnum.Recharging;
                 EnergyCurrent = 0f;
             }
         }
@@ -119,7 +119,7 @@ using UnityEngine.UI;
 
         public void Disable()
         {
-            State = ModuleStateEnum.Disabled;
+            ModuleState = ModuleStateEnum.Disabled;
             EnergyCurrent = 0f;
         }
     }
