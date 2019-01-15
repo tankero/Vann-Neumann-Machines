@@ -119,7 +119,7 @@ public class BrainBase : ModuleBase
             return TargetStateEnum.OutOfEnergy;
         }
 
-        var toolAction = (ToolBase)ToolList[selectedToolIndex];
+        var toolAction = ToolList[selectedToolIndex];
 
         if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
         {
