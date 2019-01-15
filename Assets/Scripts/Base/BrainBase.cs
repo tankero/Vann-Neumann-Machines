@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 
-[RequireComponent(typeof(CharacterController))]
+
 public class BrainBase : ModuleBase
 {
 
@@ -52,19 +52,22 @@ public class BrainBase : ModuleBase
 
     public List<string> Memory;
 
-    private CharacterController controller;
-
     public TargetObjectList Targets;
     public TargetLocationList Locations;
 
     public StateEnum CurrentState;
 
-    void Start()
+    void Awake()
     {
-        controller = GetComponent<CharacterController>();
-        //ToolList = new List<ToolBase>();
         IAmPlayer = CompareTag("Player");
         selectedToolIndex = 0;
+
+    }
+
+    void Start()
+    {
+
+        
 
     }
 
@@ -190,6 +193,11 @@ public class BrainBase : ModuleBase
         coreParam.ConnectModule(this);
         ToolList = coreParam.Modules.OfType<ToolBase>().ToList();
     }
+
+    
+
+
+
 
 }
 
