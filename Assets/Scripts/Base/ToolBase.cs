@@ -33,7 +33,7 @@ public class ToolBase : ModuleBase
     public int AmmunitionCapacity;
     public bool UsesAmmunition;
     public int AmmunitionCount;
-
+    public float ActivationSpeed = 0.2f;
 
     [SerializeField]
     private bool SingleBarrel;
