@@ -11,6 +11,7 @@ TagManager:
   - Ammunition
   - Storage
   - Sensor
+  - NPC
   layers:
   - Default
   - TransparentFX

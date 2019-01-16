@@ -67,6 +67,7 @@ public class BrainBase : ModuleBase
     {
         IAmPlayer = CompareTag("Player");
         selectedToolIndex = 0;
+        BrainHealth = GetComponent<Health>();
         if (!IAmPlayer)
         {
             StartCoroutine("ThinkPulse");
@@ -130,10 +131,16 @@ public class BrainBase : ModuleBase
 
     public void Think()
     {
-        // Check State
 
-        // Check Targets & Priority
-        
+
+        if (!sensor || !sensor.isActiveAndEnabled) return;
+        var targets = sensor.GetComponent<SensorBase>().DetectedObjects;
+        foreach (var item in targets)
+        {
+            Debug.Log("I see a: " + gameObject.name + "!");
+        }
+        // Check State & target priority
+
         // Set Attitude
 
         // Set Action
@@ -141,7 +148,6 @@ public class BrainBase : ModuleBase
 
     public void Assist() { }
     public void Attack() { }
-
     public void RequestMove() { }
     public void Work() { }
 
@@ -190,7 +196,7 @@ public class BrainBase : ModuleBase
         while (BrainState == BrainStateEnum.Active)
         {
             Think();
-            yield return new WaitForSeconds(GameManager.TimeConstant);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return null;
