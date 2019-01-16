@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 
-    [RequireComponent(typeof(Health))]
+    
     public class ModuleBase : MonoBehaviour
     {
 
@@ -18,8 +18,7 @@ using UnityEngine.UI;
         public float EnergyCurrent;
         [Range(0f, 50f)]
         public float EnergyCost;
-        [HideInInspector]
-        public Health ModuleHealth;
+
         
         public enum MaintenanceTypeEnum
         {
@@ -46,8 +45,6 @@ using UnityEngine.UI;
         // Start is called before the first frame update
         void Start()
         {
-            
-            ModuleHealth = GetComponent<Health>();
             ModuleEnable();
         }
 

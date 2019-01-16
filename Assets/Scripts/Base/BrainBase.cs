@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 
-
+[RequireComponent(typeof(Health))]
 public class BrainBase : ModuleBase
 {
 
@@ -57,7 +58,9 @@ public class BrainBase : ModuleBase
     public TargetLocationList Locations;
 
     public BrainStateEnum BrainState;
-    
+
+    [HideInInspector]
+    public Health BrainHealth;
 
 
     void Awake()
@@ -85,29 +88,41 @@ public class BrainBase : ModuleBase
 
     private void Update()
     {
-        if (IAmPlayer)
+        //Check if we're dead
+        if (BrainHealth.CurrentHealth <= 0)
         {
-            Debug.Log("Currently selected tool: " + ToolList[selectedToolIndex].name);
-            if (Input.GetMouseButtonDown(0))
-                if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
-                {
-                    Debug.Log("Activating: " + ToolList[selectedToolIndex].name);
-                    ToolList[selectedToolIndex].Activate();
-                }
-                else
-                {
-                    ToolList[selectedToolIndex].Use();
-                }
-
-            if (Input.GetMouseButtonUp(0))
+            if (IAmPlayer)
             {
-                if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
-                {
-                    ToolList[selectedToolIndex].Deactivate();
-                }
+                GameObject.FindGameObjectWithTag("Manager").SendMessage("OnPlayerDeath", transform.position);
+                return;
             }
+
+            GameObject.FindGameObjectWithTag("Manager").SendMessage("OnNPCDeath", gameObject);
             return;
+
         }
+
+        if (!IAmPlayer) return;
+        Debug.Log("Currently selected tool: " + ToolList[selectedToolIndex].name);
+        if (Input.GetMouseButtonDown(0))
+            if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
+            {
+                Debug.Log("Activating: " + ToolList[selectedToolIndex].name);
+                ToolList[selectedToolIndex].Activate();
+            }
+            else
+            {
+                ToolList[selectedToolIndex].Use();
+            }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
+            {
+                ToolList[selectedToolIndex].Deactivate();
+            }
+        }
+
 
 
     }
@@ -117,9 +132,9 @@ public class BrainBase : ModuleBase
     {
         // Check State
 
-        // Set Attitude
-
         // Check Targets & Priority
+        
+        // Set Attitude
 
         // Set Action
     }
@@ -160,9 +175,13 @@ public class BrainBase : ModuleBase
         return TargetStateEnum.Ok;
     }
 
-    public void Use(GameObject target)
+    public void Use([CanBeNull] GameObject target)
     {
-        ToolList[selectedToolIndex].SendMessage("Use", target);
+        if (target)
+        {
+            ToolList[selectedToolIndex].SendMessage("Use", target);
+        }
+
     }
 
     IEnumerator ThinkPulse()
@@ -225,6 +244,11 @@ public class BrainBase : ModuleBase
         ToolList = coreParam.Modules.OfType<ToolBase>().ToList();
     }
 
+
+    void DisconnectFromCore()
+    {
+        ToolList.Clear();
+    }
 
 
 

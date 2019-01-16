@@ -59,7 +59,15 @@ public class GameManager : MonoBehaviour
 
     }
 
+    void OnPlayerDeath(GameObject deadPlayer)
+    {
 
+    }
+
+    void OnNPCDeath(GameObject deadRobot)
+    {
+
+    }
 
     public static void DropItem(Vector3 position, ModuleBase item)
     {
