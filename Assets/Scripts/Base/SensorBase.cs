@@ -15,7 +15,7 @@ public class SensorBase : ModuleBase
     }
 
     public SensorTypeEnum SensorType;
-    public CapsuleCollider SensorCollider;
+
     public float Range;
 
 
@@ -34,7 +34,7 @@ public class SensorBase : ModuleBase
 
     private void OnTriggerExit(Collider collision)
     {
-        Debug.Log("Triggered!");
+
         var intruderObject = collision.gameObject;
         if (intruderObject.GetComponentInParent<BrainBase>())
         {
@@ -44,14 +44,24 @@ public class SensorBase : ModuleBase
 
     public bool CheckLoS(GameObject target)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, (target.transform.position - transform.position), out hit, Range))
+        //Destroy(GetComponent<SphereCollider>());
+        var direction = target.transform.root.position - transform.position + new Vector3(0f, 0.6f, 0f);
+        var offset = (transform.position + new Vector3(0f, 0.6f, 0f)) + (direction * 0.2f);
+
+        RaycastHit hit = new RaycastHit();
+        
+        Debug.DrawRay(offset, direction, Color.red, 5f);
+        if (Physics.Raycast(offset, direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("Ignore Raycast"), QueryTriggerInteraction.Ignore))
         {
-            if (hit.collider.gameObject == target)
+
+            if (hit.collider.transform.root.gameObject == gameObject)
             {
                 return true;
             }
         }
+
+
+
         return false;
     }
 
@@ -59,23 +69,22 @@ public class SensorBase : ModuleBase
     {
         for (; ; )
         {
-            if (DetectedObjects.Count > 0)
-            {
-                var keepList = new List<GameObject>();
-                foreach (var target in DetectedObjects)
-                {
-                    if (CheckLoS(target))
-                    {
-                        keepList.Add(target);
-                    }
-                    yield return new WaitForSeconds(0.1f);
 
-                }
-                DetectedObjects = keepList;
+            var keepList = new List<GameObject>();
+            var target = GameObject.FindGameObjectWithTag("Player");
+            if (CheckLoS(target))
+            {
+                keepList.Add(target);
             }
+            
+
+            DetectedObjects = keepList;
+
             Debug.Log("Sensor Pulse");
             yield return new WaitForSeconds(0.1f);
         }
+
+
     }
 
     void Start()
@@ -84,28 +93,28 @@ public class SensorBase : ModuleBase
         switch (SensorType)
         {
             case SensorTypeEnum.Optic:
-                ;
-                SensorCollider = gameObject.AddComponent<CapsuleCollider>();
-                SensorCollider.direction = 1;
-                SensorCollider.radius = 10f;
-                SensorCollider.height = Range;
-                SensorCollider.isTrigger = true;
 
+                //var SensorSphere = gameObject.AddComponent<SphereCollider>();
 
+                //SensorSphere.radius = Range;
+
+                //SensorSphere.isTrigger = true;
+
+                StartCoroutine("SensorPulse");
                 break;
             case SensorTypeEnum.Radar:
-                SensorCollider = new CapsuleCollider
-                {
-                    center = transform.forward * Range / 2,
-                    direction = 2,
-                    radius = Range,
-                    height = 10f,
-                    isTrigger = true
-                };
+                var SensorCollider = gameObject.AddComponent<CapsuleCollider>();
+
+
+                SensorCollider.center = transform.forward * Range / 2;
+                SensorCollider.direction = 2;
+                SensorCollider.radius = Range;
+                SensorCollider.height = 10f;
+                SensorCollider.isTrigger = true;
+
                 StartCoroutine("SensorPulse");
                 break;
         }
-
 
     }
 

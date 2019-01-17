@@ -82,7 +82,11 @@ public class BrainBase : ModuleBase
 
     void Start()
     {
-
+        var rootObject = transform.root;
+        foreach (var child in rootObject.GetComponentsInChildren<Collider>())
+        {
+            Debug.Log("Collider found on:" + child.gameObject.name);
+        }
 
 
     }

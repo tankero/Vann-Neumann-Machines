@@ -4,7 +4,7 @@
 	using UnityEngine;
 
 
-	[RequireComponent(typeof(CapsuleCollider))]
+	
 	[RequireComponent(typeof(CharacterController))]
 	public abstract class CharacterMovement : MonoBehaviour, Controllable {
 
