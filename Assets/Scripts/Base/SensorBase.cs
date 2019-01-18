@@ -45,16 +45,16 @@ public class SensorBase : ModuleBase
     public bool CheckLoS(GameObject target)
     {
         //Destroy(GetComponent<SphereCollider>());
-        var direction = target.transform.root.position - transform.position + new Vector3(0f, 0.6f, 0f);
-        var offset = (transform.position + new Vector3(0f, 0.6f, 0f)) + (direction * 0.2f);
+        var direction = (target.transform.root.position - transform.position) + new Vector3(0f, 0.6f, 0f);
+        var offset = transform.position + new Vector3(0f, 0.6f, 0f) + (direction * 0.2f);
 
         RaycastHit hit = new RaycastHit();
         
         Debug.DrawRay(offset, direction, Color.red, 5f);
-        if (Physics.Raycast(offset, direction, out hit, Mathf.Infinity, LayerMask.NameToLayer("Ignore Raycast"), QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(offset, direction, out hit, Range))
         {
 
-            if (hit.collider.transform.root.gameObject == gameObject)
+            if (hit.collider.transform.root.gameObject == target)
             {
                 return true;
             }
@@ -90,15 +90,29 @@ public class SensorBase : ModuleBase
     void Start()
     {
 
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+
+    public override void ModuleEnable()
+    {
+        base.ModuleEnable();
         switch (SensorType)
         {
             case SensorTypeEnum.Optic:
 
-                //var SensorSphere = gameObject.AddComponent<SphereCollider>();
+                var SensorSphere = gameObject.AddComponent<SphereCollider>();
 
-                //SensorSphere.radius = Range;
+                SensorSphere.radius = Range;
 
-                //SensorSphere.isTrigger = true;
+                SensorSphere.isTrigger = true;
 
                 StartCoroutine("SensorPulse");
                 break;
@@ -115,14 +129,6 @@ public class SensorBase : ModuleBase
                 StartCoroutine("SensorPulse");
                 break;
         }
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 }
 

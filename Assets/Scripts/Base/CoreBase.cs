@@ -59,10 +59,11 @@ public class CoreBase : ModuleBase
             if (previousMover)
             {
                 DisconnectModule(previousMover);
-                Modules.Add(module);
-                SendMessageUpwards("OnMoverConnection", module);
-                return;
             }
+            Modules.Add(module);
+            SendMessageUpwards("OnMoverConnection", module);
+            return;
+
         }
         if (module.CompareTag("Sensor"))
         {
@@ -70,10 +71,11 @@ public class CoreBase : ModuleBase
             if (previousSensor)
             {
                 DisconnectModule(previousSensor);
-                Modules.Add(module);
-                SendMessageUpwards("OnSensorConnection", module);
-                return;
             }
+            Modules.Add(module);
+            SendMessageUpwards("OnSensorConnection", module);
+            return;
+
         }
         if (module.CompareTag("Tool"))
         {

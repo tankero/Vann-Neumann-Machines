@@ -215,11 +215,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  State: 0
+  ModuleState: 0
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  ModuleHealth: {fileID: 0}
   Effect: 0
   EffectAmount: 0
   EnergyRate: 0
@@ -28608,11 +28607,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  State: 0
+  ModuleState: 0
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  ModuleHealth: {fileID: 0}
   Effect: 0
   EffectAmount: 0
   EnergyRate: 0
@@ -28622,7 +28620,8 @@ MonoBehaviour:
   Memory: []
   Locations:
     targets: []
-  CurrentState: 0
+  BrainState: 0
+  BrainHealth: {fileID: 0}
 --- !u!1 &1476158541390538
 GameObject:
   m_ObjectHideFlags: 0
@@ -29243,8 +29242,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4946541868035418}
   - component: {fileID: 114247631319953620}
-  - component: {fileID: 6361035737005023684}
-  - component: {fileID: 5927819513842326709}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -29285,38 +29282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Limit: 180
   RotateSpeed: 720
---- !u!143 &6361035737005023684
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696404355362914}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5927819513842326709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696404355362914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc4bcd2666379f48bc2c9c176fc9cf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TotalHealth: 100
-  CurrentHealth: 100
 --- !u!1 &1698974987443754
 GameObject:
   m_ObjectHideFlags: 0
@@ -30079,11 +30044,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  State: 0
+  ModuleState: 0
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  ModuleHealth: {fileID: 0}
   Effect: 0
   EffectAmount: 0
   EnergyRate: 0
@@ -30161,11 +30125,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  State: 0
+  ModuleState: 0
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  ModuleHealth: {fileID: 0}
   Effect: 0
   EffectAmount: 0
   EnergyRate: 0

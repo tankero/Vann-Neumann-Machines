@@ -49,7 +49,7 @@ public class BrainBase : ModuleBase
     private ModuleBase mover;
 
 
-
+    [Range(1,8)]
     public int Allegiance;
 
     public List<string> Memory;
@@ -68,25 +68,12 @@ public class BrainBase : ModuleBase
         IAmPlayer = CompareTag("Player");
         selectedToolIndex = 0;
         BrainHealth = GetComponent<Health>();
-        if (!IAmPlayer)
-        {
-            StartCoroutine("ThinkPulse");
-            sensor = GetComponent<SensorBase>();
-            if (!sensor)
-            {
-                sensor = new SensorBase();
-            }
-        }
 
     }
 
     void Start()
     {
-        var rootObject = transform.root;
-        foreach (var child in rootObject.GetComponentsInChildren<Collider>())
-        {
-            Debug.Log("Collider found on:" + child.gameObject.name);
-        }
+
 
 
     }
@@ -137,11 +124,15 @@ public class BrainBase : ModuleBase
     {
 
 
-        if (!sensor || !sensor.isActiveAndEnabled) return;
+        if (!sensor || !sensor.isActiveAndEnabled)
+        {
+            Debug.Log("Sensor module not connected");
+            return;
+        }
         var targets = sensor.GetComponent<SensorBase>().DetectedObjects;
         foreach (var item in targets)
         {
-            Debug.Log("I see a: " + gameObject.name + "!");
+
         }
         // Check State & target priority
 
@@ -196,14 +187,18 @@ public class BrainBase : ModuleBase
 
     IEnumerator ThinkPulse()
     {
-
-        while (BrainState == BrainStateEnum.Active)
+        for (; ; )
         {
-            Think();
+            Debug.Log("ThinkPulse");
+            if (BrainState == BrainStateEnum.Active)
+            {
+                Think();
+                
+            }
             yield return new WaitForSeconds(0.5f);
         }
 
-        yield return null;
+        
     }
 
     void OnToolConnection(ToolBase connectingTool)
@@ -241,10 +236,20 @@ public class BrainBase : ModuleBase
 
     void OnSensorConnection(ModuleBase connectingSensor)
     {
+        Debug.Log("Connecting Sensor");
         if (connectingSensor.CompareTag("Sensor"))
         {
             sensor = connectingSensor;
             sensor.ModuleEnable();
+            if (!IAmPlayer)
+            {
+                StartCoroutine("ThinkPulse");
+                
+            }
+        }
+        if (sensor)
+        {
+            Debug.Log("Sensor Connection Successful");
         }
     }
 

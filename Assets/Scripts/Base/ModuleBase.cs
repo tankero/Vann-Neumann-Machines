@@ -45,7 +45,7 @@ using UnityEngine.UI;
         // Start is called before the first frame update
         void Start()
         {
-            ModuleEnable();
+            //ModuleEnable();
         }
 
         // Update is called once per frame
@@ -56,7 +56,7 @@ using UnityEngine.UI;
 
         private void OnEnable()
         {
-            ModuleEnable();
+            //ModuleEnable();
         }
 
 
@@ -104,7 +104,7 @@ using UnityEngine.UI;
             }
         }
 
-        public void ModuleEnable()
+        public virtual void ModuleEnable()
         {
             if (ModuleState == ModuleStateEnum.Disabled)
             {
