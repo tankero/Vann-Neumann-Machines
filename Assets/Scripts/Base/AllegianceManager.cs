@@ -26,6 +26,15 @@ public class AllegianceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AllegianceDictionary = new Dictionary<int, AllegianceEnum[]>();
+        for (int i = 0; i < 8; i++)
+        {
+            AllegianceDictionary[i] = new AllegianceEnum[8];
+            for (int j = 0; j < AllegianceDictionary[i].Length; j++)
+            {
+                AllegianceDictionary[i][j] = i == j ? AllegianceEnum.Ally : AllegianceEnum.Enemy;
+            }
+        }
 
     }
 

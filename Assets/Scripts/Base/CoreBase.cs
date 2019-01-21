@@ -79,7 +79,6 @@ public class CoreBase : ModuleBase
         }
         if (module.CompareTag("Tool"))
         {
-            Debug.Log("Connecting Tool");
             Modules.Add(module);
             SendMessageUpwards("OnToolConnection", module);
             return;
@@ -136,7 +135,6 @@ public class CoreBase : ModuleBase
                 {
                     module.Charge(EnergyCurrent);
                     EnergyCurrent = 0;
-                    Debug.Log("Core was tapped out");
                 }
 
             }

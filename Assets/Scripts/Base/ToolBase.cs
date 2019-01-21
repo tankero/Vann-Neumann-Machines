@@ -9,6 +9,18 @@ public class ToolBase : ModuleBase
 {
 
 
+
+
+    public enum ActionType
+    {
+        Heal,
+        Damage,
+        Scan,
+        Work,
+        Communicate
+    }
+
+
     public enum ProjectileType
     {
         Projectile,
@@ -22,7 +34,8 @@ public class ToolBase : ModuleBase
         Use
     }
 
-
+    public ActionType Effect;
+    public float EffectAmount;
     public ToolTriggerType TriggerType;
     public ProjectileType ToolType;
     [Range(0f, 1f)]

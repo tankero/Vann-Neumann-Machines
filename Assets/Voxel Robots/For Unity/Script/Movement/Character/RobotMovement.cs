@@ -18,6 +18,7 @@
 		private Leg[] Legs;
 		private float LegSlipTime = float.MinValue;
 		private bool PrevLegSliping = false;
+        public Vector3 Destination;
 
 
 
@@ -35,6 +36,7 @@
 			PrevLegSliping = true;
 			Legs = GetComponentsInChildren<Leg>(true);
 			SlipingForAllLegs(false);
+            Destination = transform.position;
 		}
 
 
@@ -42,7 +44,9 @@
 		protected override void Update () {
 			base.Update();
 			LegSlipUpdate();
-		}
+            MoveToDestination();
+
+        }
 
 
 
@@ -76,9 +80,27 @@
 			}
 		}
 
+        private void MoveToDestination()
+        {
+            if(Vector3.Distance(transform.root.position, Destination) <= 1f)
+            {
+                Stop();
+                return;
+            }
 
 
+            var relativeDirection = Destination - transform.root.position;
+            var normalizedDirection = relativeDirection / relativeDirection.magnitude;
+            
+            Move(normalizedDirection);
 
+        }
+
+        public void Stop()
+        {
+            Destination = transform.root.position;
+            Move(new Vector3(0f, 0f, 0f));
+        }
 		#endregion
 
 

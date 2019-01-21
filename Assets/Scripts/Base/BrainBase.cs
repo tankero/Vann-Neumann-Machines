@@ -46,10 +46,10 @@ public class BrainBase : ModuleBase
     public List<ToolBase> ToolList;
     private int selectedToolIndex;
     private ModuleBase sensor;
-    private ModuleBase mover;
+    private RobotTurret turret;
+    private RobotMovement mover;
 
-
-    [Range(1,8)]
+    [Range(1, 8)]
     public int Allegiance;
 
     public List<string> Memory;
@@ -59,16 +59,19 @@ public class BrainBase : ModuleBase
 
     public BrainStateEnum BrainState;
 
-    [HideInInspector]
-    public Health BrainHealth;
-
 
     void Awake()
     {
         IAmPlayer = CompareTag("Player");
         selectedToolIndex = 0;
-        BrainHealth = GetComponent<Health>();
 
+        if (!IAmPlayer)
+        {
+            turret = GetComponentInChildren<RobotTurret>();
+            mover = GetComponent<RobotMovement>();
+        }
+        Targets = new TargetObjectList();
+        Locations = new TargetLocationList();
     }
 
     void Start()
@@ -81,7 +84,7 @@ public class BrainBase : ModuleBase
     private void Update()
     {
         //Check if we're dead
-        if (BrainHealth.CurrentHealth <= 0)
+        if (GetComponent<Health>().CurrentHealth <= 0)
         {
             if (IAmPlayer)
             {
@@ -93,13 +96,11 @@ public class BrainBase : ModuleBase
             return;
 
         }
-
         if (!IAmPlayer) return;
-        Debug.Log("Currently selected tool: " + ToolList[selectedToolIndex].name);
+
         if (Input.GetMouseButtonDown(0))
             if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
             {
-                Debug.Log("Activating: " + ToolList[selectedToolIndex].name);
                 ToolList[selectedToolIndex].Activate();
             }
             else
@@ -123,22 +124,53 @@ public class BrainBase : ModuleBase
     public void Think()
     {
 
+        Targets.ListUpdate();
+        var possibleTarget = Targets.GetCurrentTargetObject();
 
-        if (!sensor || !sensor.isActiveAndEnabled)
+        if (possibleTarget && GameManager.CheckAlleigance(this, Targets.GetCurrentTargetObject().GetComponent<BrainBase>()) == AllegianceManager.AllegianceEnum.Enemy)
         {
-            Debug.Log("Sensor module not connected");
-            return;
+            switch (ValidateTarget(possibleTarget))
+            {
+                case TargetStateEnum.Ok:
+                    mover.Stop();
+                    break;
+                    
+                case TargetStateEnum.OutOfRange:
+                    
+                    var destination = Targets.GetLastKnownPosition(possibleTarget);
+                    mover.Destination = destination == null ? transform.position : destination.Value;
+                    return;
+                    
+                case TargetStateEnum.OutOfEnergy:
+                    break;
+                case TargetStateEnum.OutOfAmmo:
+                    break;
+                case TargetStateEnum.Invalid:
+                    break;
+                default:
+                    break;
+            }
+            turret.TargetObject = possibleTarget;
         }
-        var targets = sensor.GetComponent<SensorBase>().DetectedObjects;
-        foreach (var item in targets)
-        {
 
-        }
         // Check State & target priority
 
         // Set Attitude
 
         // Set Action
+    }
+    void OnTargetDetected(GameObject newTarget)
+    {
+        Targets.TrackObject(newTarget);
+    }
+
+    void OnTargetLost(GameObject lostTarget)
+    {
+        Targets.StopTrackingObject(lostTarget);
+        if (turret.TargetObject == lostTarget)
+        {
+            turret.TargetObject = null;
+        }
     }
 
     public void Assist() { }
@@ -156,7 +188,12 @@ public class BrainBase : ModuleBase
 
         var toolAction = ToolList[selectedToolIndex];
 
+        
         if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
+        {
+            return TargetStateEnum.OutOfRange;
+        }
+        if (!Targets.CurrentlyTracking(target))
         {
             return TargetStateEnum.OutOfRange;
         }
@@ -168,7 +205,7 @@ public class BrainBase : ModuleBase
         if (targetBrain)
         {
             var allegiance = GameManager.CheckAlleigance(this, targetBrain);
-            if (allegiance == AllegianceManager.AllegianceEnum.Ally && toolAction.Effect == ActionType.Damage)
+            if (allegiance == AllegianceManager.AllegianceEnum.Ally && toolAction.Effect == ToolBase.ActionType.Damage)
             {
                 return TargetStateEnum.Invalid;
             }
@@ -193,34 +230,19 @@ public class BrainBase : ModuleBase
             if (BrainState == BrainStateEnum.Active)
             {
                 Think();
-                
             }
             yield return new WaitForSeconds(0.5f);
         }
 
-        
+
     }
 
     void OnToolConnection(ToolBase connectingTool)
     {
-        Debug.Log("Brain has received Tool connection: " + connectingTool.gameObject.name);
         if (!ToolList.Contains(connectingTool))
         {
             ToolList.Add(connectingTool);
             connectingTool.ModuleEnable();
-        }
-        if (ToolList.Contains(connectingTool))
-        {
-            Debug.Log("Tool connection successful");
-        }
-    }
-
-    void OnMoverConnection(ModuleBase connectingMover)
-    {
-        if (connectingMover.CompareTag("Mover"))
-        {
-            mover = connectingMover;
-            mover.ModuleEnable();
         }
     }
 
@@ -244,12 +266,8 @@ public class BrainBase : ModuleBase
             if (!IAmPlayer)
             {
                 StartCoroutine("ThinkPulse");
-                
+
             }
-        }
-        if (sensor)
-        {
-            Debug.Log("Sensor Connection Successful");
         }
     }
 

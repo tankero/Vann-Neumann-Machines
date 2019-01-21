@@ -19,28 +19,14 @@ using UnityEngine.UI;
         [Range(0f, 50f)]
         public float EnergyCost;
 
-        
-        public enum MaintenanceTypeEnum
-        {
-            OnUse,
-            OnRecharge,
-            Constant
-        }
-
-        public enum ActionType
-        {
-            Heal,
-            Damage,
-            Scan,
-            Work,
-            Communicate
-        }
-
-        public ActionType Effect;
-        public float EffectAmount;
-        
-        //Recharge time in milliseconds.
-        public float EnergyRate;
+    public enum MaintenanceTypeEnum
+    {
+        OnUse,
+        OnRecharge,
+        Constant
+    }
+    //Recharge time in milliseconds.
+    public float EnergyRate;
         public MaintenanceTypeEnum MaintanceType;
         // Start is called before the first frame update
         void Start()
