@@ -35,10 +35,9 @@ public class CoreBase : ModuleBase
 
     public void ConnectModule(ModuleBase module)
     {
-        Debug.Log("Connection Requested for: " + module.name);
         if (module.CompareTag("Brain") || module.CompareTag("Player"))
         {
-            Debug.Log("Connecting Brain");
+
             {
                 if (!transform.IsChildOf(module.transform))
                 {
@@ -113,7 +112,6 @@ public class CoreBase : ModuleBase
             if (EnergyCurrent < EnergyTotal)
             {
                 EnergyCurrent += (EnergyGenerationRate * GameManager.TimeConstant) * 10;
-                Debug.Log("Energy Generated: " + (EnergyGenerationRate * GameManager.TimeConstant) * 10);
             }
             if (EnergyCurrent > EnergyTotal || EnergyTotal - EnergyCurrent < 0.1f)
             {

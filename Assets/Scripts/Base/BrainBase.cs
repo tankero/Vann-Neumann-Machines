@@ -49,6 +49,8 @@ public class BrainBase : ModuleBase
     private RobotTurret turret;
     private RobotMovement mover;
 
+    public AttitudeEnum BrainAttitude;
+
     [Range(1, 8)]
     public int Allegiance;
 
@@ -126,30 +128,55 @@ public class BrainBase : ModuleBase
 
         Targets.ListUpdate();
         var possibleTarget = Targets.GetCurrentTargetObject();
+        ToolBase selectedTool = ToolList[selectedToolIndex];
 
-        if (possibleTarget && GameManager.CheckAlleigance(this, Targets.GetCurrentTargetObject().GetComponent<BrainBase>()) == AllegianceManager.AllegianceEnum.Enemy)
+        switch (BrainAttitude)
         {
-            switch (ValidateTarget(possibleTarget))
+            case AttitudeEnum.Aggressive:
+
+
+                break;
+            case AttitudeEnum.Protective:
+                break;
+            case AttitudeEnum.Fearful:
+                break;
+            case AttitudeEnum.Neutral:
+                break;
+            default:
+                break;
+        }
+
+        if (possibleTarget)
+        {
+            foreach (var tool in ToolList)
             {
-                case TargetStateEnum.Ok:
-                    mover.Stop();
-                    break;
-                    
-                case TargetStateEnum.OutOfRange:
-                    
-                    var destination = Targets.GetLastKnownPosition(possibleTarget);
-                    mover.Destination = destination == null ? transform.position : destination.Value;
-                    return;
-                    
-                case TargetStateEnum.OutOfEnergy:
-                    break;
-                case TargetStateEnum.OutOfAmmo:
-                    break;
-                case TargetStateEnum.Invalid:
-                    break;
-                default:
-                    break;
+
+
+                switch (ValidateTarget(possibleTarget))
+                {
+                    case TargetStateEnum.Ok:
+                        mover.Stop();
+
+                        break;
+
+                    case TargetStateEnum.OutOfRange:
+
+
+                        return;
+
+                    case TargetStateEnum.OutOfEnergy:
+                        break;
+                    case TargetStateEnum.OutOfAmmo:
+                        break;
+                    case TargetStateEnum.Invalid:
+                        break;
+                    default:
+                        break;
+                }
+
             }
+            var destination = Targets.GetLastKnownPosition(possibleTarget);
+            mover.Destination = destination == null ? transform.position : destination.Value;
             turret.TargetObject = possibleTarget;
         }
 
@@ -226,7 +253,6 @@ public class BrainBase : ModuleBase
     {
         for (; ; )
         {
-            Debug.Log("ThinkPulse");
             if (BrainState == BrainStateEnum.Active)
             {
                 Think();
@@ -258,7 +284,6 @@ public class BrainBase : ModuleBase
 
     void OnSensorConnection(ModuleBase connectingSensor)
     {
-        Debug.Log("Connecting Sensor");
         if (connectingSensor.CompareTag("Sensor"))
         {
             sensor = connectingSensor;
