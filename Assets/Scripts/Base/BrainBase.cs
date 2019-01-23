@@ -180,7 +180,7 @@ public class BrainBase : ModuleBase
 
 
 
-            var destination = Targets.GetLastKnownPosition(possibleTarget);
+            var destination = possibleTarget? Targets.GetLastKnownPosition(possibleTarget) : null;
             mover.Destination = destination == null ? transform.position : destination.Value;
             turret.TargetObject = possibleTarget;
 
@@ -309,6 +309,10 @@ public class BrainBase : ModuleBase
 
     public ModuleBase GetSelectedTool()
     {
+        if(selectedTool == null)
+        {
+            selectedTool = ToolList.First();
+        }
         return selectedTool;
     }
 

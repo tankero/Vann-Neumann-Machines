@@ -66,7 +66,7 @@ using UnityEngine.UI;
 
             if (MaintanceType == MaintenanceTypeEnum.Constant)
                 EnergyNeeded += EnergyRate;
-            Debug.Log("Energy deficit requested from: " + gameObject.name + " -- Requested: " + EnergyNeeded);
+
             return EnergyNeeded;
         }
 
