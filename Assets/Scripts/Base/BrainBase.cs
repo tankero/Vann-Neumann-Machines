@@ -61,6 +61,8 @@ public class BrainBase : ModuleBase
 
     public BrainStateEnum BrainState;
 
+    private ToolBase selectedTool;
+
 
     void Awake()
     {
@@ -101,20 +103,20 @@ public class BrainBase : ModuleBase
         if (!IAmPlayer) return;
 
         if (Input.GetMouseButtonDown(0))
-            if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
+            if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
             {
-                ToolList[selectedToolIndex].Activate();
+                selectedTool.Activate();
             }
             else
             {
-                ToolList[selectedToolIndex].Use();
+                selectedTool.Use();
             }
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (ToolList[selectedToolIndex].TriggerType == ToolBase.ToolTriggerType.Activate)
+            if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
             {
-                ToolList[selectedToolIndex].Deactivate();
+                selectedTool.Deactivate();
             }
         }
 
@@ -127,65 +129,70 @@ public class BrainBase : ModuleBase
     {
 
         Targets.ListUpdate();
-        var possibleTarget = Targets.GetCurrentTargetObject();
-        ToolBase selectedTool = ToolList[selectedToolIndex];
+        GameObject possibleTarget = null;
 
-        switch (BrainAttitude)
+
+        if (BrainState == BrainStateEnum.Active)
         {
-            case AttitudeEnum.Aggressive:
-
-
-                break;
-            case AttitudeEnum.Protective:
-                break;
-            case AttitudeEnum.Fearful:
-                break;
-            case AttitudeEnum.Neutral:
-                break;
-            default:
-                break;
-        }
-
-        if (possibleTarget)
-        {
-            foreach (var tool in ToolList)
+            switch (BrainAttitude)
             {
+                // I want to attack things
+                case AttitudeEnum.Aggressive:
 
 
-                switch (ValidateTarget(possibleTarget))
-                {
-                    case TargetStateEnum.Ok:
-                        mover.Stop();
+                    //So lets figure out if I have a target to attack.
 
-                        break;
+                    foreach (var trackedTarget in Targets.GetTrackedList())
+                    {
+                        possibleTarget =
+                            GameManager.CheckAlleigance(this, trackedTarget.GetComponent<BrainBase>()) ==
+                            AllegianceManager.AllegianceEnum.Enemy
+                                ? trackedTarget
+                                : possibleTarget;
+                        //Now let's see if I can attack my target with any of my weapons
+                        if (possibleTarget)
+                        {
+                            Attack(possibleTarget);
+                        }
+                    }
 
-                    case TargetStateEnum.OutOfRange:
 
 
-                        return;
 
-                    case TargetStateEnum.OutOfEnergy:
-                        break;
-                    case TargetStateEnum.OutOfAmmo:
-                        break;
-                    case TargetStateEnum.Invalid:
-                        break;
-                    default:
-                        break;
-                }
+                    //If I can do something else, do that instead (heal)
 
+                    //Okay, so I can't do something else.
+
+                    //If I'm out of range or my target is out of sight, move to attack!
+
+                    //If I'm out of energy or ammo on all my weapons, move to get away :(
+
+                    break;
+                case AttitudeEnum.Protective:
+                    break;
+                case AttitudeEnum.Fearful:
+                    break;
+                case AttitudeEnum.Neutral:
+                    break;
+                default:
+                    break;
             }
+
+
+
             var destination = Targets.GetLastKnownPosition(possibleTarget);
             mover.Destination = destination == null ? transform.position : destination.Value;
             turret.TargetObject = possibleTarget;
+
+
+            // Check State & target priority
+
+            // Set Attitude
+
+            // Set Action
         }
-
-        // Check State & target priority
-
-        // Set Attitude
-
-        // Set Action
     }
+
     void OnTargetDetected(GameObject newTarget)
     {
         Targets.TrackObject(newTarget);
@@ -201,21 +208,49 @@ public class BrainBase : ModuleBase
     }
 
     public void Assist() { }
-    public void Attack() { }
+
+    //Convert this to a coroutine that basically checks that the target is visible/in-range/alive in order to attack it. Use the tool's use or Activate method accordingly.
+    public void Attack(GameObject target)
+    {
+        if (turret) turret.TargetObject = target;
+        var currentToolList = ToolList.Where(t => t.Effect == ToolBase.ActionType.Damage).OrderBy(r => r.Range);
+        foreach (var weapon in currentToolList)
+        {
+            selectedTool = weapon;
+            //If I can, attack!
+            switch (ValidateTarget(target))
+            {
+                case TargetStateEnum.Ok:
+
+                    break;
+                case TargetStateEnum.OutOfRange:
+                    if (currentToolList.Count() == 1)
+                    {
+                        mover.Destination = target.transform.position;
+                    }
+
+                    break;
+
+
+            }
+            
+        }
+    }
+
     public void RequestMove() { }
     public void Work() { }
 
     public TargetStateEnum ValidateTarget(GameObject target)
     {
 
-        if (ToolList[selectedToolIndex].ModuleState == ModuleStateEnum.Recharging)
+        if (selectedTool.ModuleState == ModuleStateEnum.Recharging)
         {
             return TargetStateEnum.OutOfEnergy;
         }
 
-        var toolAction = ToolList[selectedToolIndex];
+        var toolAction = selectedTool;
 
-        
+
         if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
         {
             return TargetStateEnum.OutOfRange;
@@ -244,7 +279,7 @@ public class BrainBase : ModuleBase
     {
         if (target)
         {
-            ToolList[selectedToolIndex].SendMessage("Use", target);
+            selectedTool.SendMessage("Use", target);
         }
 
     }
@@ -274,7 +309,7 @@ public class BrainBase : ModuleBase
 
     public ModuleBase GetSelectedTool()
     {
-        return ToolList[selectedToolIndex];
+        return selectedTool;
     }
 
     public void SetSelectedTool(ToolBase tool)
@@ -305,7 +340,15 @@ public class BrainBase : ModuleBase
 
     void DisconnectFromCore()
     {
+        Disable();
+    }
+
+    public override void Disable()
+    {
+        base.Disable();
         ToolList.Clear();
+        Targets.ClearTargetObjects();
+
     }
 
 

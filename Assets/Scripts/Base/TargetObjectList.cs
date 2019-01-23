@@ -25,7 +25,7 @@ public class TargetObjectDictionary : SerializableDictionary<GameObject, TargetI
 
 
 [Serializable]
-public class TargetObjectList : CollectionBase
+public class TargetObjectList
 {
     [SerializeField]
     private TargetObjectDictionary targets = new TargetObjectDictionary();
@@ -42,6 +42,16 @@ public class TargetObjectList : CollectionBase
         {
             return null;
         }
+    }
+
+    public GameObject[] GetTrackedList()
+    {
+        return targets.Where(o => o.Value.CurrentlyTracking).Select(kvp => kvp.Key).ToArray();
+    }
+
+    public GameObject[] GetFullList()
+    {
+        return targets.Select(kvp => kvp.Key).ToArray();
     }
 
     public Vector3? GetLastKnownPosition(GameObject target)
@@ -106,7 +116,7 @@ public class TargetObjectList : CollectionBase
     {
         if (targets.ContainsKey(target))
         {
-            targets[target].Priority += 1;
+            if (targets[target].Priority < 10) targets[target].Priority += 1;
         }
         else
         {
@@ -119,7 +129,7 @@ public class TargetObjectList : CollectionBase
     {
         if (targets.ContainsKey(target))
         {
-            targets[target].Priority -= 1;
+            if (targets[target].Priority > 0) targets[target].Priority -= 1;
         }
         else
         {

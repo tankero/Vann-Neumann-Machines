@@ -93,7 +93,9 @@
             var normalizedDirection = relativeDirection / relativeDirection.magnitude;
             
             Move(normalizedDirection);
-
+            Rotate(
+                Quaternion.LookRotation(normalizedDirection, Vector3.up)
+                );
         }
 
         public void Stop()

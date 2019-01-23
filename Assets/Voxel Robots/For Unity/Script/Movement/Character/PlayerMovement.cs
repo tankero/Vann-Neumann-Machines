@@ -127,7 +127,6 @@
 		void MoveBasedOnCamera (bool? moveFB, bool? moveLR) {
             var speed = (Camera.main.transform.forward + Camera.main.transform.up) * (moveFB == null ? 0f : moveFB.Value ? 1f : -1f) +
                 Camera.main.transform.right * (moveLR == null ? 0f : moveLR.Value ? 1f : -1f);
-            Debug.Log("Player input: " + speed);
             Move(speed);
 		}
 

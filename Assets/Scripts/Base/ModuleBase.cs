@@ -100,7 +100,7 @@ using UnityEngine.UI;
         }
 
 
-        public void Disable()
+        public virtual void Disable()
         {
             ModuleState = ModuleStateEnum.Disabled;
             EnergyCurrent = 0f;
