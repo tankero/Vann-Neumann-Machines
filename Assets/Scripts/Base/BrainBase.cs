@@ -103,6 +103,10 @@ public class BrainBase : ModuleBase
         if (!IAmPlayer) return;
 
         if (Input.GetMouseButtonDown(0))
+            if (!selectedTool)
+            {
+                selectedTool = ToolList.First();
+            }
             if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
             {
                 selectedTool.Activate();

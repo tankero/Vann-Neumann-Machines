@@ -2,11 +2,11 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
+    using UnityEngine.AI;
 
-
-	
-	[RequireComponent(typeof(CharacterController))]
-	public abstract class CharacterMovement : MonoBehaviour, Controllable {
+    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(NavMeshAgent))]
+    public abstract class CharacterMovement : MonoBehaviour, Controllable {
 
 
 
@@ -119,7 +119,7 @@
 
 
 		protected virtual void Update () {
-            //This has to be edited to include a navmeshagent in order to do proper pathfinding using the builtin system.
+            //This has to be edited to include a navmeshagent in order to do proper pathfinding using the builtin system. Already added the agent dependency.
 
 			// Gravity
 			AimVelocity.y = Mathf.Clamp(AimVelocity.y + Physics.gravity.y, -MAX_DROP_SPEED, MAX_DROP_SPEED);
