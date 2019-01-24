@@ -1,4 +1,6 @@
-﻿namespace MoenenGames.VoxelRobot {
+﻿using UnityEngine.AI;
+
+namespace MoenenGames.VoxelRobot {
 	using UnityEngine;
 	using System.Collections;
 
@@ -37,6 +39,7 @@
 			Legs = GetComponentsInChildren<Leg>(true);
 			SlipingForAllLegs(false);
             Destination = transform.position;
+
 		}
 
 
@@ -92,6 +95,8 @@
             var relativeDirection = Destination - transform.root.position;
             var normalizedDirection = relativeDirection / relativeDirection.magnitude;
             
+            
+
             Move(normalizedDirection);
             Rotate(
                 Quaternion.LookRotation(normalizedDirection, Vector3.up)

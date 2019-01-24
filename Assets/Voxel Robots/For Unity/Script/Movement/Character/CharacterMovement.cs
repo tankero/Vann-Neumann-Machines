@@ -119,6 +119,7 @@
 
 
 		protected virtual void Update () {
+            //This has to be edited to include a navmeshagent in order to do proper pathfinding using the builtin system.
 
 			// Gravity
 			AimVelocity.y = Mathf.Clamp(AimVelocity.y + Physics.gravity.y, -MAX_DROP_SPEED, MAX_DROP_SPEED);

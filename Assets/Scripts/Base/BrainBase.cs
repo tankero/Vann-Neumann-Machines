@@ -213,7 +213,7 @@ public class BrainBase : ModuleBase
     public void Attack(GameObject target)
     {
         if (turret) turret.TargetObject = target;
-        var currentToolList = ToolList.Where(t => t.Effect == ToolBase.ActionType.Damage).OrderBy(r => r.Range);
+        var currentToolList = ToolList.Where(t => t.Effect == ToolBase.ActionType.Damage).OrderBy(r => r.Range).ToList();
         foreach (var weapon in currentToolList)
         {
             selectedTool = weapon;
@@ -221,11 +221,15 @@ public class BrainBase : ModuleBase
             switch (ValidateTarget(target))
             {
                 case TargetStateEnum.Ok:
-
+                    if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
+                    {
+                        selectedTool.Activate();
+                    }
                     break;
                 case TargetStateEnum.OutOfRange:
                     if (currentToolList.Count() == 1)
                     {
+                        selectedTool.Deactivate();
                         mover.Destination = target.transform.position;
                     }
 
