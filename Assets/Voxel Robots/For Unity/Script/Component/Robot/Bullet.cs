@@ -58,7 +58,7 @@ namespace MoenenGames.VoxelRobot
 
         void Colliding(Transform tf)
         {
-
+            
             if (!Alive)
             {
                 return;
@@ -136,11 +136,6 @@ namespace MoenenGames.VoxelRobot
             // Disable
             gameObject.SetActive(false);
             CancelInvoke();
-            if (IsInvoking())
-            {
-                Debug.Log("Still invoking");
-            }
-            Debug.Log("Disable is being called");
         }
 
         private void OnEnable()
@@ -160,6 +155,7 @@ namespace MoenenGames.VoxelRobot
 
             // Size
             SetSize(transform.localScale.x);
+            GetComponent<Collider>().enabled = true;
         }
 
 

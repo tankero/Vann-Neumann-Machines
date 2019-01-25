@@ -44,6 +44,19 @@
 			}
 		}
 
+        public NavMeshAgent Agent
+        {
+            get
+            {
+                if (!agent)
+                {
+                    agent = GetComponent<NavMeshAgent>();
+                }
+                return agent;
+            }
+
+        }
+
 		private float FixedSpeedMuti {
 			get {
 				return MoveSpeed * buffSpeedMuti;
@@ -73,7 +86,7 @@
 		protected Quaternion AimRotation = Quaternion.identity;
 		protected float buffSpeedMuti = 1f;
 		protected float MoveLerpRate = 1f;
-
+        private NavMeshAgent agent;
 		private CharacterController chr = null;
 		private CapsuleCollider col = null;
 		private Vector3 CurrentVelocity = Vector3.zero;
@@ -113,6 +126,8 @@
 		protected virtual void Awake () {
 			AimRotation = transform.rotation;
 			ClearBuff();
+		    Agent.updatePosition = false;
+		    Agent.updateRotation = false;
 		}
 
 
@@ -131,8 +146,10 @@
 			}
 
 			// Move
+		    Agent.nextPosition = transform.position;
 			CurrentVelocity = Vector3.Lerp(CurrentVelocity, AimVelocity, MoveLerpRate);
 			Chr.Move(CurrentVelocity * Time.deltaTime);
+
 
 			// Rotate
 			transform.rotation = AimRotation;

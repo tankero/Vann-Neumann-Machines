@@ -48,13 +48,10 @@ MonoBehaviour:
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  Effect: 0
-  EffectAmount: 0
   EnergyRate: 0
   MaintanceType: 0
   SensorType: 0
-  Range: 20
-  DetectedObjects: []
+  Range: 30
 --- !u!1 &89425004
 GameObject:
   m_ObjectHideFlags: 0
@@ -4749,6 +4746,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 145632385}
+  - component: {fileID: 145632386}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -4775,6 +4773,21 @@ Transform:
   m_Father: {fileID: 1742157477}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &145632386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145632384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d1f00935236984e957ef1d1e06cc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Limit: 180
+  RotateSpeed: 720
+  TargetObject: {fileID: 0}
 --- !u!1 &256309792
 GameObject:
   m_ObjectHideFlags: 0
@@ -4789,6 +4802,7 @@ GameObject:
   - component: {fileID: 256309795}
   - component: {fileID: 256309794}
   - component: {fileID: 256309793}
+  - component: {fileID: 1039121170}
   m_Layer: 0
   m_Name: NPCAmble
   m_TagString: NPC
@@ -4827,7 +4841,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.7
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.02
@@ -4843,8 +4857,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.7
-  m_Height: 2
+  m_Radius: 2
+  m_Height: 3.1706805
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &256309795
@@ -4878,17 +4892,21 @@ MonoBehaviour:
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  Effect: 0
-  EffectAmount: 0
   EnergyRate: 0
   MaintanceType: 0
+  IAmPlayer: 0
   ToolList: []
+  CurrentTarget: {fileID: 0}
+  BrainAttitude: 0
   Allegiance: 2
   Memory: []
+  Targets:
+    targets:
+      keys: []
+      values: []
   Locations:
     targets: []
   BrainState: 1
-  BrainHealth: {fileID: 0}
 --- !u!114 &256309793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4904,6 +4922,28 @@ MonoBehaviour:
   Mass: 100
   MoveSpeed: 6
   RotateSpeed: 360
+--- !u!195 &1039121170
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256309792}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 2
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &351323865
 GameObject:
   m_ObjectHideFlags: 0
@@ -19591,14 +19631,14 @@ MonoBehaviour:
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  Effect: 0
-  EffectAmount: 0
   EnergyRate: 0
   MaintanceType: 0
+  Effect: 0
+  EffectAmount: 0
   TriggerType: 0
   ToolType: 0
   Accuracy: 0
-  Range: 0
+  Range: 15
   AmmunitionCapacity: 0
   UsesAmmunition: 0
   AmmunitionCount: 0
@@ -24718,19 +24758,19 @@ MonoBehaviour:
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  Effect: 0
-  EffectAmount: 0
   EnergyRate: 0
   MaintanceType: 0
+  Effect: 1
+  EffectAmount: 0
   TriggerType: 0
   ToolType: 0
   Accuracy: 0
-  Range: 0
+  Range: 15
   AmmunitionCapacity: 0
   UsesAmmunition: 0
   AmmunitionCount: 0
   ActivationSpeed: 0.4
-  SingleBarrel: 0
+  SingleBarrel: 1
   AmmunitionTemplate: {fileID: 114000011379593360, guid: 091931d8777d4cb45b81f56821d489bf,
     type: 3}
   AmmoPool: []
@@ -25223,8 +25263,6 @@ MonoBehaviour:
   EnergyTotal: 0
   EnergyCurrent: 0
   EnergyCost: 0
-  Effect: 0
-  EffectAmount: 0
   EnergyRate: 0
   MaintanceType: 0
   EnergyGenerationRate: 0

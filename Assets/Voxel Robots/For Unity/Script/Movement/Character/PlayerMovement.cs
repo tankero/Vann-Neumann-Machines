@@ -1,4 +1,6 @@
-﻿namespace MoenenGames.VoxelRobot {
+﻿using UnityEngine.AI;
+
+namespace MoenenGames.VoxelRobot {
 	using UnityEngine;
 	using System.Collections;
 
@@ -20,13 +22,15 @@
 
 
 
-		protected override void Update () {
+
+
+        protected override void Update () {
 
 			// base
 			base.Update();
-
             // Input
 
+            
             GetPlayerInput(out bool? moveLR, out bool? moveFB);
 
 
@@ -39,6 +43,7 @@
 
 			// Move
 			MoveBasedOnCamera(moveFB, moveLR);
+
 
 		}
 

@@ -20,7 +20,7 @@ namespace MoenenGames.VoxelRobot {
 		private Leg[] Legs;
 		private float LegSlipTime = float.MinValue;
 		private bool PrevLegSliping = false;
-        public Vector3 Destination;
+        public Vector3? Destination;
 
 
 
@@ -85,27 +85,42 @@ namespace MoenenGames.VoxelRobot {
 
         private void MoveToDestination()
         {
-            if(Vector3.Distance(transform.root.position, Destination) <= 1f)
+            if (Destination == null)
+            {
+                Stop();
+                return;
+            }
+            if(Vector3.Distance(transform.root.position, Destination.Value) <= 5f)
             {
                 Stop();
                 return;
             }
 
 
-            var relativeDirection = Destination - transform.root.position;
-            var normalizedDirection = relativeDirection / relativeDirection.magnitude;
-            
-            
+           
 
-            Move(normalizedDirection);
+
+
+            if (!Agent.SetDestination(Destination.Value))
+            {
+                Stop();
+                return;
+            }
+
+            Agent.isStopped = false;
+            Agent.nextPosition = transform.position;
+            var normalizedRelativeDirection = Agent.desiredVelocity.normalized;
+            
+            Move(normalizedRelativeDirection);
             Rotate(
-                Quaternion.LookRotation(normalizedDirection, Vector3.up)
+                Quaternion.LookRotation(normalizedRelativeDirection, Vector3.up)
                 );
         }
 
         public void Stop()
         {
             Destination = transform.root.position;
+            Agent.isStopped = true;
             Move(new Vector3(0f, 0f, 0f));
         }
 		#endregion

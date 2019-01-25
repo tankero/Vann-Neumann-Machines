@@ -4646,7 +4646,7 @@ MonoBehaviour:
   Model: {fileID: 4000011720959208}
   Alive: 1
   Trigger: 0
-  Radius: 0
+  Radius: 4
   Duration: 1
   DamegeType: 0
   LifeTime: 0.75
