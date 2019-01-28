@@ -120,6 +120,7 @@ namespace MoenenGames.VoxelRobot {
         public void Stop()
         {
             Destination = transform.root.position;
+            Agent.SetDestination(Destination.Value);
             Agent.isStopped = true;
             Move(new Vector3(0f, 0f, 0f));
         }

@@ -152,7 +152,7 @@ namespace MoenenGames.VoxelRobot
 
 
 
-        public void Fire(AmmunitionBase bullet)
+        public void Fire(GameObject bullet)
         {
 
             ShootBullet(bullet);
@@ -218,13 +218,13 @@ namespace MoenenGames.VoxelRobot
 
 
 
-        private void ShootBullet(AmmunitionBase bullet)
+        private void ShootBullet(GameObject bullet)
         {
 
-            AmmunitionBase b = bullet;
+            AmmunitionBase b = bullet.GetComponent<AmmunitionBase>();
             Transform tf = b.transform;
             Vector3 pos = bulletSpawnPivot.position;
-            if (bullet.LockBulletY)
+            if (b.LockBulletY)
             {
                 pos.y = Shooter.transform.position.y + 1f;
             }
@@ -237,7 +237,7 @@ namespace MoenenGames.VoxelRobot
             tf.position = pos;
             tf.rotation = bulletSpawnPivot.rotation;
             tf.parent = null;
-            tf.localScale = Vector3.one * bullet.BulletSize;
+            tf.localScale = Vector3.one * b.BulletSize;
             
 
 #if UNITY_2017_3

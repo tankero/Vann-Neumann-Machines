@@ -25,7 +25,8 @@ public class ToolBase : ModuleBase
     {
         Projectile,
         Beam,
-        Meele
+        Meele,
+        Spawner
     }
 
     public enum ToolTriggerType
@@ -54,8 +55,8 @@ public class ToolBase : ModuleBase
     private bool _triggerHeld = false;
 
     [SerializeField]
-    private AmmunitionBase AmmunitionTemplate;
-    public AmmunitionBase[] AmmoPool;
+    private GameObject AmmunitionTemplate;
+    public GameObject[] AmmoPool;
     public Weapon[] BarrelSpawnPoints;
 
     // Start is called before the first frame update
@@ -64,16 +65,32 @@ public class ToolBase : ModuleBase
         gameObject.tag = "Tool";
 
         BarrelSpawnPoints = transform.GetComponentsInChildren<Weapon>().ToArray();
-        if (AmmunitionCapacity > 0)
+        AmmoPool = new GameObject[AmmunitionCapacity > 10 ? AmmunitionCapacity : 10];
+        for (int i = 0; i < AmmoPool.Length; i++)
         {
-            AmmoPool = new Bullet[10];
-            for (int i = 0; i < AmmoPool.Length; i++)
-            {
-                AmmoPool[i] = Instantiate(AmmunitionTemplate, transform);
-                AmmoPool[i].gameObject.SetActive(false);
-                AmmoPool[i].CancelInvoke();
-            }
+            AmmoPool[i] = Instantiate(AmmunitionTemplate, transform);
+            AmmoPool[i].gameObject.SetActive(false);
         }
+        switch (ToolType)
+        {
+            case ProjectileType.Projectile:
+
+                
+
+                break;
+            case ProjectileType.Beam:
+                break;
+            case ProjectileType.Meele:
+                break;
+            case ProjectileType.Spawner:
+                break;
+            default:
+                break;
+        }
+
+
+
+
         StartCoroutine("TriggerTool");
     }
 
@@ -140,12 +157,12 @@ public class ToolBase : ModuleBase
         _triggerHeld = false;
     }
 
-    public AmmunitionBase GetNextBullet()
+    public GameObject GetNextBullet()
     {
         var first = AmmoPool.FirstOrDefault(b => !b.gameObject.activeInHierarchy);
         if (first == null)
         {
-            var newAmmoPull = new AmmunitionBase[AmmoPool.Length + 1];
+            var newAmmoPull = new GameObject[AmmoPool.Length + 1];
             newAmmoPull[0] = Instantiate(AmmunitionTemplate);
             newAmmoPull[0].gameObject.SetActive(false);
 
