@@ -19644,7 +19644,8 @@ MonoBehaviour:
   AmmunitionCount: 0
   ActivationSpeed: 0.4
   SingleBarrel: 1
-  AmmunitionTemplate: {fileID: 0}
+  AmmunitionTemplate: {fileID: 1000010732017690, guid: 9839b7794f97d244fb4ff4606806a8c5,
+    type: 3}
   AmmoPool: []
   BarrelSpawnPoints: []
 --- !u!1 &803074597
@@ -24771,7 +24772,7 @@ MonoBehaviour:
   AmmunitionCount: 0
   ActivationSpeed: 0.4
   SingleBarrel: 1
-  AmmunitionTemplate: {fileID: 114000011379593360, guid: 091931d8777d4cb45b81f56821d489bf,
+  AmmunitionTemplate: {fileID: 1000010732017690, guid: 091931d8777d4cb45b81f56821d489bf,
     type: 3}
   AmmoPool: []
   BarrelSpawnPoints: []

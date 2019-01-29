@@ -100,17 +100,18 @@ public class ToolBase : ModuleBase
 
     }
 
-    public virtual void Reload()
+    public virtual void Reload(GameObject ammo)
     {
-
+        if (ammo.transform.parent != transform) ammo.transform.parent = transform;
+        var component = ammo.GetComponent<BatteryBase>();
+        if (!component | component.Type != BatteryBase.ChargeType.Ammunition) return;
+        component.Expend();
     }
 
     IEnumerator TriggerTool()
     {
         for (; ; )
         {
-
-
             if (_triggerHeld)
             {
                 if (MaintanceType == MaintenanceTypeEnum.OnUse)
@@ -160,21 +161,19 @@ public class ToolBase : ModuleBase
     public GameObject GetNextBullet()
     {
         var first = AmmoPool.FirstOrDefault(b => !b.gameObject.activeInHierarchy);
-        if (first == null)
+        if (first != null) return first;
+
+        var newAmmoPull = new GameObject[AmmoPool.Length + 1];
+        newAmmoPull[0] = Instantiate(AmmunitionTemplate);
+        newAmmoPull[0].gameObject.SetActive(false);
+
+        for (int i = 1; i < newAmmoPull.Length; i++)
         {
-            var newAmmoPull = new GameObject[AmmoPool.Length + 1];
-            newAmmoPull[0] = Instantiate(AmmunitionTemplate);
-            newAmmoPull[0].gameObject.SetActive(false);
-
-            for (int i = 1; i < newAmmoPull.Length; i++)
-            {
-                newAmmoPull[i] = AmmoPool[i - 1];
-            }
-            AmmoPool = newAmmoPull;
-            return AmmoPool[0];
+            newAmmoPull[i] = AmmoPool[i - 1];
         }
+        AmmoPool = newAmmoPull;
+        return AmmoPool[0];
 
-        return first;
     }
 }
 

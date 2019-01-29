@@ -73,7 +73,7 @@ using UnityEngine.UI;
 
         public void Charge(float energyCount)
         {
-            Debug.Log("Energy charge received by: " + gameObject.name + " -- Received: " + energyCount);
+
             EnergyCurrent += energyCount;
             if (ModuleState == ModuleStateEnum.Recharging)
             {

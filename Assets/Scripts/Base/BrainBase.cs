@@ -43,9 +43,9 @@ public class BrainBase : ModuleBase
 
     public bool IAmPlayer;
 
-    [SerializeField]
+
     public List<ToolBase> ToolList;
-    private int selectedToolIndex;
+
     private ModuleBase sensor;
     private RobotTurret turret;
     private RobotMovement mover;
@@ -69,7 +69,7 @@ public class BrainBase : ModuleBase
     void Awake()
     {
         IAmPlayer = CompareTag("Player");
-        selectedToolIndex = 0;
+
 
         if (!IAmPlayer)
         {
@@ -238,38 +238,47 @@ public class BrainBase : ModuleBase
     //Convert this to a coroutine that basically checks that the target is visible/in-range/alive in order to attack it. Use the tool's use or Activate method accordingly.
     public void Attack(GameObject target)
     {
-        if (turret) turret.TargetObject = target;
-        var weapon = ToolList.Where(t => t.Effect == ToolBase.ActionType.Damage).OrderBy(r => r.Range).First();
-
-        selectedTool = weapon;
-        //If I can, attack!
-        switch (ValidateTarget(target))
+        if (selectedTool == null)
         {
-            case TargetStateEnum.Ok:
-                Debug.Log(gameObject.name + " reports attacking.");
-                if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
-                {
-                    selectedTool.Activate();
-                    mover.Stop();
+            selectedTool = ToolList.First();
+        }
+        if (turret) turret.TargetObject = target;
+        var tools = ToolList.Where(t => t.Effect == ToolBase.ActionType.Damage)
+            .OrderByDescending(r => r.EffectAmount).ToArray();
+        for (int i = 0; i < tools.Length; i++)
+        {
+            switch (ValidateTarget(target))
+            {
+                case TargetStateEnum.Ok:
+                    SwitchToNewTool(tools[i]);
+                    if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
+                    {
+                        selectedTool.Activate();
+                        mover.Stop();
 
-                }
-                return;
-            case TargetStateEnum.OutOfRange:
-                Debug.Log(gameObject.name + " reports out of range.");
+                    }
 
-                if (Vector3.Distance(transform.position, target.transform.position) > 2f)
-                {
-                    selectedTool.Deactivate();
-                    mover.Destination = target.transform.position;
-                }
-
-                return;
-                ;
-
+                    return;
+                case TargetStateEnum.OutOfRange:
+                    if (Vector3.Distance(transform.position, target.transform.position) > 2f)
+                    {
+                        selectedTool.Deactivate();
+                        mover.Destination = target.transform.position;
+                    }
+                    break;
+            }
 
         }
+    }
 
+          
 
+    
+
+    private void SwitchToNewTool(ToolBase newTool)
+    {
+        selectedTool.Deactivate();
+        selectedTool = newTool;
     }
 
     public void RequestMove() { }
@@ -277,8 +286,7 @@ public class BrainBase : ModuleBase
 
     public TargetStateEnum ValidateTarget(GameObject target)
     {
-        Debug.Log("Validating target: " + target.name + " for " + name);
-        Debug.Log("Range to target: " + Vector3.Distance(transform.position, target.transform.position) + " for " + name);
+
         if (selectedTool.ModuleState == ModuleStateEnum.Recharging)
         {
             return TargetStateEnum.OutOfEnergy;
@@ -340,6 +348,7 @@ public class BrainBase : ModuleBase
         {
             ToolList.Add(connectingTool);
             connectingTool.ModuleEnable();
+            ToolList = ToolList.OrderBy(t => t.EffectAmount).ToList();
         }
     }
 
@@ -350,11 +359,6 @@ public class BrainBase : ModuleBase
             selectedTool = ToolList.First();
         }
         return selectedTool;
-    }
-
-    public void SetSelectedTool(ToolBase tool)
-    {
-        selectedToolIndex = ToolList.IndexOf(tool);
     }
 
     void OnSensorConnection(ModuleBase connectingSensor)
