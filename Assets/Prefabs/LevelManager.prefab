@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7251693138978137452}
   - component: {fileID: 7251693138978137453}
+  - component: {fileID: 1125157815}
   m_Layer: 0
   m_Name: LevelManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,3 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cratePrefab: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
     type: 3}
+  CurrentSpawner: {fileID: 0}
+--- !u!114 &1125157815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251693138978137455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c245bd1760b6f445818bb2495301501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -21,7 +21,7 @@ public class ToolBase : ModuleBase
     }
 
 
-    public enum ProjectileType
+    public enum TooTypeEnum
     {
         Projectile,
         Beam,
@@ -38,7 +38,7 @@ public class ToolBase : ModuleBase
     public ActionType Effect;
     public float EffectAmount;
     public ToolTriggerType TriggerType;
-    public ProjectileType ToolType;
+    public TooTypeEnum TypeEnum;
     [Range(0f, 1f)]
     public float Accuracy;
     [Range(0f, 20f)]
@@ -48,21 +48,16 @@ public class ToolBase : ModuleBase
     public bool UsesAmmunition;
     public int AmmunitionCount;
     public float ActivationSpeed = 0.2f;
-
-    [SerializeField]
-    private bool SingleBarrel;
-
+    public bool SingleBarrel;
     private bool _triggerHeld = false;
-
-    [SerializeField]
-    private GameObject AmmunitionTemplate;
+    public GameObject AmmunitionTemplate;
     public GameObject[] AmmoPool;
     public Weapon[] BarrelSpawnPoints;
 
     // Start is called before the first frame update
     public virtual void Start()
     {
-        gameObject.tag = "Tool";
+
 
         BarrelSpawnPoints = transform.GetComponentsInChildren<Weapon>().ToArray();
         AmmoPool = new GameObject[AmmunitionCapacity > 10 ? AmmunitionCapacity : 10];
@@ -71,18 +66,18 @@ public class ToolBase : ModuleBase
             AmmoPool[i] = Instantiate(AmmunitionTemplate, transform);
             AmmoPool[i].gameObject.SetActive(false);
         }
-        switch (ToolType)
+        switch (TypeEnum)
         {
-            case ProjectileType.Projectile:
+            case TooTypeEnum.Projectile:
 
-                
+
 
                 break;
-            case ProjectileType.Beam:
+            case TooTypeEnum.Beam:
                 break;
-            case ProjectileType.Meele:
+            case TooTypeEnum.Meele:
                 break;
-            case ProjectileType.Spawner:
+            case TooTypeEnum.Spawner:
                 break;
             default:
                 break;
@@ -118,23 +113,40 @@ public class ToolBase : ModuleBase
                 {
                     EnergyCurrent -= EnergyCost;
                 }
-                if (SingleBarrel)
+                switch (TypeEnum)
                 {
-                    foreach (var barrel in BarrelSpawnPoints)
-                    {
-                        barrel.Fire(GetNextBullet());
-                        yield return new WaitForSeconds(ActivationSpeed);
-                    }
-                }
-                else
-                {
-                    foreach (var barrel in BarrelSpawnPoints)
-                    {
-                        barrel.Fire(GetNextBullet());
+                    case TooTypeEnum.Projectile:
+                        if (SingleBarrel)
+                        {
+                            foreach (var barrel in BarrelSpawnPoints)
+                            {
+                                barrel.Fire(GetNextBullet());
+                                yield return new WaitForSeconds(ActivationSpeed);
+                            }
+                        }
+                        else
+                        {
+                            foreach (var barrel in BarrelSpawnPoints)
+                            {
+                                barrel.Fire(GetNextBullet());
 
-                    }
-                    yield return new WaitForSeconds(ActivationSpeed);
+                            }
+                            yield return new WaitForSeconds(ActivationSpeed);
+                        }
+                        break;
+                    case TooTypeEnum.Beam:
+
+                        break;
+                    case TooTypeEnum.Meele:
+
+                        break;
+                    case TooTypeEnum.Spawner:
+
+                        break;
+                    default:
+                        break;
                 }
+
             }
             yield return null;
 
@@ -146,12 +158,7 @@ public class ToolBase : ModuleBase
         _triggerHeld = true;
     }
 
-    public virtual void Use()
-    {
 
-
-
-    }
 
     public virtual void Deactivate()
     {

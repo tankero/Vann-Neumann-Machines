@@ -35,7 +35,7 @@ public class CoreBase : ModuleBase
 
     public void ConnectModule(ModuleBase module)
     {
-        if (module.CompareTag("Brain") || module.CompareTag("Player"))
+        if (module.GetComponent<BrainBase>())
         {
 
             {
@@ -52,9 +52,9 @@ public class CoreBase : ModuleBase
             module.transform.parent = transform;
         }
 
-        if (module.CompareTag("Mover"))
+        if (module.GetComponent<MoverBase>())
         {
-            var previousMover = Modules.Find(g => g.CompareTag("Mover"));
+            var previousMover = Modules.Find(g => g.GetComponent<MoverBase>());
             if (previousMover)
             {
                 DisconnectModule(previousMover);
@@ -64,9 +64,9 @@ public class CoreBase : ModuleBase
             return;
 
         }
-        if (module.CompareTag("Sensor"))
+        if (module.GetComponent<SensorBase>())
         {
-            var previousSensor = Modules.Find(g => g.CompareTag("Sensor"));
+            var previousSensor = Modules.Find(g => g.GetComponent<SensorBase>());
             if (previousSensor)
             {
                 DisconnectModule(previousSensor);
@@ -76,11 +76,11 @@ public class CoreBase : ModuleBase
             return;
 
         }
-        if (module.CompareTag("Tool"))
+        if (module.GetComponent<ToolBase>())
         {
             Modules.Add(module);
             SendMessageUpwards("OnToolConnection", module);
-            return;
+            
         }
     }
 

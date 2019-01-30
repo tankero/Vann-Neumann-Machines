@@ -94,11 +94,11 @@ public class BrainBase : ModuleBase
         {
             if (IAmPlayer)
             {
-                GameObject.FindGameObjectWithTag("Manager").SendMessage("OnPlayerDeath", transform.position);
+                GameObject.FindGameObjectWithTag("GameManager").SendMessage("OnPlayerDeath", transform.position);
                 return;
             }
 
-            GameObject.FindGameObjectWithTag("Manager").SendMessage("OnNPCDeath", gameObject);
+            GameObject.FindGameObjectWithTag("GameManager").SendMessage("OnNPCDeath", gameObject);
             return;
 
         }
@@ -112,14 +112,8 @@ public class BrainBase : ModuleBase
         {
             if (Input.GetMouseButtonDown(0))
 
-                if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
-                {
-                    selectedTool.Activate();
-                }
-                else
-                {
-                    selectedTool.Use();
-                }
+                selectedTool.Activate();
+
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -128,10 +122,8 @@ public class BrainBase : ModuleBase
                     selectedTool = ToolList.First();
                 }
 
-                if (selectedTool && selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
-                {
-                    selectedTool.Deactivate();
-                }
+                selectedTool.Deactivate();
+
             }
         }
 
@@ -177,7 +169,7 @@ public class BrainBase : ModuleBase
                         }
 
                     }
-                    
+
 
 
 
@@ -247,7 +239,7 @@ public class BrainBase : ModuleBase
             .OrderByDescending(r => r.EffectAmount).ToArray();
         for (int i = 0; i < tools.Length; i++)
         {
-            switch (ValidateTarget(target))
+            switch (ValidateTarget(target, tools[i]))
             {
                 case TargetStateEnum.Ok:
                     SwitchToNewTool(tools[i]);
@@ -271,9 +263,9 @@ public class BrainBase : ModuleBase
         }
     }
 
-          
 
-    
+
+
 
     private void SwitchToNewTool(ToolBase newTool)
     {
@@ -284,18 +276,15 @@ public class BrainBase : ModuleBase
     public void RequestMove() { }
     public void Work() { }
 
-    public TargetStateEnum ValidateTarget(GameObject target)
+    public TargetStateEnum ValidateTarget(GameObject target, ToolBase weapon)
     {
+        if (weapon == null) return TargetStateEnum.Invalid;
 
-        if (selectedTool.ModuleState == ModuleStateEnum.Recharging)
+        if (weapon.ModuleState == ModuleStateEnum.Recharging)
         {
             return TargetStateEnum.OutOfEnergy;
         }
-
-        var toolAction = selectedTool;
-
-
-        if (Vector3.Distance(transform.position, target.transform.position) > toolAction.Range)
+        if (Vector3.Distance(transform.position, target.transform.position) > weapon.Range)
         {
             return TargetStateEnum.OutOfRange;
         }
@@ -303,7 +292,7 @@ public class BrainBase : ModuleBase
         {
             return TargetStateEnum.OutOfRange;
         }
-        if (toolAction.UsesAmmunition && toolAction.AmmunitionCount <= 0)
+        if (weapon.UsesAmmunition && weapon.AmmunitionCount <= 0)
         {
             return TargetStateEnum.OutOfAmmo;
         }
@@ -311,7 +300,7 @@ public class BrainBase : ModuleBase
         if (targetBrain)
         {
             var allegiance = GameManager.CheckAlleigance(this, targetBrain);
-            if (allegiance == AllegianceManager.AllegianceEnum.Ally && toolAction.Effect == ToolBase.ActionType.Damage)
+            if (allegiance == AllegianceManager.AllegianceEnum.Ally && weapon.Effect == ToolBase.ActionType.Damage)
             {
                 return TargetStateEnum.Invalid;
             }
@@ -363,16 +352,15 @@ public class BrainBase : ModuleBase
 
     void OnSensorConnection(ModuleBase connectingSensor)
     {
-        if (connectingSensor.CompareTag("Sensor"))
-        {
-            sensor = connectingSensor;
-            sensor.ModuleEnable();
-            if (!IAmPlayer)
-            {
-                StartCoroutine("ThinkPulse");
 
-            }
+        sensor = connectingSensor;
+        sensor.ModuleEnable();
+        if (!IAmPlayer)
+        {
+            StartCoroutine("ThinkPulse");
+
         }
+
     }
 
     void ConnectToCore(CoreBase coreParam)

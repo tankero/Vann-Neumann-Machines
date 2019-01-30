@@ -226,10 +226,15 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8600281266677137695, guid: 07eeffd442f4c8840963ea01361d53bd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.12
+      value: -12.69
       objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}
@@ -1049,10 +1054,15 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8600281266677137695, guid: 07eeffd442f4c8840963ea01361d53bd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.49
+      value: -21.06
       objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}
@@ -1580,24 +1590,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1125157812 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7251693138978137455, guid: 40e9eddb3d717f2468a2e48fdd262669,
-    type: 3}
-  m_PrefabInstance: {fileID: 7251693139311550638}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1125157815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125157812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c245bd1760b6f445818bb2495301501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1248550668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,6 +1740,10 @@ PrefabInstance:
     - target: {fileID: 1126280121, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
       propertyPath: m_WalkableMask
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603544049, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
@@ -2587,6 +2583,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1742157476, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 42446453, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474101335, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 801655856, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
       propertyPath: EffectAmount
       value: 20
@@ -2720,10 +2728,15 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8600281266677137695, guid: 07eeffd442f4c8840963ea01361d53bd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.56
+      value: -25.13
       objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}
@@ -3158,6 +3171,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600281266677137695, guid: 07eeffd442f4c8840963ea01361d53bd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
         type: 3}

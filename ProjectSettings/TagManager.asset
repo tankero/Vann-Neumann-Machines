@@ -4,13 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Brain
-  - Tool
-  - Mover
-  - Core
-  - Ammunition
-  - Storage
-  - Sensor
   - NPC
   layers:
   - Default
