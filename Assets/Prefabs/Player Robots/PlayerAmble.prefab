@@ -5098,7 +5098,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!1 &436767441
 GameObject:
@@ -9800,7 +9800,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 477677648}
-  - component: {fileID: 477677650}
   - component: {fileID: 477677649}
   m_Layer: 0
   m_Name: Base
@@ -9825,20 +9824,6 @@ Transform:
   m_Father: {fileID: 426847568}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &477677650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477677647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dc4bcd2666379f48bc2c9c176fc9cf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TotalHealth: 100
-  CurrentHealth: 100
 --- !u!114 &477677649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20014,7 +19999,7 @@ MonoBehaviour:
   Effect: 0
   EffectAmount: 0
   TriggerType: 0
-  ToolType: 0
+  TypeEnum: 0
   Accuracy: 0
   Range: 0
   AmmunitionCapacity: 0
@@ -24790,7 +24775,7 @@ GameObject:
   - component: {fileID: 1603544051}
   m_Layer: 0
   m_Name: Double Gun
-  m_TagString: Tool
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24847,7 +24832,7 @@ MonoBehaviour:
   Effect: 0
   EffectAmount: 0
   TriggerType: 0
-  ToolType: 0
+  TypeEnum: 0
   Accuracy: 0
   Range: 0
   AmmunitionCapacity: 0
