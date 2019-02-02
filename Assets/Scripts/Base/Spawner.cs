@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -28,15 +27,14 @@ public class Spawner : MonoBehaviour
         
     }
 
-    void SpawnRobot(bool player, GameObject brainObject)
+    void SpawnTemplate(GameObject brainObject)
     {
         var instance = Instantiate(Template, SpawnPosition.position, Quaternion.identity, null);
-        instance.tag = player ? "Player" : "NPC";
         if (brainObject)
         {
             instance.transform.parent = brainObject.transform;
         }
-        instance.transform.root.GetComponent<BrainBase>().Allegiance = player ? 1 : BrainAllegiance;
+        
 
     }
 

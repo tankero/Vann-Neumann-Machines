@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Transform cratePrefab;
     public static float TimeConstant = 0.004f;
     private GameObject PlayerBrain;
-    public GameObject CurrentSpawner;
+    public GameObject CurrentPlayerSpawner;
 
     void Awake()
     {
@@ -67,6 +67,12 @@ public class GameManager : MonoBehaviour
     void OnNPCDeath(GameObject deadRobot)
     {
 
+    }
+
+    void RespawnPlayer()
+    {
+        PlayerBrain.transform.DetachChildren();
+        CurrentPlayerSpawner.SendMessage("SpawnTemplate", PlayerBrain);
     }
 
     public static void DropItem(Vector3 position, ModuleBase item)
