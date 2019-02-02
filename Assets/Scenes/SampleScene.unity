@@ -1737,14 +1737,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1126280121, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
-      propertyPath: m_WalkableMask
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1603544049, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
 --- !u!1 &1383419660
