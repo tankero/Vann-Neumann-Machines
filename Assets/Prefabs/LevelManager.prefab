@@ -46,7 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cratePrefab: {fileID: 6110161810603891914, guid: 07eeffd442f4c8840963ea01361d53bd,
     type: 3}
-  CurrentSpawner: {fileID: 0}
+  CurrentPlayerSpawner: {fileID: 0}
+  CurrentPlayerTemplate: {fileID: 426847562, guid: 03f292a5a265bae49bf227eb79595932,
+    type: 3}
 --- !u!114 &1125157815
 MonoBehaviour:
   m_ObjectHideFlags: 0

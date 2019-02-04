@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public static float TimeConstant = 0.004f;
     private GameObject PlayerBrain;
     public GameObject CurrentPlayerSpawner;
+    protected GameObject PlayerBrainTemplate;
+    public GameObject CurrentPlayerTemplate;
 
     void Awake()
     {
@@ -34,7 +36,7 @@ public class GameManager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
 
-        //Get a component reference to the attached BoardManager script
+        //Get a component reference to the attached GameManager script
         allegiance = GetComponent<AllegianceManager>();
 
         //Call the InitGame function to initialize the first level 
@@ -44,7 +46,10 @@ public class GameManager : MonoBehaviour
     void InitGame()
     {
         PlayerBrain = GameObject.FindGameObjectWithTag("Player");
-
+        if (!PlayerBrain)
+        {
+            PlayerBrain = Instantiate(PlayerBrainTemplate, null);
+        }
     }
 
 
@@ -86,6 +91,22 @@ public class GameManager : MonoBehaviour
     {
         return instance.allegiance.CheckAllegiance(sourceBrain, targetBrain);
     }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
+    private void SetPlayerTemplate(GameObject template)
+    {
+        
+    }
+
+
 }
 
 
