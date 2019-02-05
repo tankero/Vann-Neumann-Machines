@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.43784577, g: 0.48576903, b: 0.5660465, a: 1}
+  m_IndirectSpecularColor: {r: 0.43784535, g: 0.48576844, b: 0.5660456, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1706,6 +1706,11 @@ PrefabInstance:
     - target: {fileID: 426847568, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 138644518100208181, guid: 46ea2501497669f4084c7b1996f5f74d,
+        type: 3}
+      propertyPath: m_Name
+      value: Ambler
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46ea2501497669f4084c7b1996f5f74d, type: 3}

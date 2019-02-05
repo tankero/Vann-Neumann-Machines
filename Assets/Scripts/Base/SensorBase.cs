@@ -75,7 +75,7 @@ public class SensorBase : ModuleBase
         RaycastHit hit = new RaycastHit();
 
         
-        if (Physics.Raycast(offset, direction, out hit, Range))
+        if (Physics.Raycast(transform.root.position, direction, out hit, Range))
         {
 
             if (hit.collider.transform.root.gameObject == target.transform.root.gameObject)
