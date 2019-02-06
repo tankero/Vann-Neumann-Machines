@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -10,7 +11,7 @@ public class Spawner : MonoBehaviour
     [Range(1, 8)]
     public int BrainAllegiance;
     public GameObject BrainTemplate;
-    public
+    private GameObject[] brainList;
 
 
 
@@ -22,6 +23,13 @@ public class Spawner : MonoBehaviour
         {
             SpawnPosition = transform.Find("_s");
         }
+        brainList = new GameObject[10];
+        for (var index = 0; index < brainList.Length; index++)
+        {
+            brainList[index] = Instantiate(BrainTemplate, transform.position, Quaternion.identity, null);
+            brainList[index].SetActive(false);
+
+        }
     }
 
     // Update is called once per frame
@@ -32,16 +40,24 @@ public class Spawner : MonoBehaviour
 
     void SpawnTemplate(GameObject brainObject)
     {
-        var instance = Instantiate(RobotTemplate, SpawnPosition.position, Quaternion.identity, null);
-        if (brainObject)
-        {
-            instance.transform.Find("Neck").parent = brainObject.transform;
-        }
-        else if(BrainTemplate)
-        {
-            //Pull the brain instances here that were created at the start.
-        }
+        Instantiate(RobotTemplate, SpawnPosition.position, Quaternion.identity, brainObject? brainObject.transform : GetNextBrain().transform);
+    }
 
+    public GameObject GetNextBrain()
+    {
+        var first = brainList.FirstOrDefault(b => !b.gameObject.activeInHierarchy);
+        if (first != null) return first;
+
+        var newBrainPool = new GameObject[brainList.Length + 1];
+        newBrainPool[0] = Instantiate(BrainTemplate);
+        newBrainPool[0].gameObject.SetActive(false);
+
+        for (int i = 1; i < newBrainPool.Length; i++)
+        {
+            newBrainPool[i] = brainList[i - 1];
+        }
+        brainList = newBrainPool;
+        return brainList[0];
 
     }
 
