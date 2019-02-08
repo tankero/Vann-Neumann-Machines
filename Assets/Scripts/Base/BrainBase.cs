@@ -49,6 +49,7 @@ public class BrainBase : ModuleBase
     private ModuleBase sensor;
     private RobotTurret turret;
     private RobotMovement mover;
+    private Order currentOrder;
 
     public GameObject CurrentTarget;
     public AttitudeEnum BrainAttitude;
@@ -65,6 +66,8 @@ public class BrainBase : ModuleBase
 
     private ToolBase selectedTool;
 
+    private Orders orders;
+
 
     void Awake()
     {
@@ -75,6 +78,7 @@ public class BrainBase : ModuleBase
         {
             turret = GetComponentInChildren<RobotTurret>();
             mover = GetComponent<RobotMovement>();
+            orders = GetComponent<Orders>();
         }
         Targets = new TargetObjectList();
         Locations = new TargetLocationList();
@@ -103,10 +107,7 @@ public class BrainBase : ModuleBase
 
         }
         if (!IAmPlayer) return;
-        if (!selectedTool)
-        {
-            selectedTool = ToolList.First();
-        }
+
 
         if (selectedTool)
         {
@@ -140,9 +141,7 @@ public class BrainBase : ModuleBase
     public void Think()
     {
 
-        Targets.ListUpdate();
-
-
+        
 
         if (BrainState == BrainStateEnum.Active)
         {
@@ -151,8 +150,8 @@ public class BrainBase : ModuleBase
                 // I want to attack things
                 case AttitudeEnum.Aggressive:
 
-
                     //So lets figure out if I have a target to attack.
+                    Targets.ListUpdate();
 
                     foreach (var trackedTarget in Targets.GetTrackedList())
                     {
@@ -169,18 +168,7 @@ public class BrainBase : ModuleBase
                         }
 
                     }
-
-
-
-
-                    //If I can do something else, do that instead (heal)
-
-                    //Okay, so I can't do something else.
-
-                    //If I'm out of range or my target is out of sight, move to attack!
-
-                    //If I'm out of energy or ammo on all my weapons, move to get away :(
-
+                    
                     break;
                 case AttitudeEnum.Protective:
                     break;
@@ -191,19 +179,27 @@ public class BrainBase : ModuleBase
                 default:
                     break;
             }
+            // If our attitude doesn't give us an answer as to what we should be doing, let's review our orders
+
+            if (!orders) return;
+
+            currentOrder = orders.GetCurrentOrder();
+
+            switch (currentOrder.OrderType)
+            {
+                case Orders.TypeEnum.Attack:
+                    break;
+                case Orders.TypeEnum.Move:
+                    mover.Destination = currentOrder.Target.transform.position;
+                    break;
+                case Orders.TypeEnum.Patrol:
+                    break;
+                case Orders.TypeEnum.Work:
+                    break;
+            }
 
 
 
-            //var destination = CurrentTarget? Targets.GetLastKnownPosition(CurrentTarget) : null;
-            //mover.Destination = destination == null ? transform.position : destination.Value;
-            turret.TargetObject = CurrentTarget;
-
-
-            // Check State & target priority
-
-            // Set Attitude
-
-            // Set Action
         }
     }
 
@@ -230,6 +226,7 @@ public class BrainBase : ModuleBase
     //Convert this to a coroutine that basically checks that the target is visible/in-range/alive in order to attack it. Use the tool's use or Activate method accordingly.
     public void Attack(GameObject target)
     {
+        turret.TargetObject = CurrentTarget;
         if (selectedTool == null)
         {
             selectedTool = ToolList.First();
@@ -261,7 +258,15 @@ public class BrainBase : ModuleBase
             }
 
         }
+        //If I can do something else, do that instead (heal)
+
+        //Okay, so I can't do something else.
+
+        //If I'm out of range or my target is out of sight, move to attack!
+
+        //If I'm out of energy or ammo on all my weapons, move to get away :(
     }
+
 
 
 
