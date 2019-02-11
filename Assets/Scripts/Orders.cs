@@ -41,47 +41,66 @@ public class Orders : MonoBehaviour
         
     }
 
-    //Execute the order or get the next one.
+    /*So basically, this is the way that "orders" are executed:
+     * 1. The brain checks to see what the current order is. 
+     * 2. The order itself pretty much determines if the order is complete with the method below.
+     * 3. The brain acts according to what the order dictates.
+     * 4. Looping orders don't get removed, they get resorted.
+     * Also, attack/move orders are basically the same, except that the brain sets itself to "aggressive" while it's performing attack, and "neutral" while it's performing a move.
+    */ 
     public Order GetCurrentOrder()
     {
+        
         var oldOrder = OrderList.First();
         switch (oldOrder.OrderType)
         {
             case TypeEnum.Attack:
-                if (!oldOrder.Target)
+                if (!oldOrder.Target.activeInHierarchy || (inRegion & Mathf.Abs(Time.time - start) > oldOrder.Duration & !oldOrder.Target.GetComponent<BrainBase>()))
                 {
                     OrderList.Remove(oldOrder);
+                    inRegion = false;
                     return OrderList.Count > 0 ? OrderList.First() : null;
                 }
-
-                return oldOrder;
+                break;
+              
                 
             case TypeEnum.Move:
-                if (inRegion & Time.time - start < threshold)
+                if (inRegion & Mathf.Abs(Time.time - start) > oldOrder.Duration)
                 {
                     OrderList.Remove(oldOrder);
+                    inRegion = false;
                     return OrderList.Count > 0 ? OrderList.First() : null;
                 }
                 break;
             case TypeEnum.Patrol:
-                if (inRegion & Time.time - start < threshold)
+                if (inRegion & Mathf.Abs(Time.time - start) > oldOrder.Duration)
                 {
                     OrderList.Remove(oldOrder);
                     OrderList.Add(oldOrder);
+                    inRegion = false;
                     return OrderList.Count > 0 ? OrderList.First() : null;
                 }
                 break;
             case TypeEnum.Work:
+                if (inRegion & Mathf.Abs(Time.time - start) > oldOrder.Duration)
+                {
+                    OrderList.Remove(oldOrder);
+                    return OrderList.Count > 0 ? OrderList.First() : null;
+                }
                 break;
             default:
                 break;
         }
+        Debug.Log("Returning order type: " + oldOrder.OrderType);
+        return oldOrder;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Entering region: " +  other.transform.gameObject);
         if (other.transform.gameObject == OrderList.First().Target)
         {
+            Debug.Log("Entered target region");
             inRegion = true;
             start = Time.time;
         }

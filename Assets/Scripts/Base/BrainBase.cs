@@ -188,13 +188,23 @@ public class BrainBase : ModuleBase
             switch (currentOrder.OrderType)
             {
                 case Orders.TypeEnum.Attack:
+                    BrainAttitude = AttitudeEnum.Aggressive;
+                    mover.Destination = currentOrder.Target.transform.position;
                     break;
                 case Orders.TypeEnum.Move:
+                    BrainAttitude = AttitudeEnum.Neutral;
                     mover.Destination = currentOrder.Target.transform.position;
                     break;
                 case Orders.TypeEnum.Patrol:
+                    BrainAttitude = AttitudeEnum.Aggressive;
+                    
+                    mover.Destination = currentOrder.Target.transform.position;
                     break;
                 case Orders.TypeEnum.Work:
+                    BrainAttitude = AttitudeEnum.Neutral;
+                    break;
+                default:
+                    BrainAttitude = AttitudeEnum.Neutral;
                     break;
             }
 
@@ -227,6 +237,7 @@ public class BrainBase : ModuleBase
     public void Attack(GameObject target)
     {
         turret.TargetObject = CurrentTarget;
+
         if (selectedTool == null)
         {
             selectedTool = ToolList.First();
@@ -258,6 +269,11 @@ public class BrainBase : ModuleBase
             }
 
         }
+
+        //if(currentOrder.OrderType == Orders.TypeEnum.Attack)
+        //{
+        //    currentOrder.Target = target;
+        //}
         //If I can do something else, do that instead (heal)
 
         //Okay, so I can't do something else.
