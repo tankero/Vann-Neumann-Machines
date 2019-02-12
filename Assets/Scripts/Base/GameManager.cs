@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public static float TimeConstant = 0.004f;
     private GameObject PlayerBrain;
     public GameObject CurrentPlayerSpawner;
-    protected GameObject PlayerBrainTemplate;
+    public GameObject PlayerBrainTemplate;
     public GameObject CurrentPlayerTemplate;
 
     void Awake()

@@ -141,7 +141,7 @@ public class BrainBase : ModuleBase
     public void Think()
     {
 
-        
+
 
         if (BrainState == BrainStateEnum.Active)
         {
@@ -168,7 +168,7 @@ public class BrainBase : ModuleBase
                         }
 
                     }
-                    
+
                     break;
                 case AttitudeEnum.Protective:
                     break;
@@ -197,7 +197,7 @@ public class BrainBase : ModuleBase
                     break;
                 case Orders.TypeEnum.Patrol:
                     BrainAttitude = AttitudeEnum.Aggressive;
-                    
+
                     mover.Destination = currentOrder.Target.transform.position;
                     break;
                 case Orders.TypeEnum.Work:
@@ -254,10 +254,9 @@ public class BrainBase : ModuleBase
                     if (selectedTool.TriggerType == ToolBase.ToolTriggerType.Activate)
                     {
                         selectedTool.Activate();
-                        mover.Stop();
-
+                        if (i <= 0 & tools.Length == i)
+                            mover.Stop();
                     }
-
                     return;
                 case TargetStateEnum.OutOfRange:
                     if (Vector3.Distance(transform.position, target.transform.position) > 2f)
