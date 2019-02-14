@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject CurrentPlayerSpawner;
     public GameObject PlayerBrainTemplate;
     public GameObject CurrentPlayerTemplate;
-
+    public HealthBar healthBar;
     void Awake()
     {
 
@@ -41,6 +42,8 @@ public class GameManager : MonoBehaviour
 
         //Call the InitGame function to initialize the first level 
         InitGame();
+
+
     }
 
     void InitGame()
@@ -49,7 +52,10 @@ public class GameManager : MonoBehaviour
         if (!PlayerBrain)
         {
             PlayerBrain = Instantiate(PlayerBrainTemplate, null);
+            PlayerBrain.SetActive(false);
         }
+        healthBar = GameObject.Find("Canvas").GetComponentInChildren<HealthBar>();
+        healthBar.gameObject.GetComponent<Slider>().maxValue = PlayerBrain.GetComponent<Health>().TotalHealth;
     }
 
 
@@ -61,7 +67,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        healthBar.amount = PlayerBrain.GetComponent<Health>().CurrentHealth;
     }
 
     void OnPlayerDeath(GameObject deadPlayer)
@@ -103,7 +109,7 @@ public class GameManager : MonoBehaviour
     }
     private void SetPlayerTemplate(GameObject template)
     {
-        
+
     }
 
 

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public Slider healthSlider;
-    public float barDisplay; 
+    private Slider healthSlider;
+    public float amount; 
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +17,13 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Mathf.Lerp(0f, 100f, barDisplay);
-        barDisplay += 0.1f * Time.deltaTime;
+        Debug.Log("Displaying amount: " + amount);
+        healthSlider.value = amount;
     }
     private void OnGUI()
     {
 
-        healthSlider.value = barDisplay;
+
     }
 
 
