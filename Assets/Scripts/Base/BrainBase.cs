@@ -91,8 +91,9 @@ public class BrainBase : ModuleBase
 
     }
 
-    private void Update()
+    void Update()
     {
+
         //Check if we're dead
         if (GetComponent<Health>().CurrentHealth <= 0)
         {
@@ -103,29 +104,34 @@ public class BrainBase : ModuleBase
             }
 
             GameObject.FindGameObjectWithTag("GameManager").SendMessage("OnNPCDeath", gameObject);
+            Debug.Log("Non-player death");
             return;
 
         }
         if (!IAmPlayer) return;
 
 
-        if (selectedTool)
+        
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-
-                selectedTool.Activate();
-
-
-            if (Input.GetMouseButtonUp(0))
+            Debug.Log("Firing from player brain");
+            if (!selectedTool)
             {
-                if (!selectedTool)
-                {
-                    selectedTool = ToolList.First();
-                }
-
-                selectedTool.Deactivate();
-
+                selectedTool = ToolList.First();
             }
+            selectedTool.Activate();
+        }
+
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (!selectedTool)
+            {
+                selectedTool = ToolList.First();
+            }
+
+            selectedTool.Deactivate();
+
         }
 
 
