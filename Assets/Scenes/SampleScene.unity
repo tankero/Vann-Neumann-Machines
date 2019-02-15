@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.45089763, g: 0.4991991, b: 0.5659917, a: 1}
+  m_IndirectSpecularColor: {r: 0.45089716, g: 0.4991985, b: 0.5659911, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2892,6 +2892,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 256309794, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
+      propertyPath: BrainAttitude
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1742157476, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -2919,10 +2923,6 @@ PrefabInstance:
     - target: {fileID: 1474101337, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
       propertyPath: SingleBarrel
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 256309794, guid: 26d78fd3706d1e2458649ce18d912fb1, type: 3}
-      propertyPath: BrainAttitude
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9079321407308764481, guid: 26d78fd3706d1e2458649ce18d912fb1,
         type: 3}
@@ -3497,7 +3497,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056981457}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.70710677}
-  m_LocalPosition: {x: -23.709717, y: 12.7705345, z: -35.735786}
+  m_LocalPosition: {x: -23.709717, y: 12.7705345, z: -35.7}
   m_LocalScale: {x: 20.003222, y: 20, z: 1.0001692}
   m_Children: []
   m_Father: {fileID: 1794602433}

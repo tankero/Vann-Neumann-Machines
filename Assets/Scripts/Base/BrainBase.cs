@@ -104,7 +104,7 @@ public class BrainBase : ModuleBase
             }
 
             GameObject.FindGameObjectWithTag("GameManager").SendMessage("OnNPCDeath", gameObject);
-            Debug.Log("Non-player death");
+            
             return;
 
         }
@@ -114,7 +114,7 @@ public class BrainBase : ModuleBase
         
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Firing from player brain");
+            
             if (!selectedTool)
             {
                 selectedTool = ToolList.First();
