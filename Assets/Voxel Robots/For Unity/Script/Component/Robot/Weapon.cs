@@ -38,10 +38,11 @@ namespace MoenenGames.VoxelRobot
             }
         }
 
-        [HideInInspector]
-        public float PrevAttackTime = float.MinValue;
+        [HideInInspector] public float PrevAttackTime = float.MinValue;
 
+        [HideInInspector] public ToolBase.ActionType Effect;
 
+        [HideInInspector] public float EffectAmount;
 
 
 
@@ -230,15 +231,17 @@ namespace MoenenGames.VoxelRobot
             }
 
 
-            //tf.gameObject.SetActive(false);
-            b.Shooter = Shooter;
-            b.Rig.velocity = Vector3.ClampMagnitude(bulletSpawnPivot.forward, 1f) * b.BulletSpeed;
             
+            b.Shooter = Shooter;
+            b.Effect = Effect;
+            b.EffectAmount = EffectAmount;
+            b.Rig.velocity = Vector3.ClampMagnitude(bulletSpawnPivot.forward, 1f) * b.BulletSpeed;
+
             tf.position = pos;
             tf.rotation = bulletSpawnPivot.rotation;
             tf.parent = null;
             tf.localScale = Vector3.one * b.BulletSize;
-            
+
 
 #if UNITY_2017_3
 			var trail = tf.GetComponent<TrailRenderer>();

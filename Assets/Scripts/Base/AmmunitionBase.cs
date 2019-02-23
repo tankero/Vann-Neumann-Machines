@@ -42,12 +42,17 @@ public abstract class AmmunitionBase : MonoBehaviour
         OnExpiration,
         OnTrigger
     }
+    [Header("Setting")]
     public TriggerEnum Trigger;
     public float Radius;
     public float Duration;
-
+    public float Delay;
+    [HideInInspector]
+    public ToolBase.ActionType Effect;
+    [HideInInspector]
+    public float EffectAmount;
     // Serialize
-    [Header("Setting")]
+
     public DamageType DamegeType;
 
     public float LifeTime = 1f;
@@ -82,6 +87,9 @@ public abstract class AmmunitionBase : MonoBehaviour
 
     private Rigidbody rig = null;
     private Collider col = null;
+
+    
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -93,6 +101,22 @@ public abstract class AmmunitionBase : MonoBehaviour
     {
 
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform == Shooter) return;
+
+        if (Trigger == TriggerEnum.OnImpact)
+        {
+            if (Effect == ToolBase.ActionType.Damage)
+            {
+                var targetHealth = collision.gameObject.GetComponent<Health>();
+                if(targetHealth)
+                targetHealth.TakeDamage(EffectAmount);
+            }
+        }
+    }
+
 
 
 }

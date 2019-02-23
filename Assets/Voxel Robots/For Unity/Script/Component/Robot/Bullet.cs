@@ -7,23 +7,14 @@ namespace MoenenGames.VoxelRobot
     using System.Collections;
 
 
-    
+
     public class Bullet : AmmunitionBase
     {
-
-
-
-
-
 
         public override void Start()
         {
 
-
         }
-
-
-
 
         void OnCollisionEnter(Collision col)
         {
@@ -32,24 +23,17 @@ namespace MoenenGames.VoxelRobot
                 return;
             }
             Colliding(col.transform);
+
         }
 
-
-
-
-        void OnTriggerEnter(Collider c)
-        {
-            if (c.isTrigger)
-            {
-                return;
-            }
-            Colliding(c.transform);
-        }
-
-
-
-
-
+        //void OnTriggerEnter(Collider c)
+        //{
+        //    if (c.isTrigger)
+        //    {
+        //        return;
+        //    }
+        //    Colliding(c.transform);
+        //}
 
 
         #region --- LGC ---
@@ -58,7 +42,7 @@ namespace MoenenGames.VoxelRobot
 
         void Colliding(Transform tf)
         {
-            
+
             if (!Alive)
             {
                 return;

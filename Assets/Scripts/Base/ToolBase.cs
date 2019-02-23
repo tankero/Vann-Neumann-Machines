@@ -83,6 +83,12 @@ public class ToolBase : ModuleBase
                 break;
         }
 
+        foreach (var weapon in BarrelSpawnPoints)
+        {
+            weapon.Effect = Effect;
+            weapon.EffectAmount = EffectAmount;
+        }
+
 
 
 

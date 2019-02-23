@@ -97,10 +97,8 @@ public class Orders : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entering region: " +  other.transform.gameObject);
         if (other.transform.gameObject == OrderList.First().Target)
         {
-            Debug.Log("Entered target region");
             inRegion = true;
             start = Time.time;
         }
