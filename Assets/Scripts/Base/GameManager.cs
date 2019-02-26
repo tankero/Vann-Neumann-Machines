@@ -88,9 +88,13 @@ public class GameManager : MonoBehaviour
 
     public static void DropItem(Vector3 position, ModuleBase item)
     {
-        var crate = Instantiate(instance.cratePrefab, position, Quaternion.identity);
+        Vector3 heightOffset = new Vector3(0f, 0f, 3f);
+        var crate = Instantiate(instance.cratePrefab, position + heightOffset, Quaternion.identity);
         var storage = crate.GetComponent<StoreBase>();
         storage.StoreItem(item);
+        var randomX = Random.Range(0f, 3f);
+        var randomZ = Random.Range(0f, 3f);
+        crate.GetComponent<Rigidbody>().velocity = Vector3.up * 2.5f + new Vector3(randomX, 0f, randomZ);
     }
 
     public static AllegianceManager.AllegianceEnum CheckAlleigance(BrainBase sourceBrain, BrainBase targetBrain)

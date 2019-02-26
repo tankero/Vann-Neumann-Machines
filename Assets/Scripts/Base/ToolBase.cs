@@ -21,7 +21,7 @@ public class ToolBase : ModuleBase
     }
 
 
-    public enum TooTypeEnum
+    public enum ToolTypeEnum
     {
         Projectile,
         Beam,
@@ -38,7 +38,7 @@ public class ToolBase : ModuleBase
     public ActionType Effect;
     public float EffectAmount;
     public ToolTriggerType TriggerType;
-    public TooTypeEnum TypeEnum;
+    public ToolTypeEnum TypeEnum;
     [Range(0f, 1f)]
     public float Accuracy;
     [Range(0f, 20f)]
@@ -68,16 +68,16 @@ public class ToolBase : ModuleBase
         }
         switch (TypeEnum)
         {
-            case TooTypeEnum.Projectile:
+            case ToolTypeEnum.Projectile:
 
 
 
                 break;
-            case TooTypeEnum.Beam:
+            case ToolTypeEnum.Beam:
                 break;
-            case TooTypeEnum.Meele:
+            case ToolTypeEnum.Meele:
                 break;
-            case TooTypeEnum.Spawner:
+            case ToolTypeEnum.Spawner:
                 break;
             default:
                 break;
@@ -121,7 +121,7 @@ public class ToolBase : ModuleBase
                 }
                 switch (TypeEnum)
                 {
-                    case TooTypeEnum.Projectile:
+                    case ToolTypeEnum.Projectile:
                         if (SingleBarrel)
                         {
                             foreach (var barrel in BarrelSpawnPoints)
@@ -140,13 +140,13 @@ public class ToolBase : ModuleBase
                             yield return new WaitForSeconds(ActivationSpeed);
                         }
                         break;
-                    case TooTypeEnum.Beam:
+                    case ToolTypeEnum.Beam:
 
                         break;
-                    case TooTypeEnum.Meele:
+                    case ToolTypeEnum.Meele:
 
                         break;
-                    case TooTypeEnum.Spawner:
+                    case ToolTypeEnum.Spawner:
 
                         break;
                     default:

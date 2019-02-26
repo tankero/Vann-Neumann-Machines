@@ -99,11 +99,11 @@ public class BrainBase : ModuleBase
         {
             if (IAmPlayer)
             {
-                GameObject.FindGameObjectWithTag("GameManager").SendMessage("OnPlayerDeath", transform.position);
+                GameObject.FindGameObjectWithTag("GameController").SendMessage("OnPlayerDeath", transform.position);
                 return;
             }
 
-            GameObject.FindGameObjectWithTag("GameManager").SendMessage("OnNPCDeath", gameObject);
+            GameObject.FindGameObjectWithTag("GameController").SendMessage("OnNPCDeath", gameObject);
             
             return;
 
@@ -363,7 +363,7 @@ public class BrainBase : ModuleBase
         {
             ToolList.Add(connectingTool);
             connectingTool.ModuleEnable();
-            ToolList = ToolList.OrderBy(t => t.EffectAmount).ToList();
+            ToolList = ToolList.OrderByDescending(t => t.EffectAmount).ToList();
         }
     }
 

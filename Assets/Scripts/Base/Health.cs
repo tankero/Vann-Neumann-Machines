@@ -23,9 +23,10 @@ public class Health : MonoBehaviour
 
     }
 
-    public void TakeDamage(float damageTotal)
+    public void TakeDamage(float damageTotal, GameObject damageSource)
     {
         CurrentHealth = damageTotal > CurrentHealth ? 0 : CurrentHealth - damageTotal;
+        Debug.Log("I, the mighty " + name + " took damage from " + damageSource.name + "! + Now I only have " + CurrentHealth + " hitpoints left!" );
     }
 
     public void Heal(float healing)

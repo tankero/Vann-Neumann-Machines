@@ -124,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrevAttackTime: -3.4028235e+38
+  Effect: 0
+  EffectAmount: 0
   RotatableY: 0
   RandomTimeGap: 0.2
   LerpCurveF:
@@ -14499,6 +14501,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrevAttackTime: -3.4028235e+38
+  Effect: 0
+  EffectAmount: 0
   RotatableY: 0
   RandomTimeGap: 0.2
   LerpCurveF:
@@ -19749,8 +19753,8 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 0.14
       value: 1.1
@@ -19758,8 +19762,8 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 0.2
       value: 1
@@ -19767,8 +19771,8 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -19821,6 +19825,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrevAttackTime: -3.4028235e+38
+  Effect: 0
+  EffectAmount: 0
   RotatableY: 0
   RandomTimeGap: 0.2
   LerpCurveF:
@@ -30018,6 +30024,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrevAttackTime: -3.4028235e+38
+  Effect: 0
+  EffectAmount: 0
   RotatableY: 0
   RandomTimeGap: 0.2
   LerpCurveF:

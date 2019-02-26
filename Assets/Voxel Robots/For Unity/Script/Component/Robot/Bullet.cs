@@ -22,6 +22,7 @@ namespace MoenenGames.VoxelRobot
             {
                 return;
             }
+            OnHit(col.gameObject);
             Colliding(col.transform);
 
         }

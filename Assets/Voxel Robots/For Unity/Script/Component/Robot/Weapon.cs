@@ -241,7 +241,7 @@ namespace MoenenGames.VoxelRobot
             tf.rotation = bulletSpawnPivot.rotation;
             tf.parent = null;
             tf.localScale = Vector3.one * b.BulletSize;
-
+            b.Col.enabled = true;
 
 #if UNITY_2017_3
 			var trail = tf.GetComponent<TrailRenderer>();

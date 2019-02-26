@@ -47,9 +47,8 @@ public abstract class AmmunitionBase : MonoBehaviour
     public float Radius;
     public float Duration;
     public float Delay;
-    [HideInInspector]
+    [Header("Set by weapon")]
     public ToolBase.ActionType Effect;
-    [HideInInspector]
     public float EffectAmount;
     // Serialize
 
@@ -102,17 +101,18 @@ public abstract class AmmunitionBase : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnHit(GameObject target)
     {
-        if (collision.transform == Shooter) return;
+        Debug.Log("Bullet has hit " + target.transform.gameObject.name);
+        if (target.transform == Shooter) return;
 
         if (Trigger == TriggerEnum.OnImpact)
         {
             if (Effect == ToolBase.ActionType.Damage)
             {
-                var targetHealth = collision.gameObject.GetComponent<Health>();
+                var targetHealth = target.transform.root.gameObject.GetComponent<Health>();
                 if(targetHealth)
-                targetHealth.TakeDamage(EffectAmount);
+                targetHealth.TakeDamage(EffectAmount, gameObject);
             }
         }
     }
