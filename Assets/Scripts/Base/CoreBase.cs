@@ -145,6 +145,16 @@ public class CoreBase : ModuleBase
 
     }
 
+    public void Explode(Vector3 impactPoint)
+    {
+        //TODO: Finish implementing this.
+        for (int childIndex = 0; childIndex < transform.childCount; childIndex++)
+        {
+            var childTransform = transform.GetChild(childIndex);
+            if(childTransform.gameObject.name.StartsWith("Face")) continue;
+            childTransform.gameObject.AddComponent<Rigidbody>();
 
+        }
+    }
 
 }
